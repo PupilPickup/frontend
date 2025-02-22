@@ -1,5 +1,10 @@
-# weShare-client React + TypeScript + Tailwind CSS 
-WeShare client is the client-side application for the WeShare platform, a ride-sharing service designed for school parents in Nepal to facilitate carpooling.
+# WeShare 🚗  
+WeShare is a **ride-sharing platform for school parents in Nepal**, designed to reduce traffic congestion and absenteeism by facilitating carpooling.  
+
+## 🌟 Features  
+- Find and share rides with other parents  
+- View available carpool options  
+- Easy and secure ride coordination  
 
 ## 🚀 Getting Started
 
