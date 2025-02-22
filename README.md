@@ -12,3 +12,5 @@ WeShare client is the client-side application for the WeShare platform, a ride-s
    npm install
 
 3. **Start the development server**
+   ```sh
+   npm start
