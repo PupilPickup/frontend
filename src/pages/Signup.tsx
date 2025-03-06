@@ -26,7 +26,7 @@ export default function SignUpPage () {
   };
 
   return (
-    <div>
+    <div className='my-4'>
       <header className="flex flex-col text-center my-6">
         <h1 className="text-3xl font-bold">Get Started Now</h1>
         <p className="text-sm w-1/2 mx-auto">Create an account or login to start your ride share</p>
@@ -63,6 +63,18 @@ export default function SignUpPage () {
               id="email"
               name="email"
               className="p-2 border rounded-md"
+              required
+            />
+          </div>
+
+					<div className="flex flex-col">
+            <label htmlFor="phone" className={styles.label}>Phone Number</label>
+            <input
+              type="phone"
+              id="phone"
+              name="phone"
+              className="p-2 border rounded-md"
+							placeholder="+977XXXXXXXXX"
               required
             />
           </div>
