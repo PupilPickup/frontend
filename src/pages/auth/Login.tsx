@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { validatePassword } from "../../schema/loginSchema";
 import Button from "../../components/common/Button";
@@ -17,6 +17,11 @@ export default function LoginPage() {
 
   const { language } = useLanguage();
   const translations = language === 'ne' ? neTranslations : enTranslations;
+
+  useEffect(() => {
+    setUsernameError("");
+    setPasswordError("");
+  }, [language]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

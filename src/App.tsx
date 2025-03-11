@@ -6,20 +6,16 @@ import SignUpPage from './pages/auth/Signup';
 import LoginPage from './pages/auth/Login';
 import Dashboard from './pages/dashboard';
 import { LanguageProvider, useLanguage } from './context/LanguageContext';
+import LanguageSelect from './components/common/LanguageSelect';
 
 function App() {
 
-  // function changeLanguage(language: string):void {
-  //   localStorage.setItem('language', language);
-  //   window.location.reload();
-  // }
   const { changeLanguage } = useLanguage();
 
   return (
     <main>
-      <div className='language-container'>
-        <button className='language-buttons' onClick={() => changeLanguage("en")}>{`EN`}</button>
-        <button className='language-buttons' onClick={() => changeLanguage("ne")}>{`NE`}</button>
+      <div className="flex justify-end p-4">
+        <LanguageSelect changeLanguage={changeLanguage} />
       </div>
       <Router>
         <Routes>

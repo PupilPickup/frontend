@@ -14,14 +14,6 @@ export default function AuthNavbar () {
 				onClick={() => navigate(-1)}>
 				<img src={arrowleft} alt="back"/>
 			</button>
-
-			<select
-				value={language}
-				onChange={(e) => setLanguage(e.target.value)}
-			>
-				<option value="en">English</option>
-				<option value="np">Nepal</option>
-			</select>
 		</nav>
 	);
 };
