@@ -1,15 +1,20 @@
+import { useSignup } from "../../../context/SignupContext";
 import { useNavigate } from "react-router-dom";
-import styles from "../../../styles/Auth.module.css"
 import Button from "../../../components/common/Button";
 import WeShare from "../../../assets/icons/Weshare.svg"
 
 
 export default function SignupStep1() {
-  const navigate = useNavigate(); 
-  
-  const handleSubmit = (e: React.FormEvent) => {
+  const navigate = useNavigate();
+  const { signupData, setSignupData } = useSignup();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSignupData({ ...signupData, [e.target.name]: e.target.value });
+  };
+
+  const handleNextStep = (e: React.FormEvent) => {
     e.preventDefault();
-    navigate('/signup/2'); 
+    navigate("/signup/2");
   };
 
   return (
@@ -22,16 +27,18 @@ export default function SignupStep1() {
         <p className="text-sm w-1/2 mx-auto">Step 1 of 2: Basic Information</p>
       </header>
 
-      <form className="space-y-6 mx-6" onSubmit={handleSubmit}>
+      <form className="space-y-6 mx-6" onSubmit={handleNextStep}>
         <fieldset className="space-y-2">
           <div className="flex flex-col">
             <label htmlFor="first-name" className="label">First Name</label>
             <input
               type="text"
               id="first-name"
-              name="first-name"
+              name="firstName"
               className="input"
               required
+              value={signupData.firstName}
+              onChange={handleChange}
             />
           </div>
 
@@ -40,22 +47,28 @@ export default function SignupStep1() {
             <input
               type="text"
               id="last-name"
-              name="last-name"
+              name="lastName"
               className="input"
               required
+              value={signupData.lastName}
+              onChange={handleChange}
             />
           </div>
 
           <div className="flex flex-col">
-            <label htmlFor="email" className="label">Email</label>
+            <label htmlFor="phone" className="label">Phone Number</label>
             <input
-              type="email"
-              id="email"
-              name="email"
+              type="phone"
+              id="phone"
+              name="phone"
               className="input"
+							placeholder="+977XXXXXXXXX"
               required
+              value={signupData.phone}
+              onChange={handleChange}
             />
           </div>
+
         </fieldset>
 
         <Button label="Continue" variant="primary" className="w-full p-2 rounded-md" type="submit" />

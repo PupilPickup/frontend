@@ -20,6 +20,10 @@ WeShare is a **ride-sharing platform for school parents in Nepal**, designed to 
    ```sh
    npm install
 
+3. **Create .env file at root directory** (if your backend runs on 5000, copy paste the following code; if not, change accordingly ) :
+   ```sh
+   REACT_APP_API_BASE_URL=http://localhost:5000
+
 3. **Start the development server**
    ```sh
    npm start
