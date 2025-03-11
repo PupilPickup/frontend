@@ -30,7 +30,7 @@
         "first_name_label": "First Name",
         "last_name_label": "Last Name",
         "phone_number_label": "Phone Number",
-        "phone_placeholder": "+1(XXX)XXX-XXXX",
+        "phone_placeholder": "XXXXXXXXXX",
         "next_button": "Continue",
         "header2": "Complete Your Profile",
         "prompt2": "Step 2 of 2: Account Details",
