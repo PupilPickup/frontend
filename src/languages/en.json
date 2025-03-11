@@ -1,0 +1,20 @@
+{
+    "auth":{
+        "login": "Login",
+        "sign_up": "Sign Up",
+        "alt_logo_text": "WeShare icon"
+    },
+
+    "login": {
+        "alt_logo_text": "WeShare icon",
+        "password_error_message": "Password must be at least 8 characters, contain a number, an uppercase letter, and a special character.",
+        "welcome_back_message": "Welcome back!",
+        "login_prompt_message": "Log in to start booking your ride.",
+        "username_label": "Username",
+        "username_or_email_label": "Username/Email",
+        "password_label": "Password",
+        "login_button": "Login", 
+        "require_username_error": "Please enter your username",
+        "require_password_error": "Please enter your password"
+    }
+}

@@ -3,26 +3,23 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AuthPage from './pages/auth/Auth';
 import SignUpPage from './pages/auth/Signup';
-// import SignupStep1 from "./components/signup/SignupStep1";
-// import SignupStep2 from "./components/signup/SignupStep2";
-// import SignupSuccess from "./components/signup/SignupSuccess";
 import LoginPage from './pages/auth/Login';
 import Dashboard from './pages/dashboard';
-import { useState } from 'react';
+import { LanguageProvider, useLanguage } from './context/LanguageContext';
 
 function App() {
-  const [language, setLanguage] = useState(localStorage.getItem('language') || 'en');
 
-  function changeLanguage(language: string):void {
-    localStorage.setItem('language', language);
-  }
-
+  // function changeLanguage(language: string):void {
+  //   localStorage.setItem('language', language);
+  //   window.location.reload();
+  // }
+  const { changeLanguage } = useLanguage();
 
   return (
     <main>
-      <div>
-        <button onClick={() => changeLanguage("en")}>{`EN`}</button>
-        <button onClick={() => changeLanguage("ne")}>{`NE`}</button>
+      <div className='language-container'>
+        <button className='language-buttons' onClick={() => changeLanguage("en")}>{`EN`}</button>
+        <button className='language-buttons' onClick={() => changeLanguage("ne")}>{`NE`}</button>
       </div>
       <Router>
         <Routes>
@@ -36,4 +33,10 @@ function App() {
   );
 }
 
-export default App;
+export default function LanguageWrappedApp() {
+  return(
+    <LanguageProvider>
+      <App />
+    </LanguageProvider>
+  )
+};

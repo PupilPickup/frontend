@@ -1,0 +1,20 @@
+{
+    "auth":{
+        "login": "लग इन (unofficial)",
+        "sign_up": "साइन अप (unofficial)",
+        "alt_logo_text": "(NE)WeShare icon"
+    },
+
+    "login": {
+        "alt_logo_text": "(NE)WeShare icon",
+        "password_error_message": "(NE)Password must be at least 8 characters, contain a number, an uppercase letter, and a special character.",
+        "welcome_back_message": "(NE)Welcome back!",
+        "login_prompt_message": "(NE)Log in to start booking your ride.",
+        "username_label": "(NE)Username",
+        "username_or_email_label": "(NE)Username/Email",
+        "password_label": "(NE)Password",
+        "login_button": "(NE)Login",
+        "require_username_error": "(NE)Please enter your username",
+        "require_password_error": "(NE)Please enter your password"
+    }
+}
