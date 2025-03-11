@@ -1,0 +1,63 @@
+{
+    "languages": {
+        "english_shorthand": "EN",
+        "nepali_shorthand": "NE"
+    },
+    
+    "auth":{
+        "login": "लग इन (unofficial)",
+        "sign_up": "साइन अप (unofficial)",
+        "alt_logo_text": "(NE)WeShare icon"
+    },
+
+    "login": {
+        "alt_logo_text": "(NE)WeShare icon",
+        "password_error_message": "(NE)Password must be at least 8 characters, contain a number, an uppercase letter, and a special character.",
+        "welcome_back_message": "(NE)Welcome back!",
+        "login_prompt_message": "(NE)Log in to start booking your ride.",
+        "username_label": "(NE)Username",
+        "username_or_email_label": "(NE)Username/Email",
+        "password_label": "(NE)Password",
+        "login_button": "(NE)Login",
+        "require_username_error": "(NE)Please enter your username",
+        "require_password_error": "(NE)Please enter your password"
+    },
+
+    "sign_up": {
+        "alt_logo_text": "(NE)WeShare icon",
+        "header1": "(NE)Get Started Now",
+        "prompt1": "(NE)Step 1 of 2: Basic Information",
+        "first_name_label": "(NE)First Name",
+        "last_name_label": "(NE)Last Name",
+        "phone_number_label": "(NE)Phone Number",
+        "phone_placeholder": "+977XXXXXXXXX",
+        "next_button": "(NE)Continue",
+        "header2": "(NE)Complete Your Profile",
+        "prompt2": "(NE)Step 2 of 2: Account Details",
+        "email_label": "(NE)Email",
+        "username_label": "(NE)Username",
+        "password_label": "(NE)Password",
+        "confirm_password_label": "(NE)Confirm Password",
+        "password_requirements_error": "(NE)Password must be at least 8 characters, contain a number, an uppercase letter, and a special character.",
+        "password_mismatch_error": "(NE)Passwords do not match!",
+        "submit_button": "(NE)Create Account",
+        "success_header": "(NE)Sign Up Successful!",
+        "thanks_message": "(NE)Thanks for joining our ride-sharing community!",
+        "commitment_message": "(NE)We're committed to providing a safe and reliable transportation option for parents to book rides for their children.",
+        "login_button": "(NE)Login",
+        "require_first_name_error": "(NE)Please enter your first name",
+        "require_last_name_error": "(NE)Please enter your last name",
+        "require_phone_number_error": "(NE)Please enter your phone number",
+        "require_email_error": "(NE)Please enter your email",
+        "require_username_error": "(NE)Please enter your username",
+        "invalid_first_name_error": "(NE)First name must be at least 2 characters long",
+        "invalid_last_name_error": "(NE)Last name must be at least 2 characters long",
+        "invalid_phone_number_error": "(NE)Phone number must be in the format XXXXXXXXXX",
+        "invalid_email_error": "(NE)Please enter a valid email address",
+        "invalid_username_error": "(NE)Username must be at least 6 characters long"
+    },
+
+    "dashboard":{
+        "welcome_message": "(NE)Welcome to WeShare!"
+    }
+}

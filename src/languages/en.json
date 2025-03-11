@@ -1,0 +1,63 @@
+{
+    "languages": {
+        "english_shorthand": "EN",
+        "nepali_shorthand": "NE"
+    },
+    
+    "auth":{
+        "login": "Login",
+        "sign_up": "Sign Up",
+        "alt_logo_text": "WeShare icon"
+    },
+
+    "login": {
+        "alt_logo_text": "WeShare icon",
+        "password_error_message": "Password must be at least 8 characters, contain a number, an uppercase letter, and a special character.",
+        "welcome_back_message": "Welcome back!",
+        "login_prompt_message": "Log in to start booking your ride.",
+        "username_label": "Username",
+        "username_or_email_label": "Username/Email",
+        "password_label": "Password",
+        "login_button": "Login", 
+        "require_username_error": "Please enter your username",
+        "require_password_error": "Please enter your password"
+    },
+
+    "sign_up": {
+        "alt_logo_text": "WeShare icon",
+        "header1": "Get Started Now",
+        "prompt1": "Step 1 of 2: Basic Information",
+        "first_name_label": "First Name",
+        "last_name_label": "Last Name",
+        "phone_number_label": "Phone Number",
+        "phone_placeholder": "XXXXXXXXXX",
+        "next_button": "Continue",
+        "header2": "Complete Your Profile",
+        "prompt2": "Step 2 of 2: Account Details",
+        "email_label": "Email",
+        "username_label": "Username",
+        "password_label": "Password",
+        "confirm_password_label": "Confirm Password",
+        "password_requirements_error": "Password must be at least 8 characters, contain a number, an uppercase letter, and a special character.",
+        "password_mismatch_error": "Passwords do not match!",
+        "submit_button": "Create Account", 
+        "success_header": "Sign Up Successful!",
+        "thanks_message": "Thanks for joining our ride-sharing community!",
+        "commitment_message": "We're committed to providing a safe and reliable transportation option for parents to book rides for their children.",
+        "login_button": "Login",
+        "require_first_name_error": "Please enter your first name",
+        "require_last_name_error": "Please enter your last name",
+        "require_phone_number_error": "Please enter your phone number",
+        "require_email_error": "Please enter your email",
+        "require_username_error": "Please enter your username",
+        "invalid_first_name_error": "First name must be at least 2 characters long",
+        "invalid_last_name_error": "Last name must be at least 2 characters long",
+        "invalid_phone_number_error": "Phone number must be in the format XXXXXXXXXX",
+        "invalid_email_error": "Please enter a valid email address",
+        "invalid_username_error": "Username must be at least 6 characters long"
+    },
+
+    "dashboard":{
+        "welcome_message": "Welcome to WeShare!"
+    }
+}
