@@ -5,7 +5,7 @@ interface SignupData {
   firstName: string;
   lastName: string;
   email: string;
-  phone: string;
+  phoneNumber: string;
   username: string;
   password: string;
 }
@@ -25,7 +25,7 @@ export const SignupProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     firstName: "",
     lastName: "",
     email: "",
-    phone: "",
+    phoneNumber: "",
     username: "",
     password: "",
   });

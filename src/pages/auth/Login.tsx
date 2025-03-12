@@ -7,6 +7,7 @@ import WeShare from "../../assets/icons/Weshare.svg";
 import enTranslations from "../../languages/en.json";
 import neTranslations from "../../languages/ne.json";
 import { useLanguage } from "../../context/LanguageContext";
+import axios from "axios";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -18,12 +19,14 @@ export default function LoginPage() {
   const { language } = useLanguage();
   const translations = language === 'ne' ? neTranslations : enTranslations;
 
+  const apiUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
+
   useEffect(() => {
     setUsernameError("");
     setPasswordError("");
   }, [language]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if(username.length === 0){
       setUsernameError(translations.login.require_username_error);
@@ -42,7 +45,20 @@ export default function LoginPage() {
       return;
     }
 
-    navigate("/dashboard");
+    const loginData = {
+      username: username,
+      password: password
+    }
+
+    try {
+      const response = await axios.post(`${apiUrl}/users/login`, loginData);
+      console.log("Login successful:", response.data);
+      navigate("/dashboard");
+
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+    
   };
 
   return (

@@ -28,7 +28,7 @@ export default function SignupStep2 () {
 
   const apiUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
 
-  const { firstName, lastName, phone } = signupData;
+  const { firstName, lastName, phoneNumber } = signupData;
 
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -96,13 +96,13 @@ export default function SignupStep2 () {
       firstName,
       lastName,
       email,
-      phone,
+      phoneNumber,
       username,
       password,
     };
 
     try {
-      const response = await axios.post(`${apiUrl}/register`, formData);
+      const response = await axios.post(`${apiUrl}/users/register`, formData);
       console.log("Registration successful:", response.data);
 
       navigate("/signup/complete");
