@@ -35,6 +35,6 @@ export function isEmailValid(email: string): boolean{
 
 // Check if a username is valid (at least 6 alphanumeric characters)
 export function isUsernameValid(username: string): boolean{
-  const usernamePattern = /^[a-zA-Z0-9]{6,}$/;
+  const usernamePattern = /^(?=.*[a-zA-Z])[a-zA-Z0-9-_]{6,}$/;
   return usernamePattern.test(username);
 }

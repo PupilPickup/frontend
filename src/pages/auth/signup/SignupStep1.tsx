@@ -58,11 +58,11 @@ export default function SignupStep1() {
       setLastNameError("");
     }
 
-    if(isFieldEmpty(signupData.phone)){
+    if(isFieldEmpty(signupData.phoneNumber)){
       hasError = true;
       setPhoneError(translations.sign_up.require_phone_number_error);
 
-    }else if(!isPhoneValid(signupData.phone)){
+    }else if(!isPhoneValid(signupData.phoneNumber)){
       hasError = true;
       setPhoneError(translations.sign_up.invalid_phone_number_error);
     }else{
@@ -119,14 +119,14 @@ export default function SignupStep1() {
           </div>
 
           <div className="flex flex-col">
-            <label htmlFor="phone" className="label">{translations.sign_up.phone_number_label}</label>
+            <label htmlFor="phone-number" className="label">{translations.sign_up.phone_number_label}</label>
             <input
               type="phone"
-              id="phone"
-              name="phone"
+              id="phone-number"
+              name="phoneNumber"
               className="input"
 							placeholder={translations.sign_up.phone_placeholder}
-              value={signupData.phone}
+              value={signupData.phoneNumber}
               onChange={handleChange}
             />
             {phoneError && (
