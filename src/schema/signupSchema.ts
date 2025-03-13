@@ -1,7 +1,7 @@
 // Check if a password is strong enough
-export const passwordValidationRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
 export const validatePassword = (password: string) => {
+  const passwordValidationRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/; //lowercases are now optional
   return passwordValidationRegex.test(password);
 };
 
@@ -35,6 +35,6 @@ export function isEmailValid(email: string): boolean{
 
 // Check if a username is valid (at least 6 alphanumeric characters)
 export function isUsernameValid(username: string): boolean{
-  const usernamePattern = /^(?=.*[a-zA-Z])[a-zA-Z0-9-_]{6,}$/;
+  const usernamePattern = /^[a-zA-Z0-9]{6,}$/;
   return usernamePattern.test(username);
 }
