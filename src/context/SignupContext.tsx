@@ -14,6 +14,7 @@ interface SignupData {
 interface SignupContextType {
   signupData: SignupData;
   setSignupData: (data: Partial<SignupData>) => void;
+  resetSignupData: () => void;
 }
 
 // Create the context with an undefined default value
@@ -30,13 +31,25 @@ export const SignupProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     password: "",
   });
 
+  // Function to reset signup data to initial state
+  const resetSignupData = () => {
+    setSignupData({
+      firstName: "",
+      lastName: "",
+      email: "",
+      phoneNumber: "",
+      username: "",
+      password: "",
+    });
+  };
+
   // Function to update signup data with partial updates
   const updateSignupData = (data: Partial<SignupData>) => {
     setSignupData((prev) => ({ ...prev, ...data }));
   };
 
   return (
-    <SignupContext.Provider value={{ signupData, setSignupData: updateSignupData }}>
+    <SignupContext.Provider value={{ signupData, setSignupData: updateSignupData, resetSignupData }}>
       {children}
     </SignupContext.Provider>
   );

@@ -1,4 +1,4 @@
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { validatePassword, validateConfirmPassword, isFieldEmpty, isUsernameValid, isEmailValid } from "../../../schema/signupSchema";
 import { useNavigate } from "react-router-dom";
 import { useSignup } from "../../../context/SignupContext";
@@ -13,7 +13,7 @@ import { useLanguage } from "../../../context/LanguageContext";
 export default function SignupStep2 () {
 
   const navigate = useNavigate();
-  const { signupData, setSignupData } = useSignup(); 
+  const { signupData, setSignupData, resetSignupData } = useSignup(); 
 
   const { language } = useLanguage();
   const translations = language === 'ne' ? neTranslations : enTranslations;
@@ -39,6 +39,17 @@ export default function SignupStep2 () {
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  function clearFieldsOnSignup(){
+    setUsername("");
+    setEmail("");
+    setPassword("");
+    setConfirmPassword("");
+    setUsernameError("");
+    setEmailError("");
+    setPasswordError("");
+    setConfirmPasswordError("");
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -104,7 +115,8 @@ export default function SignupStep2 () {
     try {
       const response = await axios.post(`${apiUrl}/users/register`, formData);
       console.log("Registration successful:", response.data);
-
+      clearFieldsOnSignup();
+      resetSignupData();
       navigate("/signup/complete");
     } catch (error) {
       console.error("Error during registration:", error);
