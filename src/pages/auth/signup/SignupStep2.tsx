@@ -9,6 +9,8 @@ import enTranslations from "../../../languages/en.json";
 import neTranslations from "../../../languages/ne.json";
 import { useLanguage } from "../../../context/LanguageContext";
 
+// Define the possible error keys
+type SignupServerErrors = 'empty_fields' | 'firstname_length' | 'lastname_length' |'username_length' |'email_length' |'phone_length' |'username_exists' |  'email_exists' | 'server_error' | 'generic_error';
 
 export default function SignupStep2 () {
 
@@ -38,7 +40,16 @@ export default function SignupStep2 () {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  const [serverError, setServerError] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  useEffect(() => {
+    setUsernameError("");
+    setEmailError("");
+    setPasswordError("");
+    setConfirmPasswordError("");
+    setServerError("");
+  }, [language]);
 
   function clearFieldsOnSignup(){
     setUsername("");
@@ -49,6 +60,7 @@ export default function SignupStep2 () {
     setEmailError("");
     setPasswordError("");
     setConfirmPasswordError("");
+    setServerError("");
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -56,6 +68,8 @@ export default function SignupStep2 () {
     setIsSubmitted(true);
 
     let hasError: boolean = false;
+
+    setServerError("");
 
     if(isFieldEmpty(username)){
       hasError = true;
@@ -119,7 +133,24 @@ export default function SignupStep2 () {
       resetSignupData();
       navigate("/signup/complete");
     } catch (error) {
-      console.error("Error during registration:", error);
+      if (axios.isAxiosError(error) && error.response) {
+        const errorKey = error.response.data.error as SignupServerErrors;
+        let errorMessage: string = translations.signup_server_errors[errorKey] || translations.signup_server_errors.generic_error;
+
+        if(errorMessage.includes("${username}")){
+          errorMessage = errorMessage.replace("${username}", username);
+        }
+        if(errorMessage.includes("${email}")){
+          errorMessage = errorMessage.replace("${email}", email);
+        }
+
+        if(!!error.response.data.server_error){
+          console.error("Error during registration:", error.response.data.server_error);
+        }
+
+        setServerError(errorMessage);
+
+      }
     }
   };
 
@@ -192,6 +223,9 @@ export default function SignupStep2 () {
               <span className="text-red-500 text-sm mt-1">{confirmPasswordError}</span>
             )}
           </div>
+          {serverError && (
+            <span className="text-red-500 text-sm mt-1">{serverError}</span>
+          )}
         </fieldset>
 
 				<div className='flex flex-row gap-2'>
