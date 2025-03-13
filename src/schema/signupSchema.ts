@@ -1,7 +1,7 @@
 // Check if a password is strong enough
 
 export const validatePassword = (password: string) => {
-  const passwordValidationRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/; //lowercases are now optional
+  const passwordValidationRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%*&\-_?])[A-Za-z\d!@#$%*&\-_?]{8,}$/; //lowercases are now optional
   return passwordValidationRegex.test(password);
 };
 
