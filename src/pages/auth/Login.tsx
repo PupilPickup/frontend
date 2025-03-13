@@ -52,7 +52,8 @@ export default function LoginPage() {
 
     try {
       const response = await axios.post(`${apiUrl}/users/login`, loginData);
-      console.log("Login successful:", response.data);
+      // console.log("Login successful:", response.data);
+      sessionStorage.setItem("token", response.data.token);
       navigate("/dashboard");
 
     } catch (error) {
