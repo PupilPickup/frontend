@@ -32,16 +32,12 @@ export default function SignupStep2 () {
 
   const { firstName, lastName, phoneNumber } = signupData;
 
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [usernameError, setUsernameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [serverError, setServerError] = useState("");
-  const [isSubmitted, setIsSubmitted] = useState(false);
 
   useEffect(() => {
     setUsernameError("");
@@ -51,10 +47,11 @@ export default function SignupStep2 () {
     setServerError("");
   }, [language]);
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSignupData({ ...signupData, [e.target.name]: e.target.value });
+  };
+
   function clearFieldsOnSignup(){
-    setUsername("");
-    setEmail("");
-    setPassword("");
     setConfirmPassword("");
     setUsernameError("");
     setEmailError("");
@@ -65,11 +62,14 @@ export default function SignupStep2 () {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitted(true);
 
     let hasError: boolean = false;
 
     setServerError("");
+
+    const email = signupData.email;
+    const username = signupData.username;
+    const password = signupData.password
 
     if(isFieldEmpty(username)){
       hasError = true;
@@ -108,13 +108,6 @@ export default function SignupStep2 () {
     if (hasError) {
       return;
     }
-
-    setSignupData({
-      username,
-      email,
-      password,
-    });
-
 
 		// Combine data from Step 1 and Step 2
     const formData = {
@@ -171,8 +164,8 @@ export default function SignupStep2 () {
 								id="username"
 								name="username"
 								className="input"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                value={signupData.username}
+                onChange={handleChange}
 							/>
               {usernameError && (
               <span className="text-red-500 text-sm mt-1">{usernameError}</span>
@@ -186,8 +179,8 @@ export default function SignupStep2 () {
               id="email"
               name="email"
               className="input"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={signupData.email}
+              onChange={handleChange}
             />
             {emailError && (
               <span className="text-red-500 text-sm mt-1">{emailError}</span>
@@ -201,8 +194,8 @@ export default function SignupStep2 () {
               id="password"
               name="password"
               className="input"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={signupData.password}
+              onChange={handleChange}
             />
             {passwordError && (
               <span className="text-red-500 text-sm mt-1">{passwordError}</span>
