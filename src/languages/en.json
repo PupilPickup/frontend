@@ -12,7 +12,7 @@
 
     "login": {
         "alt_logo_text": "WeShare icon",
-        "password_error_message": "Password must be at least 8 characters, contain a number, an uppercase letter, and a special character.",
+        "password_error_message": "Password must be at least 8 characters, contain a number, an uppercase and lowercase letter, and a special character.",
         "welcome_back_message": "Welcome back!",
         "login_prompt_message": "Log in to start booking your ride.",
         "username_label": "Username",
@@ -38,7 +38,7 @@
         "username_label": "Username",
         "password_label": "Password",
         "confirm_password_label": "Confirm Password",
-        "password_requirements_error": "Password must be at least 8 characters, contain a number, an uppercase letter, and a special character.",
+        "password_requirements_error": "Password must be at least 8 characters, contain a number, an uppercase and lowercase letter, and a special character.",
         "password_mismatch_error": "Passwords do not match!",
         "submit_button": "Create Account", 
         "success_header": "Sign Up Successful!",
