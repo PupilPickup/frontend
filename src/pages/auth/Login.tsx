@@ -9,12 +9,16 @@ import neTranslations from "../../languages/ne.json";
 import { useLanguage } from "../../context/LanguageContext";
 import axios from "axios";
 
+// Define the possible error keys
+type LoginServerErrors = 'empty_fields' | 'username_not_existent' | 'invalid_credentials' | 'server_error' | 'generic_error';
+
 export default function LoginPage() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [usernameError, setUsernameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [serverError, setServerError] = useState("");
 
   const { language } = useLanguage();
   const translations = language === 'ne' ? neTranslations : enTranslations;
@@ -24,6 +28,7 @@ export default function LoginPage() {
   useEffect(() => {
     setUsernameError("");
     setPasswordError("");
+    setServerError("");
   }, [language]);
 
   
@@ -32,26 +37,34 @@ export default function LoginPage() {
     setPassword("");
     setUsernameError("");
     setPasswordError("");
+    setServerError("");
   }
   
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    let hasError: boolean = false;
     if(username.length === 0){
+      hasError = true;
       setUsernameError(translations.login.require_username_error);
-      return;
+    }else{
+      setUsernameError("");
     }
 
     if(password.length === 0){
+      hasError = true;
       setPasswordError(translations.login.require_password_error);
-      return;
+    }else if (!validatePassword(password)) {
+      hasError = true;
+      setPasswordError(translations.login.password_error_message);
+    }else{
+      setPasswordError("");
     }
 
-    if (!validatePassword(password)) {
-      setPasswordError(
-        translations.login.password_error_message
-      );
-      return;
+    setServerError("");
+
+    if(hasError){ 
+      return; 
     }
 
     const loginData = {
@@ -60,15 +73,26 @@ export default function LoginPage() {
     }
 
     try {
-      const response = await axios.post(`${apiUrl}/users/login`, loginData);
-      // console.log("Login successful:", response.data);
-      
+      const response = await axios.post(`${apiUrl}/users/login`, loginData);  
       sessionStorage.setItem("token", response.data.token);
       clearFieldsOnLogin();
       navigate("/dashboard");
 
     } catch (error) {
-      console.error("Error during login:", error);
+      if (axios.isAxiosError(error) && error.response) {
+        const errorKey = error.response.data.error as LoginServerErrors;
+        let errorMessage: string = translations.login_server_errors[errorKey] || translations.login_server_errors.generic_error;
+        if(errorMessage.includes("${username}")){
+          errorMessage = errorMessage.replace("${username}", username);
+        }
+
+        if(!!error.response.data.server_error){
+          console.error("Error during login:", error.response.data.server_error);
+        }
+
+        setServerError(errorMessage);
+
+      }
     }
   };
 
@@ -117,6 +141,9 @@ export default function LoginPage() {
               <span className="text-red-500 text-sm mt-1">{passwordError}</span>
             )}
           </div>
+          {serverError && (
+            <span className="text-red-500 text-sm mt-1">{serverError}</span>
+          )}
         </fieldset>
 
         <Button

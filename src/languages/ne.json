@@ -59,5 +59,26 @@
 
     "dashboard":{
         "welcome_message": "(NE)Welcome to WeShare!"
+    },
+
+    "signup_server_errors":{
+        "empty_fields": "(NE)Username and password cannot be empty.",
+        "firstname_length": "(NE)First Name is too long.",
+        "lastname_length": "(NE)Last Name is too long.",
+        "username_length": "(NE)Username is too long.",
+        "email_length": "(NE)Email is too long.",
+        "phone_length": "(NE)Phone number is too long.",
+        "username_exists": "(NE)The username ${username} is already in use. Please choose a different username.",
+        "email_exists": "(NE)The email ${email} already has an account. Please choose a different email or log in with the existing account.",
+        "server_error": "(NE)An error occurred while creating your account. Please try again later.",
+        "generic_error": "(NE)An error occurred. Please try again later."
+    }, 
+    
+    "login_server_errors":{
+        "empty_fields": "(NE)Username and password cannot be empty.",
+        "username_not_existent": "(NE)The username ${username} does not exist. Please sign up for an account.",
+        "invalid_credentials": "(NE)Login failed. Wrong username and password. Please try again.",
+        "server_error": "(NE)An error occurred while logging in. Please try again later.",
+        "generic_error": "(NE)An error occurred. Please try again later."
     }
 }
