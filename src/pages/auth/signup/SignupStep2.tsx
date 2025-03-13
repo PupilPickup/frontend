@@ -9,6 +9,8 @@ import enTranslations from "../../../languages/en.json";
 import neTranslations from "../../../languages/ne.json";
 import { useLanguage } from "../../../context/LanguageContext";
 
+// Define the possible error keys
+type SignupServerErrors = 'empty_fields' | 'firstname_length' | 'lastname_length' |'username_length' |'email_length' |'phone_length' |'username_exists' |  'email_exists' | 'server_error' | 'generic_error';
 
 export default function SignupStep2 () {
 
@@ -30,32 +32,44 @@ export default function SignupStep2 () {
 
   const { firstName, lastName, phoneNumber } = signupData;
 
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [usernameError, setUsernameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [serverError, setServerError] = useState("");
+
+  useEffect(() => {
+    setUsernameError("");
+    setEmailError("");
+    setPasswordError("");
+    setConfirmPasswordError("");
+    setServerError("");
+  }, [language]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSignupData({ ...signupData, [e.target.name]: e.target.value });
+  };
 
   function clearFieldsOnSignup(){
-    setUsername("");
-    setEmail("");
-    setPassword("");
     setConfirmPassword("");
     setUsernameError("");
     setEmailError("");
     setPasswordError("");
     setConfirmPasswordError("");
+    setServerError("");
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitted(true);
 
     let hasError: boolean = false;
+
+    setServerError("");
+
+    const email = signupData.email;
+    const username = signupData.username;
+    const password = signupData.password
 
     if(isFieldEmpty(username)){
       hasError = true;
@@ -95,13 +109,6 @@ export default function SignupStep2 () {
       return;
     }
 
-    setSignupData({
-      username,
-      email,
-      password,
-    });
-
-
 		// Combine data from Step 1 and Step 2
     const formData = {
       firstName,
@@ -119,7 +126,24 @@ export default function SignupStep2 () {
       resetSignupData();
       navigate("/signup/complete");
     } catch (error) {
-      console.error("Error during registration:", error);
+      if (axios.isAxiosError(error) && error.response) {
+        const errorKey = error.response.data.error as SignupServerErrors;
+        let errorMessage: string = translations.signup_server_errors[errorKey] || translations.signup_server_errors.generic_error;
+
+        if(errorMessage.includes("${username}")){
+          errorMessage = errorMessage.replace("${username}", username);
+        }
+        if(errorMessage.includes("${email}")){
+          errorMessage = errorMessage.replace("${email}", email);
+        }
+
+        if(!!error.response.data.server_error){
+          console.error("Error during registration:", error.response.data.server_error);
+        }
+
+        setServerError(errorMessage);
+
+      }
     }
   };
 
@@ -140,8 +164,8 @@ export default function SignupStep2 () {
 								id="username"
 								name="username"
 								className="input"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                value={signupData.username}
+                onChange={handleChange}
 							/>
               {usernameError && (
               <span className="text-red-500 text-sm mt-1">{usernameError}</span>
@@ -155,8 +179,8 @@ export default function SignupStep2 () {
               id="email"
               name="email"
               className="input"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={signupData.email}
+              onChange={handleChange}
             />
             {emailError && (
               <span className="text-red-500 text-sm mt-1">{emailError}</span>
@@ -170,8 +194,8 @@ export default function SignupStep2 () {
               id="password"
               name="password"
               className="input"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={signupData.password}
+              onChange={handleChange}
             />
             {passwordError && (
               <span className="text-red-500 text-sm mt-1">{passwordError}</span>
@@ -192,6 +216,9 @@ export default function SignupStep2 () {
               <span className="text-red-500 text-sm mt-1">{confirmPasswordError}</span>
             )}
           </div>
+          {serverError && (
+            <span className="text-red-500 text-sm mt-1">{serverError}</span>
+          )}
         </fieldset>
 
 				<div className='flex flex-row gap-2'>
