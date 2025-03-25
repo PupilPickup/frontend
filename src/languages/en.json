@@ -75,8 +75,9 @@
     }, 
     
     "login_server_errors":{
-        "empty_fields": "Username and password cannot be empty.",
+        "empty_fields": "Username/Email and password cannot be empty.",
         "username_not_existent": "The username ${username} does not exist. Please sign up for an account.",
+        "email_not_existent": "The email ${email} does not exist. Please sign up for an account.",
         "invalid_credentials": "Login failed. Wrong username and password. Please try again.",
         "server_error": "An error occurred while logging in. Please try again later.",
         "generic_error": "An error occurred. Please try again later."
