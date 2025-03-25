@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { validatePassword } from "../../schema/loginSchema";
 import Button from "../../components/common/Button";
@@ -14,9 +14,9 @@ type LoginServerErrors = 'empty_fields' | 'username_not_existent' | 'invalid_cre
 
 export default function LoginPage() {
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
+  const [loginInput, setLoginInput] = useState("");
   const [password, setPassword] = useState("");
-  const [usernameError, setUsernameError] = useState("");
+  const [usernameEmailError, setUsernameEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [serverError, setServerError] = useState("");
 
@@ -26,16 +26,16 @@ export default function LoginPage() {
   const apiUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
 
   useEffect(() => {
-    setUsernameError("");
+    setUsernameEmailError("");
     setPasswordError("");
     setServerError("");
   }, [language]);
 
   
   function clearFieldsOnLogin(){
-    setUsername("");
+    setLoginInput("");
     setPassword("");
-    setUsernameError("");
+    setUsernameEmailError("");
     setPasswordError("");
     setServerError("");
   }
@@ -44,11 +44,11 @@ export default function LoginPage() {
     e.preventDefault();
     
     let hasError: boolean = false;
-    if(username.length === 0){
+    if(loginInput.length === 0){
       hasError = true;
-      setUsernameError(translations.login.require_username_error);
+      setUsernameEmailError(translations.login.require_username_email_error);
     }else{
-      setUsernameError("");
+      setUsernameEmailError("");
     }
 
     if(password.length === 0){
@@ -67,8 +67,18 @@ export default function LoginPage() {
       return; 
     }
 
+    let username = "";
+    let email = "";
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if(emailPattern.test(loginInput)){
+      email = loginInput;
+    }else{
+      username = loginInput;
+    }
+
     const loginData = {
       username: username,
+      email: email,
       password: password
     }
 
@@ -83,7 +93,11 @@ export default function LoginPage() {
         const errorKey = error.response.data.error as LoginServerErrors;
         let errorMessage: string = translations.login_server_errors[errorKey] || translations.login_server_errors.generic_error;
         if(errorMessage.includes("${username}")){
-          errorMessage = errorMessage.replace("${username}", username);
+          errorMessage = errorMessage.replace("${username}", loginInput);
+        }
+
+        if(errorMessage.includes("${email}")){
+          errorMessage = errorMessage.replace("${email}", loginInput);
         }
 
         if(!!error.response.data.server_error){
@@ -110,18 +124,18 @@ export default function LoginPage() {
         <fieldset className="space-y-2">
           <div className="flex flex-col">
             <label htmlFor="username" className={styles.label}>
-              {translations.login.username_label}
+              {translations.login.username_or_email_label}
             </label>
             <input
               type="text"
               id="username"
               name="username"
               className="input"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={loginInput}
+              onChange={(e) => setLoginInput(e.target.value)}
             />
-            {usernameError && (
-              <span className="text-red-500 text-sm mt-1">{usernameError}</span>
+            {usernameEmailError && (
+              <span className="text-red-500 text-sm mt-1">{usernameEmailError}</span>
             )}
           </div>
 

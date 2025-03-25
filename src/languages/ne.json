@@ -19,7 +19,7 @@
         "username_or_email_label": "प्रयोगकर्ता नाम/इमेल",
         "password_label": "पासवर्ड",
         "login_button": "लगइन",
-        "require_username_error": "कृपया आफ्नो प्रयोगकर्ता नाम प्रविष्ट गर्नुहोस्",
+        "require_username_email_error": "कृपया आफ्नो प्रयोगकर्ता नाम वा इमेल प्रविष्ट गर्नुहोस्",
         "require_password_error": "कृपया आफ्नो पासवर्ड प्रविष्ट गर्नुहोस्"
     },
 

@@ -19,7 +19,7 @@
         "username_or_email_label": "Username/Email",
         "password_label": "Password",
         "login_button": "Login", 
-        "require_username_error": "Please enter your username",
+        "require_username_email_error": "Please enter your username or email",
         "require_password_error": "Please enter your password"
     },
 
