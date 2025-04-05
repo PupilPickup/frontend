@@ -4,81 +4,82 @@
         "nepali_shorthand": "NE"
     },
     
-    "auth":{
-        "login": "लग इन (unofficial)",
-        "sign_up": "साइन अप (unofficial)",
-        "alt_logo_text": "(NE)WeShare icon"
+    "auth": {
+        "login": "लगइन",
+        "sign_up": "साइन अप",
+        "alt_logo_text": "WeShare आइकन"
     },
 
     "login": {
-        "alt_logo_text": "(NE)WeShare icon",
-        "password_error_message": "(NE)Password must be at least 8 characters, contain a number, an uppercase, and a special character.",
-        "welcome_back_message": "(NE)Welcome back!",
-        "login_prompt_message": "(NE)Log in to start booking your ride.",
-        "username_label": "(NE)Username",
-        "username_or_email_label": "(NE)Username/Email",
-        "password_label": "(NE)Password",
-        "login_button": "(NE)Login",
-        "require_username_error": "(NE)Please enter your username",
-        "require_password_error": "(NE)Please enter your password"
+        "alt_logo_text": "WeShare आइकन",
+        "password_error_message": "पासवर्डमा कम्तीमा ८ अक्षर, एक संख्या, एक ठूलो अक्षर र एक विशेष प्रतीक समावेश हुनुपर्छ।",
+        "welcome_back_message": "पुन: स्वागत छ!",
+        "login_prompt_message": "आफ्नो सवारी बुक गर्न सुरु गर्न लगइन गर्नुहोस्।",
+        "username_label": "प्रयोगकर्ता नाम",
+        "username_or_email_label": "प्रयोगकर्ता नाम/इमेल",
+        "password_label": "पासवर्ड",
+        "login_button": "लगइन",
+        "require_username_email_error": "कृपया आफ्नो प्रयोगकर्ता नाम वा इमेल प्रविष्ट गर्नुहोस्",
+        "require_password_error": "कृपया आफ्नो पासवर्ड प्रविष्ट गर्नुहोस्"
     },
 
     "sign_up": {
-        "alt_logo_text": "(NE)WeShare icon",
-        "header1": "(NE)Get Started Now",
-        "prompt1": "(NE)Step 1 of 2: Basic Information",
-        "first_name_label": "(NE)First Name",
-        "last_name_label": "(NE)Last Name",
-        "phone_number_label": "(NE)Phone Number",
-        "phone_placeholder": "+977XXXXXXXXX",
-        "next_button": "(NE)Continue",
-        "header2": "(NE)Complete Your Profile",
-        "prompt2": "(NE)Step 2 of 2: Account Details",
-        "email_label": "(NE)Email",
-        "username_label": "(NE)Username",
-        "password_label": "(NE)Password",
-        "confirm_password_label": "(NE)Confirm Password",
-        "password_requirements_error": "(NE)Password must be at least 8 characters, contain a number, an uppercase, and a special character.",
-        "password_mismatch_error": "(NE)Passwords do not match!",
-        "submit_button": "(NE)Create Account",
-        "success_header": "(NE)Sign Up Successful!",
-        "thanks_message": "(NE)Thanks for joining our ride-sharing community!",
-        "commitment_message": "(NE)We're committed to providing a safe and reliable transportation option for parents to book rides for their children.",
-        "login_button": "(NE)Login",
-        "require_first_name_error": "(NE)Please enter your first name",
-        "require_last_name_error": "(NE)Please enter your last name",
-        "require_phone_number_error": "(NE)Please enter your phone number",
-        "require_email_error": "(NE)Please enter your email",
-        "require_username_error": "(NE)Please enter your username",
-        "invalid_first_name_error": "(NE)First name must be at least 2 characters long",
-        "invalid_last_name_error": "(NE)Last name must be at least 2 characters long",
-        "invalid_phone_number_error": "(NE)Phone number must be in the format XXXXXXXXXX",
-        "invalid_email_error": "(NE)Please enter a valid email address",
-        "invalid_username_error": "(NE)Username must be at least 6 characters long"
+        "alt_logo_text": "WeShare आइकन",
+        "header1": "अहिले सुरु गर्नुहोस्",
+        "prompt1": "चरण १ को २: आधारभूत जानकारी",
+        "first_name_label": "पहिलो नाम",
+        "last_name_label": "थर",
+        "phone_number_label": "फोन नम्बर",
+        "phone_placeholder": "XXXXXXXXXX",
+        "next_button": "अगाडि बढ्नुहोस्",
+        "header2": "आफ्नो प्रोफाइल पूरा गर्नुहोस्",
+        "prompt2": "चरण २ को २: खाता विवरण",
+        "email_label": "इमेल",
+        "username_label": "प्रयोगकर्ता नाम",
+        "password_label": "पासवर्ड",
+        "confirm_password_label": "पासवर्ड पुष्टि गर्नुहोस्",
+        "password_requirements_error": "पासवर्डमा कम्तीमा ८ अक्षर, एक संख्या, एक ठूलो अक्षर र एक विशेष प्रतीक समावेश हुनुपर्छ।",
+        "password_mismatch_error": "पासवर्ड मिल्दैन!",
+        "submit_button": "खाता सिर्जना गर्नुहोस्",
+        "success_header": "साइन अप सफल भयो!",
+        "thanks_message": "हाम्रो राइड-शेयरिंग समुदायमा सामेल हुनुको लागि धन्यवाद!",
+        "commitment_message": "हामी अभिभावकहरूले आफ्ना बालबालिकाका लागि सवारी बुक गर्नको लागि सुरक्षित र भरपर्दो यातायात विकल्प प्रदान गर्न प्रतिबद्ध छौं।",
+        "login_button": "लगइन",
+        "require_first_name_error": "कृपया आफ्नो पहिलो नाम प्रविष्ट गर्नुहोस्",
+        "require_last_name_error": "कृपया आफ्नो थर प्रविष्ट गर्नुहोस्",
+        "require_phone_number_error": "कृपया आफ्नो फोन नम्बर प्रविष्ट गर्नुहोस्",
+        "require_email_error": "कृपया आफ्नो इमेल प्रविष्ट गर्नुहोस्",
+        "require_username_error": "कृपया आफ्नो प्रयोगकर्ता नाम प्रविष्ट गर्नुहोस्",
+        "invalid_first_name_error": "पहिलो नाम कम्तीमा २ अक्षर लामो हुनुपर्छ",
+        "invalid_last_name_error": "थर कम्तीमा २ अक्षर लामो हुनुपर्छ",
+        "invalid_phone_number_error": "फोन नम्बर XXXXXXXXXX को ढाँचामा हुनु पर्छ",
+        "invalid_email_error": "कृपया एक वैध इमेल ठेगाना प्रविष्ट गर्नुहोस्",
+        "invalid_username_error": "प्रयोगकर्ता नाम कम्तीमा ६ अक्षर लामो हुनुपर्छ"
     },
 
-    "dashboard":{
-        "welcome_message": "(NE)Welcome to WeShare!"
+    "dashboard": {
+        "welcome_message": "WeShare मा स्वागत छ!"
     },
 
-    "signup_server_errors":{
-        "empty_fields": "(NE)Username and password cannot be empty.",
-        "firstname_length": "(NE)First Name is too long.",
-        "lastname_length": "(NE)Last Name is too long.",
-        "username_length": "(NE)Username is too long.",
-        "email_length": "(NE)Email is too long.",
-        "phone_length": "(NE)Phone number is too long.",
-        "username_exists": "(NE)The username ${username} is already in use. Please choose a different username.",
-        "email_exists": "(NE)The email ${email} already has an account. Please choose a different email or log in with the existing account.",
-        "server_error": "(NE)An error occurred while creating your account. Please try again later.",
-        "generic_error": "(NE)An error occurred. Please try again later."
-    }, 
-    
-    "login_server_errors":{
-        "empty_fields": "(NE)Username and password cannot be empty.",
-        "username_not_existent": "(NE)The username ${username} does not exist. Please sign up for an account.",
-        "invalid_credentials": "(NE)Login failed. Wrong username and password. Please try again.",
-        "server_error": "(NE)An error occurred while logging in. Please try again later.",
-        "generic_error": "(NE)An error occurred. Please try again later."
+    "signup_server_errors": {
+        "empty_fields": "प्रयोगकर्ता नाम र पासवर्ड खाली हुँदैन।",
+        "firstname_length": "पहिलो नाम धेरै लामो छ।",
+        "lastname_length": "थर धेरै लामो छ।",
+        "username_length": "प्रयोगकर्ता नाम धेरै लामो छ।",
+        "email_length": "इमेल धेरै लामो छ।",
+        "phone_length": "फोन नम्बर धेरै लामो छ।",
+        "username_exists": "प्रयोगकर्ता नाम ${username} पहिले नै प्रयोगमा छ। कृपया अर्को प्रयोगकर्ता नाम चयन गर्नुहोस्।",
+        "email_exists": "इमेल ${email} सँग पहिले नै खाता छ। कृपया अर्को इमेल चयन गर्नुहोस् वा विद्यमान खातासँग लगइन गर्नुहोस्।",
+        "server_error": "खाता सिर्जना गर्दा समस्या आयो। कृपया पछि पुन: प्रयास गर्नुहोस्।",
+        "generic_error": "समस्या आयो। कृपया पछि पुन: प्रयास गर्नुहोस्।"
+    },
+
+    "login_server_errors": {
+        "empty_fields": "प्रयोगकर्ता नाम/इमेल र पासवर्ड खाली हुँदैन।",
+        "username_not_existent": "प्रयोगकर्ता नाम ${username} अवस्थित छैन। कृपया खाता साइन अप गर्नुहोस्।",
+        "email_not_existent": "इमेल ${email} अवस्थित छैन। कृपया खाता साइन अप गर्नुहोस्।",
+        "invalid_credentials": "लगइन असफल भयो। गलत प्रयोगकर्ता नाम र पासवर्ड। कृपया पुन: प्रयास गर्नुहोस्।",
+        "server_error": "लगइन गर्दा समस्या आयो। कृपया पछि पुन: प्रयास गर्नुहोस्।",
+        "generic_error": "समस्या आयो। कृपया पछि पुन: प्रयास गर्नुहोस्।"
     }
 }
