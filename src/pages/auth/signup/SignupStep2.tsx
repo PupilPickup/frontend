@@ -1,229 +1,144 @@
-import { useEffect, useState } from "react";
-import { validatePassword, validateConfirmPassword, isFieldEmpty, isUsernameValid, isEmailValid } from "../../../schema/signupSchema";
-import { useNavigate } from "react-router-dom";
 import { useSignup } from "../../../context/SignupContext";
+import { useNavigate } from "react-router-dom";
 import Button from "../../../components/common/Button";
-import styles from "../../../styles/Auth.module.css"
-import axios from "axios";
+import WeShare from "../../../assets/icons/Weshare.svg";
 import enTranslations from "../../../languages/en.json";
 import neTranslations from "../../../languages/ne.json";
 import { useLanguage } from "../../../context/LanguageContext";
+import { useEffect, useState } from "react";
+import { isFieldEmpty, isMunicipalityOrDistrictValid, isStreetAddressValid, isWardValid } from "../../../schema/signupSchema";
 
-// Define the possible error keys
-type SignupServerErrors = 'empty_fields' | 'firstname_length' | 'lastname_length' |'username_length' |'email_length' |'phone_length' |'username_exists' |  'email_exists' | 'server_error' | 'generic_error';
 
-export default function SignupStep2 () {
-
+export default function SignupStep2() {
   const navigate = useNavigate();
-  const { signupData, setSignupData, resetSignupData } = useSignup(); 
+  const { signupData, setSignupData } = useSignup();
+  const [addressError, setAddressError] = useState("");
+  const [wardError, setWardError] = useState("");
+  const [municipalityError, setMunicipalityError] = useState("");
 
   const { language } = useLanguage();
   const translations = language === 'ne' ? neTranslations : enTranslations;
 
   // Reset the error messages when the language changes
   useEffect(() => {
-    setUsernameError("");
-    setEmailError("");
-    setPasswordError("");
-    setConfirmPasswordError("");
+    setAddressError("");
+    setWardError("");
+    setMunicipalityError("");
   },[language]);
-
-  const apiUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
-
-  const { firstName, lastName, phoneNumber } = signupData;
-
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [usernameError, setUsernameError] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [confirmPasswordError, setConfirmPasswordError] = useState("");
-  const [serverError, setServerError] = useState("");
-
-  useEffect(() => {
-    setUsernameError("");
-    setEmailError("");
-    setPasswordError("");
-    setConfirmPasswordError("");
-    setServerError("");
-  }, [language]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSignupData({ ...signupData, [e.target.name]: e.target.value });
   };
 
-  function clearFieldsOnSignup(){
-    setConfirmPassword("");
-    setUsernameError("");
-    setEmailError("");
-    setPasswordError("");
-    setConfirmPasswordError("");
-    setServerError("");
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleNextStep = (e: React.FormEvent) => {
     e.preventDefault();
 
     let hasError: boolean = false;
-
-    setServerError("");
-
-    const email = signupData.email;
-    const username = signupData.username;
-    const password = signupData.password
-
-    if(isFieldEmpty(username)){
+    if(isFieldEmpty(signupData.streetAddress)){
       hasError = true;
-      setUsernameError(translations.sign_up.require_username_error);
-    }else if(!isUsernameValid(username)){
+      setAddressError(translations.sign_up.require_address_error);
+
+    }else if(!isStreetAddressValid(signupData.streetAddress)){
       hasError = true;
-      setUsernameError(translations.sign_up.invalid_username_error);
+      setAddressError(translations.sign_up.invalid_address_error);
+
     }else{
-      setUsernameError("");
+      setAddressError("");
     }
 
-    if(isFieldEmpty(email)){
+    if(isFieldEmpty(signupData.wardNumber)){
       hasError = true;
-      setEmailError(translations.sign_up.require_email_error);
-    }else if(!isEmailValid(email)){
+      setWardError(translations.sign_up.require_ward_error);
+
+    }else if(!isWardValid(signupData.wardNumber)){
       hasError = true;
-      setEmailError(translations.sign_up.invalid_email_error);
+      setWardError(translations.sign_up.invalid_ward_error);
+
     }else{
-      setEmailError("");
+      setWardError("");
     }
 
-    if (!validatePassword(password)) {
+    if(isFieldEmpty(signupData.municipalityDistrict)){
       hasError = true;
-      setPasswordError(translations.sign_up.password_requirements_error);
+      setMunicipalityError(translations.sign_up.require_municipality_error);
+
+    }else if(!isMunicipalityOrDistrictValid(signupData.municipalityDistrict)){
+      hasError = true;
+      setMunicipalityError(translations.sign_up.invalid_municipality_error);
     }else{
-      setPasswordError("");
+      setMunicipalityError("");
     }
 
-    if (!validateConfirmPassword(password, confirmPassword)) {
-      hasError = true;
-      setConfirmPasswordError(translations.sign_up.password_mismatch_error);
-    }else{
-      setConfirmPasswordError("");
-    }
-
-    if (hasError) {
+    if(hasError){
       return;
     }
-
-		// Combine data from Step 1 and Step 2
-    const formData = {
-      firstName,
-      lastName,
-      email,
-      phoneNumber,
-      username,
-      password,
-    };
-
-    try {
-      const response = await axios.post(`${apiUrl}/users/register`, formData);
-      console.log("Registration successful:", response.data);
-      clearFieldsOnSignup();
-      resetSignupData();
-      navigate("/signup/complete");
-    } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        const errorKey = error.response.data.error as SignupServerErrors;
-        let errorMessage: string = translations.signup_server_errors[errorKey] || translations.signup_server_errors.generic_error;
-
-        if(errorMessage.includes("${username}")){
-          errorMessage = errorMessage.replace("${username}", username);
-        }
-        if(errorMessage.includes("${email}")){
-          errorMessage = errorMessage.replace("${email}", email);
-        }
-
-        if(!!error.response.data.server_error){
-          console.error("Error during registration:", error.response.data.server_error);
-        }
-
-        setServerError(errorMessage);
-
-      }
-    }
+    
+    navigate("/signup/3");
   };
 
   return (
-    <div className="p-4 ">
+    <div className="px-4 pb-4">
+			<div className="flex justify-center">
+				<img src={WeShare} alt={translations.sign_up.alt_logo_text} />
+			</div>
       <header className="flex flex-col text-center mb-6">
-        <h1 className="text-3xl font-bold">{translations.sign_up.header2}</h1>
-        <p className="text-sm w-1/2 mx-auto">{translations.sign_up.prompt2}</p>
+        <h1 className="text-3xl font-bold">{translations.sign_up.header1}</h1>
+        <p className="text-sm w-1/2 mx-auto">{translations.sign_up.prompt1}</p>
       </header>
 
-      <form className="space-y-6 mx-6" onSubmit={handleSubmit}>
+      <form className="space-y-6 mx-6" onSubmit={handleNextStep}>
         <fieldset className="space-y-2">
-          
-					<div className="flex flex-col">
-							<label htmlFor="username" className="label">{translations.sign_up.username_label}</label>
-							<input
-								type="text"
-								id="username"
-								name="username"
-								className="input"
-                value={signupData.username}
-                onChange={handleChange}
-							/>
-              {usernameError && (
-              <span className="text-red-500 text-sm mt-1">{usernameError}</span>
-            )}
-          </div>
-
           <div className="flex flex-col">
-            <label htmlFor="email" className="label">{translations.sign_up.email_label}</label>
+            <label htmlFor="street-address" className="label">{translations.sign_up.address_label}</label>
             <input
               type="text"
-              id="email"
-              name="email"
+              id="street-address"
+              name="streetAddress"
               className="input"
-              value={signupData.email}
+              value={signupData.streetAddress}
               onChange={handleChange}
             />
-            {emailError && (
-              <span className="text-red-500 text-sm mt-1">{emailError}</span>
+            {addressError && (
+              <span className="text-red-500 text-sm mt-1">{addressError}</span>
             )}
           </div>
 
           <div className="flex flex-col">
-            <label htmlFor="password" className="label">{translations.sign_up.password_label}</label>
+            <label htmlFor="ward" className="label">{translations.sign_up.ward_label}</label>
             <input
-              type="password"
-              id="password"
-              name="password"
+              type="number"
+              min={1}
+              id="ward"
+              name="ward"
               className="input"
-              value={signupData.password}
+              value={signupData.wardNumber}
               onChange={handleChange}
             />
-            {passwordError && (
-              <span className="text-red-500 text-sm mt-1">{passwordError}</span>
+            {wardError && (
+              <span className="text-red-500 text-sm mt-1">{wardError}</span>
             )}
           </div>
 
           <div className="flex flex-col">
-            <label htmlFor="confirmPassword" className={styles.label}>{translations.sign_up.confirm_password_label}</label>
+            <label htmlFor="municipality-district" className="label">{translations.sign_up.municipality_label}</label>
             <input
-              type="password"
-              id="confirmPassword"
-              name="confirmPassword"
+              type="text"
+              id="municipality-district"
+              name="municipality-district"
               className="input"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+							value={signupData.municipalityDistrict}
+              onChange={handleChange}
             />
-            {confirmPasswordError && (
-              <span className="text-red-500 text-sm mt-1">{confirmPasswordError}</span>
+            {municipalityError && (
+              <span className="text-red-500 text-sm mt-1">
+                {municipalityError}
+              </span>
             )}
           </div>
-          {serverError && (
-            <span className="text-red-500 text-sm mt-1">{serverError}</span>
-          )}
+
         </fieldset>
 
-				<div className='flex flex-row gap-2'>
-					<Button label={translations.sign_up.submit_button} variant="primary" className="btn-primary w-full" type="submit" />
-				</div>
+        <Button label={translations.sign_up.next_button} variant="primary" className="w-full p-2 rounded-md" type="submit" />
       </form>
     </div>
   );
