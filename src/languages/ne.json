@@ -73,7 +73,7 @@
     },
 
     "signup_server_errors": {
-        "empty_fields": "प्रयोगकर्ता नाम र पासवर्ड खाली हुँदैन।",
+        "empty_fields": "कुनै पनि क्षेत्र खाली राख्न सकिँदैन।",
         "firstname_length": "पहिलो नाम धेरै लामो छ।",
         "lastname_length": "थर धेरै लामो छ।",
         "username_length": "प्रयोगकर्ता नाम धेरै लामो छ।",

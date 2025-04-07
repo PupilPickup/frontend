@@ -73,7 +73,7 @@
     },
 
     "signup_server_errors":{
-        "empty_fields": "Username and password cannot be empty.",
+        "empty_fields": "No fields can be left empty.",
         "firstname_length": "First Name is too long.",
         "lastname_length": "Last Name is too long.",
         "username_length": "Username is too long.",
