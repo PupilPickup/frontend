@@ -81,5 +81,116 @@
         "invalid_credentials": "Login failed. Wrong username and password. Please try again.",
         "server_error": "An error occurred while logging in. Please try again later.",
         "generic_error": "An error occurred. Please try again later."
+    }, 
+
+    "header":{
+        "profile": "My Profile",
+        "children": "My Children",
+        "vehicles": "My Vehicles",
+        "logout": "Logout"
+    }, 
+
+    "universal":{
+        "loading": "Loading...",
+        "redirecting": "Redirecting..."
+    },
+
+    "profile":{
+        "profile_header": "My Profile",
+        "profile_prompt": "Manage your profile information",
+
+        "first_name_label": "First Name",
+        "last_name_label": "Last Name",
+        "phone_number_label": "Phone Number",
+        "email_label": "Email",
+        "street_address_label": "Street Address",
+        "ward_label": "Ward Number",
+        "municipality_label": "Municipality/Dictrict",
+        "current_password_label": "Current Password",
+        "new_password_label": "New Password",
+        "confirm_new_password_label": "Confirm New Password",
+
+        "edit_button": "Edit",
+        "change_password_button": "Change Password",
+        "save_button": "Save",
+        "cancel_button": "Cancel",
+        "delete_button": "Delete",
+        
+        "update_success_message": "Profile updated successfully!",
+        "password_change_success_message": "Password changed successfully!",
+        "delete_confirmation_message": "Are you sure you want to delete your account? This action cannot be undone.",
+        "delete_success_message": "Account deleted successfully!",
+        
+        "require_first_name_error": "Please enter your first name",
+        "require_last_name_error": "Please enter your last name",
+        "require_phone_number_error": "Please enter your phone number",
+        "require_email_error": "Please enter your email",
+        "require_street_address_error": "Please enter your street address",
+        "require_ward_error": "Please enter your ward number",
+        "require_municipality_error": "Please enter your municipality/district",
+        "invalid_first_name_error": "First name must be at least 2 characters long",
+        "invalid_last_name_error": "Last name must be at least 2 characters long",
+        "invalid_phone_number_error": "Phone number must be in the format XXXXXXXXXX",
+        "invalid_email_error": "Please enter a valid email address",
+        "require_current_password_error": "Please enter your current password",
+        "require_new_password_error": "Please enter your new password",
+        "current_password_incorrect_error": "Current password is incorrect",
+        "require_confirm_new_password_error": "Please confirm your new password",
+        "password_mismatch_error": "New passwords do not match",
+        "invalid_password_error": "New password must be at least 8 characters, contain a number, an uppercase, and a special character."
+    }, 
+
+    "children":{
+        "children_header": "My Children",
+        "children_prompt": "Manage your children's information",
+        "add_child_button": "Add",
+        "edit_child_button": "Edit",
+        "delete_child_button": "Delete",
+        "save_button": "Save",
+        "cancel_button": "Cancel",
+        "delete_confirmation_message": "Are you sure you want to delete this child? This action cannot be undone.",
+        "first_name_label": "First Name",
+        "last_name_label": "Last Name",
+        "school_arrival_time_label": "School Arrival Time",
+        "school_departure_time_label": "School Departure Time",
+        "require_first_name_error": "Please enter your first name",
+        "require_last_name_error": "Please enter your last name",
+        "require_start_time_error": "Please enter the time your child must be dropped off at school",
+        "require_end_time_error": "Please enter the time your child will be picked up from school",
+        "invalid_first_name_error": "First name must be at least 2 characters long",
+        "invalid_last_name_error": "Last name must be at least 2 characters long",
+        "invalid_start_time_error": "School arrival time must be in the format HH:MM AM/PM",
+        "invalid_end_time_error": "School departure time must be in the format HH:MM AM/PM"
+    },
+
+    "vehicles":{
+        "vehicles_header": "My Vehicles",
+        "vehicles_prompt": "Manage your vehicle information",
+        "add_vehicle_button": "Add",
+        "edit_vehicle_button": "Edit",
+        "delete_vehicle_button": "Delete",
+        "save_button": "Save",
+        "cancel_button": "Cancel",
+        "delete_confirmation_message": "Are you sure you want to delete this vehicle? This action cannot be undone.",
+        "available_seats_label": "Number of Available Seats",
+        "license_plate_label": "License Plate",
+        "driver_start_time_label": "Driver Start Time",
+        "driver_end_time_label": "Driver End Time",
+        "days_label": "Please check what days you are available to drive",
+        "monday_label": "Monday",
+        "tuesday_label": "Tuesday",
+        "wednesday_label": "Wednesday",
+        "thursday_label": "Thursday",
+        "friday_label": "Friday",
+        "saturday_label": "Saturday",
+        "sunday_label": "Sunday",
+        "require_available_seats_error": "Please enter the number of available seats",
+        "require_license_plate_error": "Please enter the license plate",
+        "require_start_time_error": "Please enter the time you are available to start driving",
+        "require_end_time_error": "Please enter the time you are available to stop driving",
+        "invalid_available_seats_error": "Number of available seats must be a positive integer",
+        "invalid_license_plate_error": "License plate must be proper format",
+        "invalid_start_time_error": "Driver start time must be in the format HH:MM AM/PM",
+        "invalid_end_time_error": "Driver end time must be in the format HH:MM AM/PM"
     }
 }
