@@ -123,8 +123,7 @@ export default function SignupStep3 () {
     };
 
     try {
-      const response = await axios.post(`${apiUrl}/users/register`, formData);
-      console.log("Registration successful:", response.data);
+      await axios.post(`${apiUrl}/users/register`, formData);
       clearFieldsOnSignup();
       resetSignupData();
       navigate("/signup/complete");

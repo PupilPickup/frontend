@@ -85,6 +85,8 @@ export default function LoginPage() {
     try {
       const response = await axios.post(`${apiUrl}/users/login`, loginData);  
       sessionStorage.setItem("token", response.data.token);
+      sessionStorage.setItem("user_id", response.data.user_id);
+      sessionStorage.setItem("user_name", response.data.user_name);
       clearFieldsOnLogin();
       navigate("/dashboard");
 

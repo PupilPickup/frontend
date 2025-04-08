@@ -1,4 +1,4 @@
-import { BrowserRouter as Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import AuthLayout from "../../layouts/AuthLayout";
 import SignupStep1 from "./signup/SignupStep1";
 import SignupStep2 from "./signup/SignupStep2";

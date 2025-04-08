@@ -46,7 +46,7 @@ export default function SignupStep2() {
       setAddressError("");
     }
 
-    if(isFieldEmpty(signupData.wardNumber)){
+    if(!signupData.wardNumber){
       hasError = true;
       setWardError(translations.sign_up.require_ward_error);
 
@@ -82,8 +82,8 @@ export default function SignupStep2() {
 				<img src={WeShare} alt={translations.sign_up.alt_logo_text} />
 			</div>
       <header className="flex flex-col text-center mb-6">
-        <h1 className="text-3xl font-bold">{translations.sign_up.header1}</h1>
-        <p className="text-sm w-1/2 mx-auto">{translations.sign_up.prompt1}</p>
+        <h1 className="text-3xl font-bold">{translations.sign_up.header2}</h1>
+        <p className="text-sm w-1/2 mx-auto">{translations.sign_up.prompt2}</p>
       </header>
 
       <form className="space-y-6 mx-6" onSubmit={handleNextStep}>
@@ -107,11 +107,10 @@ export default function SignupStep2() {
             <label htmlFor="ward" className="label">{translations.sign_up.ward_label}</label>
             <input
               type="number"
-              min={1}
               id="ward"
-              name="ward"
+              name="wardNumber"
               className="input"
-              value={signupData.wardNumber}
+              value={signupData.wardNumber? signupData.wardNumber : ""}
               onChange={handleChange}
             />
             {wardError && (
@@ -124,7 +123,7 @@ export default function SignupStep2() {
             <input
               type="text"
               id="municipality-district"
-              name="municipality-district"
+              name="municipalityDistrict"
               className="input"
 							value={signupData.municipalityDistrict}
               onChange={handleChange}
