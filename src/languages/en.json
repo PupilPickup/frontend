@@ -92,5 +92,21 @@
         "invalid_credentials": "Login failed. Wrong username and password. Please try again.",
         "server_error": "An error occurred while logging in. Please try again later.",
         "generic_error": "An error occurred. Please try again later."
+    }, 
+
+    "profile_server_errors":{
+        "empty_fields": "No fields can be left empty.",
+        "firstname_length": "First Name is too long.",
+        "lastname_length": "Last Name is too long.",
+        "email_length": "Email is too long.",
+        "phone_length": "Phone number is too long.",
+        "street_address_length": "Address is too long.",
+        "ward_number_invalid": "Ward number must be between 1 - 32.",
+        "municipality_district_length": "Municipality/District is too long.",
+        "username_unknown": "The username ${username} was not found.",
+        "email_exists": "The email ${email} is already in use.",
+        "server_error_get": "An error occurred while updating your profile. Please try again later.",
+        "server_error_put": "An error occurred while updating your profile. Please try again later.",
+        "generic_error": "An error occurred. Please try again later."
     }
 }
