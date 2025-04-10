@@ -11,7 +11,7 @@ export const validateConfirmPassword = (password: string, confirmPassword: strin
 };
 
 // Check if a field is empty
-export function isFieldEmpty(field: string): boolean{
+export function isFieldEmpty(field: string|number): boolean{
   return field === '';
 }
 
@@ -34,7 +34,24 @@ export function isEmailValid(email: string): boolean{
 }
 
 // Check if a username is valid (at least 6 alphanumeric characters)
-export function isUsernameValid(username: string): boolean{
-  const usernamePattern = /^(?=.*[a-zA-Z])[a-zA-Z0-9.-_]{6,}$/;
+export function isUsernameValid(username: string): boolean {
+  const usernamePattern = /^(?=.*[a-zA-Z0-9])[a-zA-Z0-9](?:[a-zA-Z0-9._-]*[a-zA-Z0-9])?$/;
   return usernamePattern.test(username);
+}
+
+// Validate a street address in Nepal
+export function isStreetAddressValid(address: string): boolean {
+  const addressPattern = /^[a-zA-Z0-9\s,.-]{5,}$/; // At least 5 characters, allows letters, numbers, spaces, commas, periods, and dashes
+  return addressPattern.test(address);
+}
+
+// Validate a ward number in Nepal
+export function isWardValid(ward: number): boolean {
+  return ward >= 1 && ward <= 32;
+}
+
+// Validate a municipality or district name in Nepal
+export function isMunicipalityOrDistrictValid(name: string): boolean {
+  const namePattern = /^[a-zA-Z\s-]{3,}$/; // At least 3 characters, allows letters, spaces, and hyphens
+  return namePattern.test(name);
 }
