@@ -5,23 +5,38 @@ import SignupStep2 from "./signup/SignupStep2";
 import SignupStep3 from "./signup/SignupStep3";
 import SignupSuccess from "./signup/SignupSuccess";
 import AuthPage from "./Auth";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { useLanguage } from "../../context/LanguageContext";
+import enTranslations from "../../languages/en.json";
+import neTranslations from "../../languages/ne.json";
 
 interface SignUpPageProps {
 	isLoggedIn: boolean, 
-	// setIsLoggedIn:(isLoggedIn: boolean) => void
+	
 }
 
 const SignUpPage: React.FC<SignUpPageProps> = ( { isLoggedIn } ) => {
   
+  const [isLoading, setIsLoading] = useState(true);
+  const { language } = useLanguage();
+  const translations = language === 'ne' ? neTranslations : enTranslations;
+
   const navigate = useNavigate();
   useEffect(() => {
-    if ((!!sessionStorage.getItem("token")) || isLoggedIn) {
+    if ((!!sessionStorage.getItem("token") || (!!sessionStorage.getItem("user_id")) || (!!sessionStorage.getItem("user_name"))) || isLoggedIn) {
       navigate("/dashboard");
     }
-  });
+    setIsLoading(false);
+  }, [isLoggedIn, navigate]);
+
+  if(isLoading){
+		return <div className="flex justify-center items-center min-h-screen">{translations.universal.loading}</div>
+	}
+
+	if(isLoggedIn){
+		return <div className="flex justify-center items-center min-h-screen">{translations.universal.redirecting}</div>
+	}
   
   return (
 

@@ -6,7 +6,7 @@ import WeShare from "../../assets/icons/Weshare.svg";
 import Button from "../../components/common/Button";
 import { useNavigate } from "react-router-dom";
 import { useLanguage } from "../../context/LanguageContext";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 interface AuthPageProps {
 	isLoggedIn: boolean, 
@@ -15,6 +15,8 @@ interface AuthPageProps {
 
 const AuthPage: React.FC<AuthPageProps> = ( { isLoggedIn } ) => {
 
+	const [isLoading, setIsLoading] = useState(true);
+	
 	const navigate = useNavigate();
 
 	const { language } = useLanguage();
@@ -29,10 +31,19 @@ const AuthPage: React.FC<AuthPageProps> = ( { isLoggedIn } ) => {
 	};
 
 	useEffect(() => {
-		if ((!!sessionStorage.getItem("token")) || isLoggedIn) {
+		if ((!!sessionStorage.getItem("token") || (!!sessionStorage.getItem("user_id")) || (!!sessionStorage.getItem("user_name"))) || isLoggedIn) {
 			navigate("/dashboard");
 		}
-	});
+		setIsLoading(false);
+	}, []);
+
+	if(isLoading){
+		return <div className="flex justify-center items-center min-h-screen">{translations.universal.loading}</div>
+	}
+
+	if(isLoggedIn){
+		return <div className="flex justify-center items-center min-h-screen">{translations.universal.redirecting}</div>
+	}
 
 	return (
 		<div className='flex flex-col min-h-screen mx-2'>

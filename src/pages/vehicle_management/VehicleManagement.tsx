@@ -12,13 +12,18 @@ export default function VehicleManagement () {
 
     const navigate = useNavigate();
     const token = sessionStorage.getItem("token");
-    
+    const username = sessionStorage.getItem("user_name");
+	const userId = sessionStorage.getItem("user_id");
+
     useEffect(() => {
-        if(!token){
+        if(!token || !userId || !username){
+            sessionStorage.removeItem("token");
+            sessionStorage.removeItem("user_name");
+            sessionStorage.removeItem("user_id");
             navigate("/"); 
         }
         setIsLoading(false);
-    }, [token, navigate]);
+    }, [token, userId, username, navigate]);
 
     if(isLoading){
         return <div className="flex justify-center items-center min-h-screen">{translations.universal.loading}</div>

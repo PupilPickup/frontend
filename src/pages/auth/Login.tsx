@@ -26,6 +26,8 @@ const LoginPage: React.FC<LoginPageProps> = ( { isLoggedIn, setIsLoggedIn } ) =>
   const [passwordError, setPasswordError] = useState("");
   const [serverError, setServerError] = useState("");
 
+  const [isLoading, setIsLoading] = useState(true);
+
   const { language } = useLanguage();
   const translations = language === 'ne' ? neTranslations : enTranslations;
 
@@ -38,10 +40,11 @@ const LoginPage: React.FC<LoginPageProps> = ( { isLoggedIn, setIsLoggedIn } ) =>
   }, [language]);
 
   useEffect(() => {
-		if ((!!sessionStorage.getItem("token")) || isLoggedIn) {
+		if ((!!sessionStorage.getItem("token") || (!!sessionStorage.getItem("user_id")) || (!!sessionStorage.getItem("user_name"))) || isLoggedIn) {
 			navigate("/dashboard");
 		}
-	});
+    setIsLoading(false);
+	}, []);
   
   function clearFieldsOnLogin(){
     setLoginInput("");
@@ -123,6 +126,14 @@ const LoginPage: React.FC<LoginPageProps> = ( { isLoggedIn, setIsLoggedIn } ) =>
       }
     }
   };
+
+  if(isLoading){
+		return <div className="flex justify-center items-center min-h-screen">{translations.universal.loading}</div>
+	}
+
+	if(isLoggedIn){
+		return <div className="flex justify-center items-center min-h-screen">{translations.universal.redirecting}</div>
+	}
 
   return (
     <div className="p-4">
