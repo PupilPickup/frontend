@@ -17,7 +17,7 @@ export default function UserProfile () {
         firstName: "",
         lastName: "",
         email: "",
-        contactNumber: "",
+        phoneNumber: "",
         streetAddress: "",
         wardNumber: "",
         municipalityDistrict: "",
@@ -28,7 +28,7 @@ export default function UserProfile () {
         firstName: "",
         lastName: "",
         email: "",
-        contactNumber: "",
+        phoneNumber: "",
         streetAddress: "",
         wardNumber: "",
         municipalityDistrict: "",
@@ -37,7 +37,7 @@ export default function UserProfile () {
     const [firstNameError, setFirstNameError] = useState<string>("");
     const [lastNameError, setLastNameError] = useState<string>("");
     const [emailError, setEmailError] = useState<string>("");
-    const [contactNumberError, setContactNumberError] = useState<string>("");
+    const [phoneNumberError, setphoneNumberError] = useState<string>("");
     const [streetAddressError, setStreetAddressError] = useState<string>("");
     const [wardNumberError, setWardNumberError] = useState<string>("");
     const [municipalityDistrictError, setMunicipalityDistrictError] = useState<string>("");
@@ -75,7 +75,7 @@ export default function UserProfile () {
                     firstName: response.data.firstName,
                     lastName: response.data.lastName,
                     email: response.data.email,
-                    contactNumber: response.data.contactNumber,
+                    phoneNumber: response.data.contactNumber,
                     streetAddress: response.data.streetAddress,
                     wardNumber: response.data.wardNumber,
                     municipalityDistrict: response.data.municipalityDistrict,
@@ -119,7 +119,7 @@ export default function UserProfile () {
                 firstName: userDetails.firstName,
                 lastName: userDetails.lastName,
                 email: userDetails.email,
-                contactNumber: userDetails.contactNumber,
+                phoneNumber: userDetails.contactNumber,
                 streetAddress: userDetails.streetAddress,
                 wardNumber: userDetails.wardNumber,
                 municipalityDistrict: userDetails.municipalityDistrict,
@@ -299,7 +299,7 @@ export default function UserProfile () {
                 )}
                 {isViewState ? (
                     <div className="mb-4">
-                        <strong>{translations.profile.phone_number_label}:</strong> {profileData.contactNumber}
+                        <strong>{translations.profile.phone_number_label}:</strong> {profileData.phoneNumber}
                     </div>
                 ) : (
                     <div className="mb-4">
@@ -307,14 +307,14 @@ export default function UserProfile () {
                         <input
                             type="phone"
                             id="phone-number"
-                            name="contactNumber"
+                            name="phoneNumber"
                             className="input"
                                             placeholder={translations.sign_up.phone_placeholder}
-                            value={editingProfileData.contactNumber}
+                            value={editingProfileData.phoneNumber}
                             onChange={handleChange}
                             />
-                        {contactNumberError && (
-                        <span className="text-red-500 text-sm mt-1">{contactNumberError}</span>
+                        {phoneNumberError && (
+                        <span className="text-red-500 text-sm mt-1">{phoneNumberError}</span>
                         )}
                     </div>
                 )}
