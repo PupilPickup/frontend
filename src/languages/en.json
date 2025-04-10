@@ -105,9 +105,12 @@
         "municipality_district_length": "Municipality/District is too long.",
         "username_unknown": "The username ${username} was not found.",
         "email_exists": "The email ${email} is already in use.",
-        "server_error_get": "An error occurred while updating your profile. Please try again later.",
+        "server_error_get": "An error occurred while retrieving your profile. Please try again later.",
         "server_error_put": "An error occurred while updating your profile. Please try again later.",
-        "generic_error": "An error occurred. Please try again later."
+        "server_error_delete": "An error occurred while deleting your profile. Please try again later.",
+        "username_not_existent": "The database was unable to find a user with the username ${username}.",  
+        "invalid_credentials": "The user ${username} does not have access to this child.",
+        "generic_error": "An error occurred. Please try again later." 
     }, 
 
     "header":{
