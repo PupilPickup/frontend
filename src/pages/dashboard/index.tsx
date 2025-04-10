@@ -12,9 +12,14 @@ export default function Dashboard () {
 
 	const navigate = useNavigate();
 	const token = sessionStorage.getItem("token");
+	const username = sessionStorage.getItem("user_name");
+	const userId = sessionStorage.getItem("user_id");
 	
 	useEffect(() => {
-		if(!token){
+		if(!token || !username || !userId){
+			sessionStorage.removeItem("token");
+			sessionStorage.removeItem("user_name");
+			sessionStorage.removeItem("user_id");
 			navigate("/"); 
 		}
 		setIsLoading(false);
