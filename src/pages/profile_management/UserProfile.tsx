@@ -18,7 +18,7 @@ export default function UserProfile () {
             navigate("/"); 
         }
         setIsLoading(false);
-    }, []);
+    }, [token, navigate]);
 
     if(isLoading){
         return <div className="flex justify-center items-center min-h-screen">{translations.universal.loading}</div>

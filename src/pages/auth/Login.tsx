@@ -12,7 +12,13 @@ import axios from "axios";
 // Define the possible error keys
 type LoginServerErrors = 'empty_fields' | 'username_not_existent' | 'invalid_credentials' | 'server_error' | 'generic_error';
 
-export default function LoginPage() {
+interface LoginPageProps {
+	isLoggedIn: boolean, 
+	setIsLoggedIn:(isLoggedIn: boolean) => void
+}
+
+const LoginPage: React.FC<LoginPageProps> = ( { isLoggedIn, setIsLoggedIn } ) => {
+
   const navigate = useNavigate();
   const [loginInput, setLoginInput] = useState("");
   const [password, setPassword] = useState("");
@@ -31,6 +37,11 @@ export default function LoginPage() {
     setServerError("");
   }, [language]);
 
+  useEffect(() => {
+		if ((!!sessionStorage.getItem("token")) || isLoggedIn) {
+			navigate("/dashboard");
+		}
+	});
   
   function clearFieldsOnLogin(){
     setLoginInput("");
@@ -86,6 +97,7 @@ export default function LoginPage() {
       const response = await axios.post(`${apiUrl}/users/login`, loginData);  
       sessionStorage.setItem("token", response.data.token);
       clearFieldsOnLogin();
+      setIsLoggedIn(true);
       navigate("/dashboard");
 
     } catch (error) {
@@ -170,3 +182,4 @@ export default function LoginPage() {
     </div>
   );
 }
+export default LoginPage;
