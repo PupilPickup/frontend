@@ -6,19 +6,43 @@ import WeShare from "../../assets/icons/Weshare.svg";
 import Button from "../../components/common/Button";
 import { useNavigate } from "react-router-dom";
 import { useLanguage } from "../../context/LanguageContext";
+import { useEffect, useState } from "react";
 
-export default function AuthPage () {
+interface AuthPageProps {
+	isLoggedIn: boolean, 
+	// setIsLoggedIn:(isLoggedIn: boolean) => void
+}
+
+const AuthPage: React.FC<AuthPageProps> = ( { isLoggedIn } ) => {
+
+	const [isLoading, setIsLoading] = useState(true);
+	
 	const navigate = useNavigate();
 
 	const { language } = useLanguage();
-  	const translations = language === 'ne' ? neTranslations : enTranslations;
+	const translations = language === 'ne' ? neTranslations : enTranslations;
 
-  const handleSignUpClick = () => {
-    navigate("/signup/1");
-  };
+	const handleSignUpClick = () => {
+		navigate("/signup/1");
+	};
 
 	const handleLoginClick = () => {
 		navigate("/login")
+	};
+
+	useEffect(() => {
+		if ((!!sessionStorage.getItem("token") || (!!sessionStorage.getItem("user_id")) || (!!sessionStorage.getItem("user_name"))) || isLoggedIn) {
+			navigate("/dashboard");
+		}
+		setIsLoading(false);
+	}, []);
+
+	if(isLoading){
+		return <div className="flex justify-center items-center min-h-screen">{translations.universal.loading}</div>
+	}
+
+	if(isLoggedIn){
+		return <div className="flex justify-center items-center min-h-screen">{translations.universal.redirecting}</div>
 	}
 
 	return (
@@ -44,3 +68,5 @@ export default function AuthPage () {
 		</div>	
 	);
 }
+
+export default AuthPage;

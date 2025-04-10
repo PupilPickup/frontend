@@ -26,11 +26,11 @@ export default function Dashboard () {
 	}, []);
 
 	if(isLoading){
-		return <div className="flex justify-center items-center min-h-screen">Loading...</div>
+		return <div className="flex justify-center items-center min-h-screen">{translations.universal.loading}</div>
 	}
 
 	if(!token){
-		return <div className="flex justify-center items-center min-h-screen">Redirecting...</div>
+		return <div className="flex justify-center items-center min-h-screen">{translations.universal.redirecting}</div>
 	}
 
 	return (

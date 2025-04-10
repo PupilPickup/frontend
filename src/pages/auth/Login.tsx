@@ -12,13 +12,21 @@ import axios from "axios";
 // Define the possible error keys
 type LoginServerErrors = 'empty_fields' | 'username_not_existent' | 'invalid_credentials' | 'server_error' | 'generic_error';
 
-export default function LoginPage() {
+interface LoginPageProps {
+	isLoggedIn: boolean, 
+	setIsLoggedIn:(isLoggedIn: boolean) => void
+}
+
+const LoginPage: React.FC<LoginPageProps> = ( { isLoggedIn, setIsLoggedIn } ) => {
+
   const navigate = useNavigate();
   const [loginInput, setLoginInput] = useState("");
   const [password, setPassword] = useState("");
   const [usernameEmailError, setUsernameEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [serverError, setServerError] = useState("");
+
+  const [isLoading, setIsLoading] = useState(true);
 
   const { language } = useLanguage();
   const translations = language === 'ne' ? neTranslations : enTranslations;
@@ -31,6 +39,12 @@ export default function LoginPage() {
     setServerError("");
   }, [language]);
 
+  useEffect(() => {
+		if ((!!sessionStorage.getItem("token") || (!!sessionStorage.getItem("user_id")) || (!!sessionStorage.getItem("user_name"))) || isLoggedIn) {
+			navigate("/dashboard");
+		}
+    setIsLoading(false);
+	}, []);
   
   function clearFieldsOnLogin(){
     setLoginInput("");
@@ -88,6 +102,7 @@ export default function LoginPage() {
       sessionStorage.setItem("user_id", response.data.user_id);
       sessionStorage.setItem("user_name", response.data.user_name);
       clearFieldsOnLogin();
+      setIsLoggedIn(true);
       navigate("/dashboard");
 
     } catch (error) {
@@ -111,6 +126,14 @@ export default function LoginPage() {
       }
     }
   };
+
+  if(isLoading){
+		return <div className="flex justify-center items-center min-h-screen">{translations.universal.loading}</div>
+	}
+
+	if(isLoggedIn){
+		return <div className="flex justify-center items-center min-h-screen">{translations.universal.redirecting}</div>
+	}
 
   return (
     <div className="p-4">
@@ -172,3 +195,4 @@ export default function LoginPage() {
     </div>
   );
 }
+export default LoginPage;

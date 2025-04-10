@@ -108,6 +108,117 @@
         "server_error_get": "तपाईंको प्रोफाइल अपडेट गर्दा समस्या आएको छ। कृपया पछि पुन: प्रयास गर्नुहोस्।",
         "server_error_put": "तपाईंको प्रोफाइल अपडेट गर्दा समस्या आएको छ। कृपया पछि पुन: प्रयास गर्नुहोस्।",
         "generic_error": "समस्या आएको छ। कृपया पछि पुन: प्रयास गर्नुहोस्।"
+    }, 
+
+    "header":{
+        "profile": "मेरो प्रोफाइल",
+        "children": "मेरो बच्चाहरू",
+        "vehicles": "मेरो सवारी साधन",
+        "logout": "लगआउट"
+    }, 
+
+    "universal":{
+        "loading": "लोड हुँदैछ...",
+        "redirecting": "पुनःनिर्देशन गर्दै..."
+    },
+
+    "profile": {
+        "profile_header": "मेरो प्रोफाइल",
+        "profile_prompt": "तपाईंको प्रोफाइल जानकारी व्यवस्थापन गर्नुहोस्",
+
+        "first_name_label": "पहिलो नाम",
+        "last_name_label": "थर",
+        "phone_number_label": "फोन नम्बर",
+        "email_label": "इमेल",
+        "street_address_label": "ठेगाना",
+        "ward_label": "वार्ड नम्बर",
+        "municipality_label": "नगरपालिका/जिल्ला",
+        "current_password_label": "हालको पासवर्ड",
+        "new_password_label": "नयाँ पासवर्ड",
+        "confirm_new_password_label": "नयाँ पासवर्ड पुष्टि गर्नुहोस्",
+
+        "edit_button": "संपादन गर्नुहोस्",
+        "change_password_button": "पासवर्ड परिवर्तन गर्नुहोस्",
+        "save_button": "सुरक्षित गर्नुहोस्",
+        "cancel_button": "रद्द गर्नुहोस्",
+        "delete_button": "मेटाउनुहोस्",
+        
+        "update_success_message": "प्रोफाइल सफलतापूर्वक अपडेट गरियो!",
+        "password_change_success_message": "पासवर्ड सफलतापूर्वक परिवर्तन गरियो!",
+        "delete_confirmation_message": "के तपाईंलाई आफ्नो खाता मेट्न चाहनुहुन्छ? यो क्रिया फर्काउन सकिँदैन।",
+        "delete_success_message": "खाता सफलतापूर्वक मेटाइयो!",
+        
+        "require_first_name_error": "कृपया आफ्नो पहिलो नाम प्रविष्ट गर्नुहोस्",
+        "require_last_name_error": "कृपया आफ्नो थर प्रविष्ट गर्नुहोस्",
+        "require_phone_number_error": "कृपया आफ्नो फोन नम्बर प्रविष्ट गर्नुहोस्",
+        "require_email_error": "कृपया आफ्नो इमेल प्रविष्ट गर्नुहोस्",
+        "require_street_address_error": "कृपया आफ्नो ठेगाना प्रविष्ट गर्नुहोस्",
+        "require_ward_error": "कृपया आफ्नो वार्ड नम्बर प्रविष्ट गर्नुहोस्",
+        "require_municipality_error": "कृपया आफ्नो नगरपालिका/जिल्ला प्रविष्ट गर्नुहोस्",
+        "invalid_first_name_error": "पहिलो नाम कम्तीमा २ अक्षर लामो हुनुपर्छ",
+        "invalid_last_name_error": "थर कम्तीमा २ अक्षर लामो हुनुपर्छ",
+        "invalid_phone_number_error": "फोन नम्बर XXXXXXXXXX को ढाँचामा हुनु पर्छ",
+        "invalid_email_error": "कृपया एउटा वैध इमेल ठेगाना प्रविष्ट गर्नुहोस्",
+        "require_current_password_error": "कृपया आफ्नो हालको पासवर्ड प्रविष्ट गर्नुहोस्",
+        "require_new_password_error": "कृपया आफ्नो नयाँ पासवर्ड प्रविष्ट गर्नुहोस्",
+        "current_password_incorrect_error": "हालको पासवर्ड गलत छ",
+        "require_confirm_new_password_error": "कृपया आफ्नो नयाँ पासवर्ड पुष्टि गर्नुहोस्",
+        "password_mismatch_error": "नयाँ पासवर्डहरू मिल्दैनन्",
+        "invalid_password_error": "नयाँ पासवर्ड कम्तीमा ८ अक्षर लामो, एउटा अंक, एकवटा ठुलो अक्षर, र विशेष चिह्न हुनु पर्छ"
+    },
+
+    "children": {
+        "children_header": "मेरो बच्चा",
+        "children_prompt": "तपाईंका बच्चाहरूको जानकारी व्यवस्थापन गर्नुहोस्",
+        "add_child_button": "थप्नुहोस्",
+        "edit_child_button": "संपादन गर्नुहोस्",
+        "delete_child_button": "मेटाउनुहोस्",
+        "save_button": "सुरक्षित गर्नुहोस्",
+        "cancel_button": "रद्द गर्नुहोस्",
+        "delete_confirmation_message": "के तपाईंलाई यो बच्चा मेट्न चाहनुहुन्छ? यो क्रिया फर्काउन सकिँदैन।",
+        "first_name_label": "पहिलो नाम",
+        "last_name_label": "थर",
+        "school_arrival_time_label": "स्कूल आगमन समय",
+        "school_departure_time_label": "स्कूल प्रस्थान समय",
+        "require_first_name_error": "कृपया आफ्नो पहिलो नाम प्रविष्ट गर्नुहोस्",
+        "require_last_name_error": "कृपया आफ्नो थर प्रविष्ट गर्नुहोस्",
+        "require_start_time_error": "कृपया आफ्नो बच्चा स्कूल जानुपर्ने समय प्रविष्ट गर्नुहोस्",
+        "require_end_time_error": "कृपया आफ्नो बच्चा स्कूलबाट फर्किने समय प्रविष्ट गर्नुहोस्",
+        "invalid_first_name_error": "पहिलो नाम कम्तीमा २ अक्षर लामो हुनुपर्छ",
+        "invalid_last_name_error": "थर कम्तीमा २ अक्षर लामो हुनुपर्छ",
+        "invalid_start_time_error": "स्कूल आगमन समय HH:MM AM/PM ढाँचामा हुनु पर्छ",
+        "invalid_end_time_error": "स्कूल प्रस्थान समय HH:MM AM/PM ढाँचामा हुनु पर्छ"
+    },
+
+    "vehicles": {
+        "vehicles_header": "मेरो सवारी साधन",
+        "vehicles_prompt": "तपाईंको सवारी साधनको जानकारी व्यवस्थापन गर्नुहोस्",
+        "add_vehicle_button": "थप्नुहोस्",
+        "edit_vehicle_button": "संपादन गर्नुहोस्",
+        "delete_vehicle_button": "मेटाउनुहोस्",
+        "save_button": "सुरक्षित गर्नुहोस्",
+        "cancel_button": "रद्द गर्नुहोस्",
+        "delete_confirmation_message": "के तपाईंलाई यो सवारी साधन मेट्न चाहनुहुन्छ? यो क्रिया फर्काउन सकिँदैन।",
+        "available_seats_label": "उपलब्ध सिटहरूको संख्या",
+        "license_plate_label": "लाइसेन्स प्लेट",
+        "driver_start_time_label": "चालकको आरम्भ समय",
+        "driver_end_time_label": "चालकको समाप्ति समय",
+        "days_label": "कृपया ती दिनहरू चयन गर्नुहोस् जब तपाईं ड्राइभ गर्न उपलब्ध हुनुहुन्छ",
+        "monday_label": "सोमबार",
+        "tuesday_label": "मंगलवार",
+        "wednesday_label": "बुधबार",
+        "thursday_label": "बिहीवार",
+        "friday_label": "शुक्रबार",
+        "saturday_label": "शनिवार",
+        "sunday_label": "आइतवार",
+        "require_available_seats_error": "कृपया उपलब्ध सिटहरूको संख्या प्रविष्ट गर्नुहोस्",
+        "require_license_plate_error": "कृपया लाइसेन्स प्लेट प्रविष्ट गर्नुहोस्",
+        "require_start_time_error": "कृपया आफ्नो ड्राइभिंगको आरम्भ समय प्रविष्ट गर्नुहोस्",
+        "require_end_time_error": "कृपया आफ्नो ड्राइभिंगको समाप्ति समय प्रविष्ट गर्नुहोस्",
+        "invalid_available_seats_error": "उपलब्ध सिटहरूको संख्या सकारात्मक पूर्णांक हुनुपर्छ",
+        "invalid_license_plate_error": "लाइसेन्स प्लेट उचित ढाँचामा हुनु पर्छ",
+        "invalid_start_time_error": "चालकको आरम्भ समय HH:MM AM/PM ढाँचामा हुनु पर्छ",
+        "invalid_end_time_error": "चालकको समाप्ति समय HH:MM AM/PM ढाँचामा हुनु पर्छ"
     }
 
 }
