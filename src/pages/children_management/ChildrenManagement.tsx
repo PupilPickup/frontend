@@ -4,7 +4,11 @@ import { useLanguage } from "../../context/LanguageContext";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-export default function ChildrenManagement () {
+type ChildrenManagementProps = {
+    isLoggedIn: boolean;
+};
+
+export default function ChildrenManagement ( { isLoggedIn }: ChildrenManagementProps) {
     const [isLoading, setIsLoading] = useState(true);
 
     const { language } = useLanguage();
@@ -16,7 +20,7 @@ export default function ChildrenManagement () {
 	const userId = sessionStorage.getItem("user_id");
 
     useEffect(() => {
-        if(!token || !userId || !username){
+        if(!token || !userId || !username || !isLoggedIn){
             sessionStorage.removeItem("token");
             sessionStorage.removeItem("user_name");
             sessionStorage.removeItem("user_id");

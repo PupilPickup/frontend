@@ -3,12 +3,18 @@ import neTranslations from "../../languages/ne.json";
 import { useLanguage } from "../../context/LanguageContext";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { isFieldEmpty, isNameValid, isEmailValid, isPhoneValid, isMunicipalityOrDistrictValid, isStreetAddressValid, isWardValid } from "../../utils/profileValidation";
 import axios from "axios";
 
 // Define the possible error keys
 type ProfileServerErrors = 'empty_fields' | 'username_not_existent' | 'invalid_credentials' | 'server_error_get' |'server_error_put' |'server_error_delete' | 'generic_error' | 'firstname_length' | 'lastname_length' | 'email_length' | 'phone_length' | 'street_address_length' | 'ward_number_invalid' | 'municipality_district_length' | 'username_unknown' | 'email_exists';
 
-export default function UserProfile () {
+type UserProfileProps = {
+    isLoggedIn: boolean;
+    setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export default function UserProfile ( { isLoggedIn, setIsLoggedIn }: UserProfileProps) {
     const [isLoading, setIsLoading] = useState(true);
     const[isViewState, setIsViewState] = useState(true);
     const [profileData, setProfileData] = useState({
@@ -37,7 +43,7 @@ export default function UserProfile () {
     const [firstNameError, setFirstNameError] = useState<string>("");
     const [lastNameError, setLastNameError] = useState<string>("");
     const [emailError, setEmailError] = useState<string>("");
-    const [phoneNumberError, setphoneNumberError] = useState<string>("");
+    const [phoneNumberError, setPhoneNumberError] = useState<string>("");
     const [streetAddressError, setStreetAddressError] = useState<string>("");
     const [wardNumberError, setWardNumberError] = useState<string>("");
     const [municipalityDistrictError, setMunicipalityDistrictError] = useState<string>("");
@@ -97,10 +103,85 @@ export default function UserProfile () {
     
     function editUserProfile(profileData:any, token:string){
         // Validate profileData before sending to the server
-        // TODO
+        let hasErrors = false;
+        // First Name
+        if(isFieldEmpty(profileData.firstName)) {
+            setFirstNameError(translations.profile.require_first_name_error);
+            hasErrors = true;
+        }else if(!isNameValid(profileData.firstName)) {
+            setFirstNameError(translations.profile.invalid_first_name_error);
+            hasErrors = true;
+        }else{
+            setFirstNameError("");
+        }
+        // Last Name
+        if(isFieldEmpty(profileData.lastName)) {
+            setLastNameError(translations.profile.require_last_name_error);
+            hasErrors = true;
+        }else if(!isNameValid(profileData.lastName)) {
+            setLastNameError(translations.profile.invalid_last_name_error);
+            hasErrors = true;
+        }else{
+            setLastNameError("");
+        }
+        // Email
+        if(isFieldEmpty(profileData.email)) {
+            setEmailError(translations.profile.require_email_error);
+            hasErrors = true;
+        }else if(!isEmailValid(profileData.email)) {
+            setEmailError(translations.profile.invalid_email_error);
+            hasErrors = true;
+        }else{
+            setEmailError("");
+        }
+        // Phone Number
+        if(isFieldEmpty(profileData.phoneNumber)) {
+            setPhoneNumberError(translations.profile.require_phone_number_error);
+            hasErrors = true;
+        }else if(!isPhoneValid(profileData.phoneNumber)) {
+            setPhoneNumberError(translations.profile.invalid_phone_number_error);
+            hasErrors = true;
+        }else{
+            setPhoneNumberError("");
+        }
+        // Street Address
+        if(isFieldEmpty(profileData.streetAddress)) {
+            setStreetAddressError(translations.profile.require_street_address_error);
+            hasErrors = true;
+        }else if(!isStreetAddressValid(profileData.streetAddress)) {
+            setStreetAddressError(translations.profile.invalid_street_address_error);
+            hasErrors = true;
+        }else{
+            setStreetAddressError("");
+        }
+        // Ward Number
+        if(isFieldEmpty(profileData.wardNumber)) {
+            setWardNumberError(translations.profile.require_ward_error);
+            hasErrors = true;
+        }else if(!isWardValid(profileData.wardNumber)) {
+            setWardNumberError(translations.profile.invalid_ward_error);
+            hasErrors = true;
+        }else{
+            setWardNumberError("");
+        }
+        // Municipality or District
+        if(isFieldEmpty(profileData.municipalityDistrict)) {
+            setMunicipalityDistrictError(translations.profile.require_municipality_error);
+            hasErrors = true;
+        }else if(!isMunicipalityOrDistrictValid(profileData.municipalityDistrict)) {
+            setMunicipalityDistrictError(translations.profile.invalid_municipality_error);
+            hasErrors = true;
+        }else{
+            setMunicipalityDistrictError("");
+        }
 
-        // Post updated user data to the server
-        updateUser(profileData, token!);
+        // Check if there are any errors
+        if(hasErrors) {
+            return;
+        }else{
+            // Post updated user data to the server
+            updateUser(profileData, token!);
+        }
     }
     
     const populateUserData = async (token:string, userName:string, userId:string) => {
@@ -154,6 +235,7 @@ export default function UserProfile () {
             sessionStorage.removeItem("token");
             sessionStorage.removeItem("user_name");
             sessionStorage.removeItem("user_id");
+            setIsLoggedIn(false);
             navigate("/");
 
         } catch (error) {
@@ -167,22 +249,24 @@ export default function UserProfile () {
     } 
 
     useEffect(() => {
-        if(!token || !userId || !username){
+        if(!token || !userId || !username || !isLoggedIn){
             sessionStorage.removeItem("token");
             sessionStorage.removeItem("user_name");
             sessionStorage.removeItem("user_id");
+            setIsLoggedIn(false);
             navigate("/"); 
         }
         // Fetch user profile data from the API using the token
         try {
             if(!!token && !!userId && !!username){
                 populateUserData(token!, username!, userId!);
+                resetErrors();
             }
         } catch (error) {
             console.error(error);
         }
         setIsLoading(false);
-    }, [token, userId, username, navigate]);
+    }, [language, token, userId, username, navigate]);
 
     // Function for handling the user wanting to edit their profile
     const handleEditProfile = () => {
@@ -192,7 +276,7 @@ export default function UserProfile () {
 
     // Function for handling the user wanting to change their password
     const handleChangePassword = () => {
-        navigate("/change-password", { state: { userId } });
+        navigate("/profile/change-password", { state: { userId } });
     };
 
     // Function for handling the user wanting to delete their account
@@ -209,7 +293,6 @@ export default function UserProfile () {
     // Function for handling the user saving their profile changes
     const handleSaveProfileChanges = () => {
         editUserProfile(editingProfileData, token!);
-        setIsViewState(true);
     };
 
     // Function for handling the user canceling their profile edit
@@ -222,6 +305,18 @@ export default function UserProfile () {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEditingProfileData({ ...editingProfileData, [e.target.name]: e.target.value });
     };
+
+    // Function to reset all error messages
+    function resetErrors(){
+        setFirstNameError("");
+        setLastNameError("");
+        setEmailError("");
+        setPhoneNumberError("");
+        setStreetAddressError("");
+        setWardNumberError("");
+        setMunicipalityDistrictError("");
+        setServerError("");
+    }
 
     if(isLoading){
         return <div className="flex justify-center items-center min-h-screen">{translations.universal.loading}</div>

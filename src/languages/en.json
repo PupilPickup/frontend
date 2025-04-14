@@ -110,6 +110,7 @@
         "server_error_delete": "An error occurred while deleting your profile. Please try again later.",
         "username_not_existent": "The database was unable to find a user with the username ${username}.",  
         "invalid_credentials": "The user ${username} does not have access to this child.",
+        "invalid_password": "Password change failed. The password you entered is incorrect. Please try again.",
         "generic_error": "An error occurred. Please try again later." 
     }, 
 
@@ -162,6 +163,9 @@
         "invalid_last_name_error": "Last name must be at least 2 characters long",
         "invalid_phone_number_error": "Phone number must be in the format XXXXXXXXXX",
         "invalid_email_error": "Please enter a valid email address",
+        "invalid_street_address_error": "Street address must be at least 5 characters long",
+        "invalid_ward_error": "Ward number must be a number between 1 and 32",
+        "invalid_municipality_error": "Municipality/District must be at least 3 characters long and contain only letters, spaces, and hyphens",
         "require_current_password_error": "Please enter your current password",
         "require_new_password_error": "Please enter your new password",
         "current_password_incorrect_error": "Current password is incorrect",
