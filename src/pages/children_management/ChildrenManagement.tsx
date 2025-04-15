@@ -96,7 +96,7 @@ export default function ChildrenManagement ( { isLoggedIn }: ChildrenManagementP
     function deleteChild(childId: string) {
         // TODO make user verify choice
         // Handle delete action here
-        deleteChild(childId);
+        deleteChildData(token!, username!, userId!, childId);
         // TODO success message
     }
 
