@@ -12,13 +12,13 @@
   
   // Check if a time is in the correct format (HH:MM)
   export function isTimeValid(time: string): boolean{
-    const timePattern = /^([01]\d|2[0-3]):([0-5]\d)$/;
+    const timePattern = /^(?:[0-9]|[01]\d|2[0-3]):([0-5]\d)$/;
     return timePattern.test(time);
   }
 
-  // Check that the pickup time is before the dropoff time
-  export function isPickupBeforeDropoff(pickupTime: string, dropoffTime: string): boolean {
+  // Check that the pickup time is after the dropoff time
+  export function isPickupAfterDropoff(pickupTime: string, dropoffTime: string): boolean {
     const pickup = new Date(`1970-01-01T${pickupTime}:00Z`);
     const dropoff = new Date(`1970-01-01T${dropoffTime}:00Z`);
-    return pickup < dropoff;
+    return pickup > dropoff;
   }

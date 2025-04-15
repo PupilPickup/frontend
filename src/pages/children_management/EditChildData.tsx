@@ -5,7 +5,7 @@ import { useLanguage } from "../../context/LanguageContext";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ChildForm from "../../components/ChildForm";
-import { isFieldEmpty, isNameValid, isTimeValid, isPickupBeforeDropoff } from "../../utils/childValidation";
+import { isFieldEmpty, isNameValid, isTimeValid, isPickupAfterDropoff } from "../../utils/childValidation";
 import axios from "axios";
 
 type EditChildDataProps = {
@@ -50,7 +50,7 @@ const EditChildData: React.FC<EditChildDataProps> = ({
             sessionStorage.removeItem("user_id");
             navigate("/"); 
         }else if(!childId){
-            navigate("/children_management");
+            navigate("/my-children");
         }else{
             // Fetch child data here and set the state variables
             fetchChildData(token, username, userId, childId);
@@ -170,7 +170,7 @@ const EditChildData: React.FC<EditChildDataProps> = ({
         }
 
         // Check if pickup time is before dropoff time
-        if(isValid && !isPickupBeforeDropoff(pickupTime, dropoffTime)){
+        if(isValid && !isPickupAfterDropoff(pickupTime, dropoffTime)){
             setDropoffTimeError(translations.children.invalid_time_order);
             isValid = false;
         }

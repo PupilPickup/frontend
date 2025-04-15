@@ -5,7 +5,7 @@ import { useLanguage } from "../../context/LanguageContext";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ChildForm from "../../components/ChildForm";
-import { isFieldEmpty, isNameValid, isTimeValid, isPickupBeforeDropoff } from "../../utils/childValidation";
+import { isFieldEmpty, isNameValid, isTimeValid, isPickupAfterDropoff } from "../../utils/childValidation";
 import axios from "axios";
 
 type AddChildDataProps = {
@@ -49,7 +49,7 @@ const AddChildData: React.FC<AddChildDataProps> = ({ isLoggedIn }) => {
     }, [language, token, userId, username, isLoggedIn, navigate]);
 
     function handleCancel() {
-        navigate("/children_management");
+        navigate("/my-children");
     }
 
     function handleAdd() {
@@ -136,7 +136,7 @@ const AddChildData: React.FC<AddChildDataProps> = ({ isLoggedIn }) => {
         }
 
         // Check if pickup time is before dropoff time
-        if(isValid && !isPickupBeforeDropoff(pickupTime, dropoffTime)){
+        if(isValid && !isPickupAfterDropoff(pickupTime, dropoffTime)){
             setDropoffTimeError(translations.children.invalid_time_order);
             isValid = false;
         }

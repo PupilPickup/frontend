@@ -113,7 +113,7 @@ export default function ChildrenManagement ( { isLoggedIn }: ChildrenManagementP
     }
 
     return (
-        <div className="flex justify-center items-center min-h-screen text-3xl">
+        <div className="flex flex-col justify-center items-center min-h-screen text-3xl">
             <h1 className="text-3xl font-bold mb-4">{translations.children.children_header}</h1>
             <h2>{translations.children.children_prompt}</h2>
             {serverError && <div className="text-red-500 mb-4">{serverError}</div>}
