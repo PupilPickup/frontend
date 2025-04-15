@@ -74,8 +74,9 @@ export default function ChildrenManagement ( { isLoggedIn }: ChildrenManagementP
                 },
             });
             // Filter out the deleted child from the childrenList
-            const updatedChildrenList = childrenList.filter((child: any) => child.child_id !== childId);
-            setChildrenList(updatedChildrenList);
+            setChildrenList((prevChildrenList) =>
+                prevChildrenList.filter((child: any) => child.childId !== childId)
+            );
             setServerError("");
 
         }catch (error) {
@@ -95,7 +96,9 @@ export default function ChildrenManagement ( { isLoggedIn }: ChildrenManagementP
     function deleteChild(childId: string) {
         // TODO make user verify choice
         // Handle delete action here
-        deleteChildData(token!, username!, userId!, childId);
+        if(token && username && userId){
+            deleteChildData(token, username, userId, childId);
+        }
         // TODO success message
     }
 
