@@ -51,7 +51,6 @@ export default function VehicleManagement ( { isLoggedIn }: VehicleManagementPro
                 },
             });
             const vehiclesRetrieved = response.data;
-            // console.log(vehiclesRetrieved);
             setVehiclesList(vehiclesRetrieved);
             setIsLoading(false);
             setServerError("");
@@ -132,12 +131,12 @@ export default function VehicleManagement ( { isLoggedIn }: VehicleManagementPro
                         <VehicleCard 
                             key={vehicle.vehicleId}
                             vehicleId={vehicle.vehicleId}
-                            licensePlate={vehicle.license_plate}
-                            seatCapacity={vehicle.seating_capacity}
-                            seatsAvailable={vehicle.seats_available}
-                            driveStartTime={removeSeconds(vehicle.driver_start_time)}
-                            driverEndTime={removeSeconds(vehicle.driver_end_time)}
-                            daysAvailable={vehicle.available_days}
+                            licensePlate={vehicle.licensePlate}
+                            seatCapacity={vehicle.seatCapacity}
+                            seatsAvailable={vehicle.seatsAvailable}
+                            driveStartTime={removeSeconds(vehicle.driverStartTime)}
+                            driverEndTime={removeSeconds(vehicle.driverEndTime)}
+                            daysAvailable={vehicle.daysAvailable}
                             onEdit={editVehicle}
                             onDelete={deleteVehicle}
                         />

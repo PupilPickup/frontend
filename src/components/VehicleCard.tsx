@@ -1,4 +1,4 @@
-import React, { use } from "react";
+import React from "react";
 import enTranslations from "../languages/en.json";
 import neTranslations from "../languages/ne.json";
 import { useLanguage } from "../context/LanguageContext";

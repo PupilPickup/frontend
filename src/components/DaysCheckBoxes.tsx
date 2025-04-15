@@ -21,8 +21,8 @@ const DaysCheckBoxes: React.FC<DaysCheckBoxesProps> = ({
 
 
     const handleCheckboxChange = (day: string, isChecked: boolean) => {
-
         let updatedDays = [...selectedDays];
+
         if (isChecked) {
             // Add the day if checked
             updatedDays.push(day);
@@ -30,22 +30,12 @@ const DaysCheckBoxes: React.FC<DaysCheckBoxesProps> = ({
             // Remove the day if unchecked
             updatedDays = updatedDays.filter((selectedDay) => selectedDay !== day);
         }
-        let updateDaysSelected = "";
-        if(updateDaysSelected.length === 0){
-            // don't change
-        }else if(updateDaysSelected.length === 1){
-            updateDaysSelected = updatedDays[0];
-        }else{
-            for(let i: number = 0; i < updatedDays.length; i++){
-                if(i === 0){
-                    updateDaysSelected += updatedDays[i];
-                }else{
-                    updateDaysSelected += "," + updatedDays[i];
-                }
-            }
-        }
-        
-        onEdit(updateDaysSelected); // Pass the updated days string to the parent
+
+        // Convert the updatedDays array back to a comma-separated string
+        const updateDaysSelected = updatedDays.join(",");
+
+        // Pass the updated days string to the parent
+        onEdit(updateDaysSelected);
     };
 
     return(

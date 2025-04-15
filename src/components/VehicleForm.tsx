@@ -54,6 +54,10 @@ const VehicleForm: React.FC<VehicleFormProps> = ({
         // You can add any side effects here if needed
     }, [language]);
 
+    const handleDaysEdit = (updatedDays: string) => {
+        setDaysAvailable(updatedDays);
+    }
+
     return (
         <div className="border rounded-lg shadow-md p-4 mb-4 bg-white">
             <div>
@@ -117,7 +121,7 @@ const VehicleForm: React.FC<VehicleFormProps> = ({
                 {driverEndTimeError && <p className="text-red-500 text-sm">{driverEndTimeError}</p>}
             </div>
             <div>
-                <label className="text-sm text-gray-600">{translations.vehicles.days_label}</label>
+                <label className="text-sm text-gray-600">{translations.vehicles.days_prompt_label}</label>
                 <DaysCheckBoxes 
                     mondayLabel={translations.vehicles.monday_label}
                     tuesdayLabel={translations.vehicles.tuesday_label}
@@ -127,7 +131,7 @@ const VehicleForm: React.FC<VehicleFormProps> = ({
                     saturdayLabel={translations.vehicles.saturday_label}
                     sundayLabel={translations.vehicles.sunday_label}
                     daysSelected={daysAvailable}
-                    onEdit={setDaysAvailable}
+                    onEdit={handleDaysEdit}
                 />
             </div>
         </div>
