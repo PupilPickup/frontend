@@ -110,7 +110,7 @@ const AddChildData: React.FC<AddChildDataProps> = ({ isLoggedIn }) => {
             isValid = false;
         }else if(!isNameValid(lastName)){
             setLastNameError(translations.children.invalid_last_name_error);
-            isValid = true;
+            isValid = false;
         }else{
             setLastNameError("");
         }
