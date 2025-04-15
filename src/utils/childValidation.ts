@@ -18,7 +18,18 @@
 
   // Check that the pickup time is after the dropoff time
   export function isPickupAfterDropoff(pickupTime: string, dropoffTime: string): boolean {
-    const pickup = new Date(`1970-01-01T${pickupTime}:00Z`);
-    const dropoff = new Date(`1970-01-01T${dropoffTime}:00Z`);
-    return pickup > dropoff;
-  }
+    // const pickup = new Date(`1970-01-01T${pickupTime}:00Z`);
+    // const dropoff = new Date(`1970-01-01T${dropoffTime}:00Z`);
+    // return pickup > dropoff;
+    // Helper function to convert time string (HH:MM) to total minutes since midnight
+    const timeToMinutes = (time: string): number => {
+      const [hours, minutes] = time.split(":").map(Number);
+      return hours * 60 + minutes;
+    };
+
+    const pickupMinutes = timeToMinutes(pickupTime);
+    const dropoffMinutes = timeToMinutes(dropoffTime);
+
+    // Return true if pickup time is after dropoff time
+    return pickupMinutes > dropoffMinutes;
+}

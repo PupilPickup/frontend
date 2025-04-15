@@ -57,23 +57,23 @@ const AddChildData: React.FC<AddChildDataProps> = ({ isLoggedIn }) => {
             return;
         }else{
             const childData = {
+                userName: username,
+                userId: userId,
                 firstName: firstName,
                 lastName: lastName,
-                pickupTime: pickupTime,
-                dropoffTime: dropoffTime
+                schoolPickupTime: pickupTime,
+                schoolDropoffTime: dropoffTime
             }
-            createChildData(token!, username!, userId!, childData);
+            createChildData(token!, childData);
         }
     }
 
 
-    async function createChildData(token:string, userName:string, userId:string, childData: any) {
+    async function createChildData(token:string, childData: any) {
         try {
-            const response = await axios.post(`${apiUrl}/children}`, childData, {
+            const response = await axios.post(`${apiUrl}/children`, childData, {
                 headers: {
                     Authorization: "Bearer " + token,
-                    user_name: userName,
-                    user_id: userId,
                 },
             });
             const createdData = response.data;
@@ -157,6 +157,9 @@ const AddChildData: React.FC<AddChildDataProps> = ({ isLoggedIn }) => {
             <h2 className="text-lg font-bold mb-2">
                 {translations.children.add_child_prompt}
             </h2>
+            {!!serverError && 
+               <p className="text-red-500 text-sm">{serverError}</p>
+            }
             <ChildForm 
                 firstName={firstName}
                 lastName={lastName}

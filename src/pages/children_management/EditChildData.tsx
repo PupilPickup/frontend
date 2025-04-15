@@ -41,7 +41,7 @@ const EditChildData: React.FC<EditChildDataProps> = ({
     const navigate = useNavigate();
 
     // Get the character id
-    const { childId } = useParams();
+    const { id: childId } = useParams();
 
     useEffect(() => {
         if(!token || !userId || !username || !isLoggedIn){
@@ -70,10 +70,10 @@ const EditChildData: React.FC<EditChildDataProps> = ({
                 },
             });
             const childData = response.data;
-            setFirstName(childData.firstName);
-            setLastName(childData.lastName);
-            setPickupTime(childData.pickupTime);
-            setDropoffTime(childData.dropoffTime);
+            setFirstName(childData.first_name);
+            setLastName(childData.last_name);
+            setPickupTime(removeSeconds(childData.school_pickup_time));
+            setDropoffTime(removeSeconds(childData.school_dropoff_time));
         }catch (error) {
             if (axios.isAxiosError(error) && error.response) {
                 const errorKey = error.response.data.error as ChildrenServerErrors;
@@ -83,20 +83,20 @@ const EditChildData: React.FC<EditChildDataProps> = ({
         }
     }
 
-    async function updateChildData(token:string, userName:string, userId:string, childId:string, childData: any) {
+    async function updateChildData(token:string, childId:string, childData: any) {
         try {
             const response = await axios.put(`${apiUrl}/children/${childId}`, childData, {
                 headers: {
                     Authorization: "Bearer " + token,
-                    user_name: userName,
-                    user_id: userId,
                 },
             });
             const editedData = response.data;
             setFirstName(editedData.firstName);
             setLastName(editedData.lastName);
-            setPickupTime(editedData.pickupTime);
-            setDropoffTime(editedData.dropoffTime);
+            setPickupTime(removeSeconds(childData.schoolPickupTime));
+            setDropoffTime(removeSeconds(childData.schoolDropoffTime));
+            setServerError("");
+            navigate("/my-children");
         }catch (error) {
             if (axios.isAxiosError(error) && error.response) {
                 const errorKey = error.response.data.error as ChildrenServerErrors;
@@ -107,7 +107,7 @@ const EditChildData: React.FC<EditChildDataProps> = ({
     }
 
     function handleCancel() {
-        navigate("/children_management");
+        navigate("/my-children");
     }
 
     function handleSave() {
@@ -116,13 +116,15 @@ const EditChildData: React.FC<EditChildDataProps> = ({
             return;
         }else{
             const childData = {
+                userName: username,
+                userId: userId,
                 firstName: firstName,
                 lastName: lastName,
-                pickupTime: pickupTime,
-                dropoffTime: dropoffTime
+                schoolPickupTime: pickupTime,
+                schoolDropoffTime: dropoffTime
             }
 
-            updateChildData(token!, username!, userId!, childId!, childData);
+            updateChildData(token!, childId!, childData);
         }
     }
 
@@ -178,6 +180,13 @@ const EditChildData: React.FC<EditChildDataProps> = ({
         return isValid;
     }
 
+    function removeSeconds(timeString: string){
+        const sections = timeString.split(":")
+        return sections[0] + ":" + sections[1];
+        // const size: number = timeString.length;
+        // return timeString.substring(0, size-3);
+    }
+
 
     if(isLoading){
         return <div className="flex justify-center items-center min-h-screen">{translations.universal.loading}</div>
@@ -192,6 +201,9 @@ const EditChildData: React.FC<EditChildDataProps> = ({
             <h2 className="text-lg font-bold mb-2">
                 {translations.children.edit_child_prompt}
             </h2>
+            {!!serverError && 
+               <p className="text-red-500 text-sm">{serverError}</p>
+            }
             <ChildForm
                 firstName={firstName}
                 lastName={lastName}

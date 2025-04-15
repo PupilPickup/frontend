@@ -55,7 +55,6 @@ export default function ChildrenManagement ( { isLoggedIn }: ChildrenManagementP
             setServerError("");
 
         } catch (error) {
-            console.error(error);
             if (axios.isAxiosError(error) && error.response) {
                 const errorKey = error.response.data.error as ChildrenServerErrors;
                 let errorMessage: string = translations.children_server_errors[errorKey] ?? translations.children_server_errors.generic_error;
@@ -104,6 +103,11 @@ export default function ChildrenManagement ( { isLoggedIn }: ChildrenManagementP
         navigate("/my-children/add-child-data")
     }
 
+    function removeSeconds(timeString: string){
+        const sections = timeString.split(":")
+        return sections[0] + ":" + sections[1];
+    }
+
     if(isLoading){
         return <div className="flex justify-center items-center min-h-screen">{translations.universal.loading}</div>
     }
@@ -121,12 +125,12 @@ export default function ChildrenManagement ( { isLoggedIn }: ChildrenManagementP
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {childrenList.map((child: any) => (
                         <ChildCard 
-                            key={child.child_id}
-                            firstName={child.first_name}
-                            lastName={child.last_name}
-                            childId={child.child_id}
-                            pickupTime={child.school_pickup_time}
-                            dropoffTime={child.school_dropoff_time}
+                            key={child.childId}
+                            firstName={child.firstName}
+                            lastName={child.lastName}
+                            childId={child.childId}
+                            pickupTime={removeSeconds(child.schoolPickupTime)}
+                            dropoffTime={removeSeconds(child.schoolDropoffTime)}
                             onEdit={editChild}
                             onDelete={deleteChild}
                         />
