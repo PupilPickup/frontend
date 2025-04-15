@@ -82,13 +82,13 @@ const VehicleCard: React.FC<VehicleCardProps> = ({
             <div className="mt-4 flex space-x-4">
                 <button
                     onClick={() => onDelete(vehicleId)}
-                    className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
+                    className="bg-[#F4D03F] hover:bg-[#FFFFFF] text-black px-4 py-2 rounded border-transparent hover:border-black border-2"
                 >
                     {translations.vehicles.delete_vehicle_button}
                 </button>
                 <button
                     onClick={() => onEdit(vehicleId)}
-                    className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+                    className="bg-[#3498DB] hover:bg-[#2C3E50] text-white px-4 py-2 rounded"
                 >
                     {translations.vehicles.edit_vehicle_button}
                 </button>  
