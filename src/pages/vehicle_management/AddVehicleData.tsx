@@ -64,7 +64,7 @@ const AddVehicleData: React.FC<AddVehicleDataProps> = ({ isLoggedIn }) => {
                 userId: userId,
                 licensePlate: licensePlate,
                 seatCapacity: seatCapacity,
-                seatsAvailable: seatsAvailable,
+                availableSeats: seatsAvailable,
                 driverStartTime: driverStartTime,
                 driverEndTime: driverEndTime,
                 daysAvailable: daysAvailable
@@ -82,12 +82,12 @@ const AddVehicleData: React.FC<AddVehicleDataProps> = ({ isLoggedIn }) => {
                 },
             });
             const createdData = response.data;
-            setLicensePlate(createdData.licensePlate);
-            setSeatCapacity(createdData.seatCapacity);
-            setSeatsAvailable(createdData.seatsAvailable);
-            setDriverStartTime(createdData.driverStartTime);
-            setDriverEndTime(createdData.driverEndTime);
-            setDaysAvailable(createdData.daysAvailable)
+            setLicensePlate(createdData.license_plate);
+            setSeatCapacity(createdData.seating_capacity);
+            setSeatsAvailable(createdData.seats_available);
+            setDriverStartTime(createdData.driver_start_time);
+            setDriverEndTime(createdData.driver_end_time);
+            setDaysAvailable(createdData.available_days)
             navigate("/my-vehicles")
         }catch (error) {
             if (axios.isAxiosError(error) && error.response) {

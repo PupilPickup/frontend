@@ -38,7 +38,7 @@ const VehicleCard: React.FC<VehicleCardProps> = ({
 
     //Function to display available days nicely 
     function prettyDays(days: string | null){
-        if(days === null || days.length === 0){
+        if(days === null || days === "" || days === undefined){
             return translations.vehicles.no_days_selected;
         }else{
             const selectedDays = days.split(",");

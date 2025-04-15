@@ -127,7 +127,7 @@ const EditVehicleData: React.FC<EditVehicleDataProps> = ({
                 userId: userId,
                 licensePlate: licensePlate,
                 seatCapacity: seatCapacity,
-                seatsAvailable: seatsAvailable,
+                availableSeats: seatsAvailable,
                 driverStartTime: driverStartTime,
                 driverEndTime: driverEndTime,
                 daysAvailable: daysAvailable
