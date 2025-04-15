@@ -177,6 +177,9 @@
     "children":{
         "children_header": "My Children",
         "children_prompt": "Manage your children's information",
+        "add_child_prompt": "Add a new child",
+        "edit_child_prompt": "Edit child information",
+        "no_children_message": "You have no children added. Please add your children.",
         "add_child_button": "Add",
         "edit_child_button": "Edit",
         "delete_child_button": "Delete",
@@ -194,7 +197,8 @@
         "invalid_first_name_error": "First name must be at least 2 characters long",
         "invalid_last_name_error": "Last name must be at least 2 characters long",
         "invalid_start_time_error": "School arrival time must be in the format HH:MM AM/PM",
-        "invalid_end_time_error": "School departure time must be in the format HH:MM AM/PM"
+        "invalid_end_time_error": "School departure time must be in the format HH:MM AM/PM",
+        "invalid_time_order": "School arrival time must be before school departure time"
     },
 
     "vehicles":{
@@ -226,5 +230,31 @@
         "invalid_license_plate_error": "License plate must be proper format",
         "invalid_start_time_error": "Driver start time must be in the format HH:MM AM/PM",
         "invalid_end_time_error": "Driver end time must be in the format HH:MM AM/PM"
+    },
+    "children_server_errors":{
+        "empty_fields": "No fields can be left empty.",
+        "firstname_length": "First Name is too long.",
+        "lastname_length": "Last Name is too long.",
+        "school_arrival_time_invalid": "School arrival time must be in the format HH:MM",
+        "school_departure_time_invalid": "School departure time must be in the format HH:MM",
+        "server_error_get": "An error occurred while retrieving your children's information. Please try again later.",
+        "server_error_post": "An error occurred while adding your child. Please try again later.",
+        "server_error_put": "An error occurred while updating your child's information. Please try again later.",
+        "server_error_delete": "An error occurred while deleting your child. Please try again later.",
+        "generic_error": "An error occurred. Please try again later."
+    },
+    "vehilces_server_error":{
+        "empty_fields": "No fields can be left empty.",
+        "seat_capacity_invalid": "Number of available seats must be a positive integer",
+        "available_seats_invalid": "Number of available seats must be a positive integer",
+        "seat_mismatch_error": "Number of available seats must be less than or equal to the total number of seats",
+        "license_plate_invalid": "License plate must be proper format",
+        "driver_start_time_invalid": "Driver start time must be in the format HH:MM",
+        "driver_end_time_invalid": "Driver end time must be in the format HH:MM",
+        "server_error_get": "An error occurred while retrieving your vehicles. Please try again later.",
+        "server_error_post": "An error occurred while adding your vehicle. Please try again later.",
+        "server_error_put": "An error occurred while updating your vehicle. Please try again later.",
+        "server_error_delete": "An error occurred while deleting your vehicle. Please try again later.",
+        "generic_error": "An error occurred. Please try again later."
     }
 }

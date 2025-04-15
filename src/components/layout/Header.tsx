@@ -43,10 +43,10 @@ const Header: React.FC<HeaderProps> = ( { changeLanguage, setIsLoggedIn } ) => {
               <NavHeaderLink btnText={translations.header.profile} navTo={"/profile"}/>
             </li>
             <li>
-            <NavHeaderLink btnText={translations.header.children} navTo={"/my_children"}/>
+            <NavHeaderLink btnText={translations.header.children} navTo={"/my-children"}/>
             </li>
             <li>
-              <NavHeaderLink btnText={translations.header.vehicles} navTo={"/my_vehicles"}/>
+              <NavHeaderLink btnText={translations.header.vehicles} navTo={"/my-vehicles"}/>
             </li>
           </ul>
 
