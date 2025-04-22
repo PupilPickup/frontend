@@ -2,6 +2,7 @@ import React from "react";
 import enTranslations from "../languages/en.json";
 import neTranslations from "../languages/ne.json";
 import { useLanguage } from "../context/LanguageContext";
+import Button from "./common/Button";
 //import { useEffect, useState } from "react";
 
 type VehicleCardProps = {
@@ -80,18 +81,18 @@ const VehicleCard: React.FC<VehicleCardProps> = ({
             </p>
 
             <div className="mt-4 flex space-x-4">
-                <button
+                <Button
                     onClick={() => onDelete(vehicleId)}
                     className="bg-[#F4D03F] hover:bg-[#FFFFFF] text-black px-4 py-2 rounded border-transparent hover:border-black border-2"
-                >
-                    {translations.vehicles.delete_vehicle_button}
-                </button>
-                <button
+                    variant="secondary"
+                    label={translations.vehicles.delete_vehicle_button}
+                />
+                <Button
                     onClick={() => onEdit(vehicleId)}
                     className="bg-[#3498DB] hover:bg-[#2C3E50] text-white px-4 py-2 rounded"
-                >
-                    {translations.vehicles.edit_vehicle_button}
-                </button>  
+                    variant="primary"
+                    label={translations.vehicles.edit_vehicle_button}
+                />  
             </div>
         </div>
     );

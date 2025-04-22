@@ -145,7 +145,12 @@ export default function VehicleManagement ( { isLoggedIn }: VehicleManagementPro
             ) : (
                 <div className="text-center mt-4">{translations.vehicles.no_vehicles_message}</div>
             )}
-            <Button label={translations.vehicles.add_vehicle_button} variant="primary" onClick={handleAddClick} className="mt-4" />
+            <Button 
+                label={translations.vehicles.add_vehicle_button} 
+                variant="primary" 
+                onClick={handleAddClick} 
+                className="mt-4" 
+            />
         </div>
     );
 }

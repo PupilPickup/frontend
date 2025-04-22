@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { isFieldEmpty, isNameValid, isEmailValid, isPhoneValid, isMunicipalityOrDistrictValid, isStreetAddressValid, isWardValid } from "../../utils/profileValidation";
 import axios from "axios";
+import Button from "../../components/common/Button";
 
 // Define the possible error keys
 type ProfileServerErrors = 'empty_fields' | 'username_not_existent' | 'invalid_credentials' | 'server_error_get' |'server_error_put' |'server_error_delete' | 'generic_error' | 'firstname_length' | 'lastname_length' | 'email_length' | 'phone_length' | 'street_address_length' | 'ward_number_invalid' | 'municipality_district_length' | 'username_unknown' | 'email_exists';
@@ -480,39 +481,39 @@ export default function UserProfile ( { isLoggedIn, setIsLoggedIn }: UserProfile
             <div className="mt-8 flex space-x-4">
                 {isViewState ? (
                     <div>
-                        <button
+                        <Button
                             onClick={handleDeleteAccount}
                             className="bg-[#F4D03F] hover:bg-[#FFFFFF] text-black px-4 py-2 rounded border-transparent hover:border-black border-2"
-                        >
-                            {translations.profile.delete_button}
-                        </button>
-                        <button
+                            variant="secondary"
+                            label={translations.profile.delete_button}
+                        />
+                        <Button
                             onClick={handleChangePassword}
                             className="bg-[#3498DB] hover:bg-[#2C3E50] text-white px-4 py-2 rounded"
-                        >
-                            {translations.profile.change_password_button}
-                        </button>
-                        <button
+                            variant="primary"
+                            label={translations.profile.change_password_button}
+                        />
+                        <Button
                             onClick={handleEditProfile}
                             className="bg-[#3498DB] hover:bg-[#2C3E50] text-white px-4 py-2 rounded"
-                        >
-                            {translations.profile.edit_button}
-                        </button>
+                            variant="primary"
+                            label={translations.profile.edit_button}
+                        />
                     </div>
                 ):(
                     <div>
-                        <button
+                        <Button
                             onClick={handleCancelEdit}
                             className="bg-[#3498DB] hover:bg-[#2C3E50] text-white px-4 py-2 rounded"
-                        >
-                            {translations.profile.cancel_button}
-                        </button>
-                        <button
+                            variant="secondary"
+                            label={translations.profile.cancel_button}
+                        />
+                        <Button
                             onClick={handleSaveProfileChanges}
                             className="bg-[#3498DB] hover:bg-[#2C3E50] text-white px-4 py-2 rounded"
-                        >
-                            {translations.profile.save_button}
-                        </button>
+                            variant="primary"
+                            label={translations.profile.save_button}
+                        />
                     </div>
                 )}
             </div>

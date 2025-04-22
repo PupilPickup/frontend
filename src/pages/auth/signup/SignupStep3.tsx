@@ -224,7 +224,12 @@ export default function SignupStep3 () {
         </fieldset>
 
 				<div className='flex flex-row gap-2'>
-					<Button label={translations.sign_up.submit_button} variant="primary" className="btn-primary w-full" type="submit" />
+					<Button 
+            label={translations.sign_up.submit_button} 
+            variant="primary" 
+            className="btn-primary w-full" 
+            type="submit" 
+          />
 				</div>
       </form>
     </div>

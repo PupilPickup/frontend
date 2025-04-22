@@ -136,7 +136,12 @@ export default function SignupStep1() {
 
         </fieldset>
 
-        <Button label={translations.sign_up.next_button} variant="primary" className="w-full p-2 rounded-md" type="submit" />
+        <Button 
+          label={translations.sign_up.next_button} 
+          variant="primary" 
+          className="w-full p-2 rounded-md" 
+          type="submit"
+        />
       </form>
     </div>
   );
