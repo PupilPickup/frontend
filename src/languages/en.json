@@ -105,9 +105,13 @@
         "municipality_district_length": "Municipality/District is too long.",
         "username_unknown": "The username ${username} was not found.",
         "email_exists": "The email ${email} is already in use.",
-        "server_error_get": "An error occurred while updating your profile. Please try again later.",
+        "server_error_get": "An error occurred while retrieving your profile. Please try again later.",
         "server_error_put": "An error occurred while updating your profile. Please try again later.",
-        "generic_error": "An error occurred. Please try again later."
+        "server_error_delete": "An error occurred while deleting your profile. Please try again later.",
+        "username_not_existent": "The database was unable to find a user with the username ${username}.",  
+        "invalid_credentials": "The user ${username} does not have access to this child.",
+        "invalid_password": "Password change failed. The password you entered is incorrect. Please try again.",
+        "generic_error": "An error occurred. Please try again later." 
     }, 
 
     "header":{
@@ -159,6 +163,9 @@
         "invalid_last_name_error": "Last name must be at least 2 characters long",
         "invalid_phone_number_error": "Phone number must be in the format XXXXXXXXXX",
         "invalid_email_error": "Please enter a valid email address",
+        "invalid_street_address_error": "Street address must be at least 5 characters long",
+        "invalid_ward_error": "Ward number must be a number between 1 and 32",
+        "invalid_municipality_error": "Municipality/District must be at least 3 characters long and contain only letters, spaces, and hyphens",
         "require_current_password_error": "Please enter your current password",
         "require_new_password_error": "Please enter your new password",
         "current_password_incorrect_error": "Current password is incorrect",
@@ -170,6 +177,9 @@
     "children":{
         "children_header": "My Children",
         "children_prompt": "Manage your children's information",
+        "add_child_prompt": "Add a new child",
+        "edit_child_prompt": "Edit child information",
+        "no_children_message": "You have no children added. Please add your children.",
         "add_child_button": "Add",
         "edit_child_button": "Edit",
         "delete_child_button": "Delete",
@@ -186,13 +196,18 @@
         "require_end_time_error": "Please enter the time your child will be picked up from school",
         "invalid_first_name_error": "First name must be at least 2 characters long",
         "invalid_last_name_error": "Last name must be at least 2 characters long",
-        "invalid_start_time_error": "School arrival time must be in the format HH:MM AM/PM",
-        "invalid_end_time_error": "School departure time must be in the format HH:MM AM/PM"
+        "invalid_start_time_error": "School arrival time must be in the format HH:MM",
+        "invalid_end_time_error": "School departure time must be in the format HH:MM",
+        "invalid_time_order": "School arrival time must be before school departure time"
     },
 
     "vehicles":{
         "vehicles_header": "My Vehicles",
         "vehicles_prompt": "Manage your vehicle information",
+        "add_vehicle_prompt": "Add a new vehicle",
+        "edit_vehicle_prompt": "Edit vehicle information",
+        "no_vehicles_message": "You have no vehicles added. Please add your carpool vehicle(s).",
+        "no_days_selected": "This vehicle currently has no available days for driving",
         "add_vehicle_button": "Add",
         "edit_vehicle_button": "Edit",
         "delete_vehicle_button": "Delete",
@@ -200,10 +215,12 @@
         "cancel_button": "Cancel",
         "delete_confirmation_message": "Are you sure you want to delete this vehicle? This action cannot be undone.",
         "available_seats_label": "Number of Available Seats",
+        "seat_capacity_label": "Seating Capacity",
         "license_plate_label": "License Plate",
         "driver_start_time_label": "Driver Start Time",
         "driver_end_time_label": "Driver End Time",
-        "days_label": "Please check what days you are available to drive",
+        "days_label": "Days available to drive",
+        "days_prompt_label": "Please check what days you are available to drive",
         "monday_label": "Monday",
         "tuesday_label": "Tuesday",
         "wednesday_label": "Wednesday",
@@ -212,12 +229,42 @@
         "saturday_label": "Saturday",
         "sunday_label": "Sunday",
         "require_available_seats_error": "Please enter the number of available seats",
+        "require_seat_capacity_error": "Please enter the seat capacity of the vehicle",
         "require_license_plate_error": "Please enter the license plate",
         "require_start_time_error": "Please enter the time you are available to start driving",
         "require_end_time_error": "Please enter the time you are available to stop driving",
-        "invalid_available_seats_error": "Number of available seats must be a positive integer",
+        "invalid_seat_capacity_error": "Number of available seats must be an integer between 0 and 100",
+        "invalid_available_seats_error": "Number of available seats must be an integer between 0 and 100",
         "invalid_license_plate_error": "License plate must be proper format",
-        "invalid_start_time_error": "Driver start time must be in the format HH:MM AM/PM",
-        "invalid_end_time_error": "Driver end time must be in the format HH:MM AM/PM"
+        "invalid_start_time_error": "Driver start time must be in the format HH:MM",
+        "invalid_end_time_error": "Driver end time must be in the format HH:MM",
+        "available_exceeds_capacity_error": "Available seats cannot exceed seat capacity",
+        "start_after_end_error": "The start time cannot be earlier than the end time"
+    },
+    "children_server_errors":{
+        "empty_fields": "No fields can be left empty.",
+        "firstname_length": "First Name is too long.",
+        "lastname_length": "Last Name is too long.",
+        "school_arrival_time_invalid": "School arrival time must be in the format HH:MM",
+        "school_departure_time_invalid": "School departure time must be in the format HH:MM",
+        "server_error_get": "An error occurred while retrieving your children's information. Please try again later.",
+        "server_error_post": "An error occurred while adding your child. Please try again later.",
+        "server_error_put": "An error occurred while updating your child's information. Please try again later.",
+        "server_error_delete": "An error occurred while deleting your child. Please try again later.",
+        "generic_error": "An error occurred. Please try again later."
+    },
+    "vehilces_server_error":{
+        "empty_fields": "No fields can be left empty.",
+        "seat_capacity_invalid": "Number of available seats must be a positive integer",
+        "available_seats_invalid": "Number of available seats must be a positive integer",
+        "seat_mismatch_error": "Number of available seats must be less than or equal to the total number of seats",
+        "license_plate_invalid": "License plate must be proper format",
+        "driver_start_time_invalid": "Driver start time must be in the format HH:MM",
+        "driver_end_time_invalid": "Driver end time must be in the format HH:MM",
+        "server_error_get": "An error occurred while retrieving your vehicles. Please try again later.",
+        "server_error_post": "An error occurred while adding your vehicle. Please try again later.",
+        "server_error_put": "An error occurred while updating your vehicle. Please try again later.",
+        "server_error_delete": "An error occurred while deleting your vehicle. Please try again later.",
+        "generic_error": "An error occurred. Please try again later."
     }
 }
