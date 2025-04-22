@@ -8,6 +8,7 @@ import enTranslations from "../../languages/en.json";
 import neTranslations from "../../languages/ne.json";
 import { useLanguage } from "../../context/LanguageContext";
 import axios from "axios";
+import FormInput from "../../components/common/FormInput";
 
 // Define the possible error keys
 type LoginServerErrors = 'empty_fields' | 'username_not_existent' | 'invalid_credentials' | 'server_error' | 'generic_error';
@@ -148,7 +149,15 @@ const LoginPage: React.FC<LoginPageProps> = ( { isLoggedIn, setIsLoggedIn } ) =>
       <form className="space-y-6 mx-6" onSubmit={handleSubmit}>
         <fieldset className="space-y-2">
           <div className="flex flex-col">
-            <label htmlFor="username" className={styles.label}>
+            <FormInput
+              label={translations.login.username_or_email_label}
+              elementId="username"
+              changeHandler={setLoginInput}
+              value={loginInput}
+              error={usernameEmailError}
+            />
+          </div>
+            {/* <label htmlFor="username" className={styles.label}>
               {translations.login.username_or_email_label}
             </label>
             <input
@@ -161,11 +170,18 @@ const LoginPage: React.FC<LoginPageProps> = ( { isLoggedIn, setIsLoggedIn } ) =>
             />
             {usernameEmailError && (
               <span className="text-red-500 text-sm mt-1">{usernameEmailError}</span>
-            )}
-          </div>
-
+            )} */}
           <div className="flex flex-col">
-            <label htmlFor="password" className={styles.label}>
+            <FormInput
+              label={translations.login.password_label}
+              elementId="password"
+              changeHandler={setPassword}
+              value={password}
+              error={passwordError}
+              isPassword={true}
+            />
+          </div>
+            {/* <label htmlFor="password" className={styles.label}>
               {translations.login.password_label}
             </label>
             <input
@@ -179,7 +195,7 @@ const LoginPage: React.FC<LoginPageProps> = ( { isLoggedIn, setIsLoggedIn } ) =>
             {passwordError && (
               <span className="text-red-500 text-sm mt-1">{passwordError}</span>
             )}
-          </div>
+          </div> */}
           {serverError && (
             <span className="text-red-500 text-sm mt-1">{serverError}</span>
           )}

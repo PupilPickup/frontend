@@ -3,6 +3,7 @@ import enTranslations from "../languages/en.json";
 import neTranslations from "../languages/ne.json";
 import { useLanguage } from "../context/LanguageContext";
 import Button from "./common/Button";
+import CardLabel from "./common/CardLabel";
 
 type ChildCardProps = {
     firstName: string;
@@ -32,12 +33,12 @@ const ChildCard: React.FC<ChildCardProps> = ({
             <h2 className="text-lg font-bold mb-2">
                 {firstName} {lastName}
             </h2>
-            <p className="text-sm text-gray-600">
-                <strong>{translations.children.school_arrival_time_label}</strong> {dropoffTime}
-            </p>
-            <p className="text-sm text-gray-600">
-                <strong>{translations.children.school_departure_time_label}</strong> {pickupTime}
-            </p>
+            <CardLabel 
+                label={translations.children.school_arrival_time_label} data={dropoffTime} 
+            />
+            <CardLabel 
+                label={translations.children.school_departure_time_label} data={pickupTime} 
+            />
             <div className="mt-4 flex space-x-4">
                 <Button
                     onClick={() => onDelete(childId)}

@@ -6,6 +6,7 @@ import { useLanguage } from "../../context/LanguageContext";
 import { validatePassword } from "../../utils/profileValidation"; 
 import axios from "axios";
 import Button from "../../components/common/Button";
+import FormInput from "../../components/common/FormInput";
 
 // Define the possible error keys
 type PasswordServerErrors = 'empty_fields' | 'invalid_password' | 'server_error_put' | 'generic_error';
@@ -101,7 +102,15 @@ export default function ChangePassword ( { isLoggedIn }: ChangePasswordProps) {
                 {errorMessage && (
                     <div className="text-red-500 text-sm mb-4">{errorMessage}</div>
                 )}
-                <div className="mb-4">
+                <FormInput 
+                    label={translations.profile.current_password_label}
+                    elementId="currentPassword"
+                    changeHandler={setcurrentPassword}
+                    value={currentPassword}
+                    error="" 
+                    isPassword={true}
+                />
+                {/* <div className="mb-4">
                     <label htmlFor="currentPassword" className="block text-sm font-medium mb-1">
                         {translations.profile.current_password_label}
                     </label>
@@ -112,8 +121,16 @@ export default function ChangePassword ( { isLoggedIn }: ChangePasswordProps) {
                         value={currentPassword}
                         onChange={(e) => setcurrentPassword(e.target.value)}
                     />
-                </div>
-                <div className="mb-4">
+                </div> */}
+                <FormInput 
+                    label={translations.profile.new_password_label}
+                    elementId="newPassword"
+                    changeHandler={setNewPassword}
+                    value={newPassword}
+                    error="" 
+                    isPassword={true}
+                />
+                {/* <div className="mb-4">
                     <label htmlFor="newPassword" className="block text-sm font-medium mb-1">
                         {translations.profile.new_password_label}
                     </label>
@@ -124,8 +141,16 @@ export default function ChangePassword ( { isLoggedIn }: ChangePasswordProps) {
                         value={newPassword}
                         onChange={(e) => setNewPassword(e.target.value)}
                     />
-                </div>
-                <div className="mb-4">
+                </div> */}
+                <FormInput 
+                    label={translations.profile.confirm_new_password_label}
+                    elementId="confirmPassword"
+                    changeHandler={setConfirmPassword}
+                    value={confirmPassword}
+                    error="" 
+                    isPassword={true}
+                />
+                {/* <div className="mb-4">
                     <label htmlFor="confirmPassword" className="block text-sm font-medium mb-1">
                         {translations.profile.confirm_new_password_label}
                     </label>
@@ -136,7 +161,7 @@ export default function ChangePassword ( { isLoggedIn }: ChangePasswordProps) {
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                     />
-                </div>
+                </div> */}
                 <div className="flex space-x-4">
                     <Button
                         onClick={handleCancel}

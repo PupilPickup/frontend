@@ -6,6 +6,9 @@ import { useEffect, useState } from "react";
 import { isFieldEmpty, isNameValid, isEmailValid, isPhoneValid, isMunicipalityOrDistrictValid, isStreetAddressValid, isWardValid } from "../../utils/profileValidation";
 import axios from "axios";
 import Button from "../../components/common/Button";
+import CardLabel from "../../components/common/CardLabel";
+import FormInput from "../../components/common/FormInput";
+import ProfileInput from "../../components/common/ProfileInput";
 
 // Define the possible error keys
 type ProfileServerErrors = 'empty_fields' | 'username_not_existent' | 'invalid_credentials' | 'server_error_get' |'server_error_put' |'server_error_delete' | 'generic_error' | 'firstname_length' | 'lastname_length' | 'email_length' | 'phone_length' | 'street_address_length' | 'ward_number_invalid' | 'municipality_district_length' | 'username_unknown' | 'email_exists';
@@ -335,146 +338,120 @@ export default function UserProfile ( { isLoggedIn, setIsLoggedIn }: UserProfile
             <div className="w-full max-w-md bg-white shadow-md rounded-lg p-6">
                 {isViewState ? (
                     <div className="mb-4">
-                        <strong>{translations.profile.first_name_label}:</strong> {profileData.firstName}
+                        <CardLabel
+                            label={translations.profile.first_name_label}
+                            data={profileData.firstName}
+                        />
                     </div>
                 ) : (
-                    <div className="mb-4">
-                        <label htmlFor="first-name" className="label">{translations.profile.first_name_label}</label>
-                        <input
-                            type="text"
-                            id="first-name"
-                            name="firstName"
-                            className="input"
-                            value={editingProfileData.firstName}
-                            onChange={handleChange}
-                        />
-                        {firstNameError && (
-                            <span className="text-red-500 text-sm mt-1">{firstNameError}</span>
-                        )}
-                    </div>
+                    <ProfileInput
+                        label={translations.profile.first_name_label}
+                        elementId="firstName"
+                        value={editingProfileData.firstName}
+                        changeHandler={handleChange}
+                        error={firstNameError}
+                    />
                 )}
                 {isViewState ? (
                     <div className="mb-4">
-                        <strong>{translations.profile.last_name_label}:</strong> {profileData.lastName}
+                        <CardLabel
+                            label={translations.profile.last_name_label}
+                            data={profileData.lastName}
+                        />
                     </div>
                 ) : (
-                    <div className="mb-4">
-                        <label htmlFor="last-name" className="label">{translations.profile.last_name_label}</label>
-                        <input
-                            type="text"
-                            id="last-name"
-                            name="lastName"
-                            className="input"
-                            value={editingProfileData.lastName}
-                            onChange={handleChange}
-                        />
-                        {lastNameError && (
-                            <span className="text-red-500 text-sm mt-1">{lastNameError}</span>
-                        )}
-                    </div>
+                    <ProfileInput
+                        label={translations.profile.last_name_label}
+                        elementId="lastName"
+                        value={editingProfileData.lastName}
+                        changeHandler={handleChange}
+                        error={lastNameError}
+                    />
                 )}
                 {isViewState ? (
                     <div className="mb-4">
-                        <strong>{translations.profile.email_label}:</strong> {profileData.email}
+                        <CardLabel
+                            label={translations.profile.email_label}
+                            data={profileData.email}
+                        />
                     </div>
                 ) : (
-                    <div className="mb-4">
-                        <label htmlFor="email" className="label">{translations.profile.email_label}</label>
-                        <input
-                            type="text"
-                            id="email"
-                            name="email"
-                            className="input"
-                            value={editingProfileData.email}
-                            onChange={handleChange}
-                        />
-                        {emailError && (
-                            <span className="text-red-500 text-sm mt-1">{emailError}</span>
-                        )}
-                    </div>
+                    <ProfileInput
+                        label={translations.profile.email_label}
+                        elementId="email"
+                        value={editingProfileData.email}
+                        changeHandler={handleChange}
+                        error={emailError}
+                    />
                 )}
                 {isViewState ? (
                     <div className="mb-4">
-                        <strong>{translations.profile.phone_number_label}:</strong> {profileData.phoneNumber}
+                        <CardLabel
+                            label={translations.profile.phone_number_label}
+                            data={profileData.phoneNumber}
+                        />
                     </div>
                 ) : (
-                    <div className="mb-4">
-                        <label htmlFor="phone-number" className="label">{translations.profile.phone_number_label}</label>
-                        <input
-                            type="phone"
-                            id="phone-number"
-                            name="phoneNumber"
-                            className="input"
-                                            placeholder={translations.sign_up.phone_placeholder}
-                            value={editingProfileData.phoneNumber}
-                            onChange={handleChange}
-                            />
-                        {phoneNumberError && (
-                        <span className="text-red-500 text-sm mt-1">{phoneNumberError}</span>
-                        )}
-                    </div>
+                    <ProfileInput
+                        label={translations.profile.phone_number_label}
+                        elementId="phoneNumber"
+                        value={editingProfileData.phoneNumber}
+                        changeHandler={handleChange}
+                        error={phoneNumberError}
+                        placeholder={translations.sign_up.phone_placeholder}
+                        isPhone={true}
+                    />
                 )}
                 
                 {isViewState ? (
                     <div className="mb-4">
-                        <strong>{translations.profile.street_address_label}:</strong> {profileData.streetAddress}
+                        <CardLabel
+                            label={translations.profile.street_address_label}
+                            data={profileData.streetAddress}
+                        />
                     </div>
                 ) : (
-                    <div className="mb-4">
-                        <label htmlFor="street-address" className="label">{translations.profile.street_address_label}</label>
-                        <input
-                            type="text"
-                            id="street-address"
-                            name="streetAddress"
-                            className="input"
-                            value={editingProfileData.streetAddress}
-                            onChange={handleChange}
-                        />
-                        {streetAddressError && (
-                            <span className="text-red-500 text-sm mt-1">{streetAddressError}</span>
-                        )}
-                    </div>
+                    <ProfileInput
+                        label={translations.profile.street_address_label}
+                        elementId="streetAddress"
+                        value={editingProfileData.streetAddress}
+                        changeHandler={handleChange}
+                        error={streetAddressError}
+                    />
                 )}
                 {isViewState ? (
                     <div className="mb-4">
-                    <strong>{translations.profile.ward_label}:</strong> {profileData.wardNumber}
-                </div>
-                ) : (
-                    <div className="mb-4">
-                        <label htmlFor="street-address" className="label">{translations.profile.ward_label}</label>
-                        <input
-                            type="number"
-                            id="ward"
-                            name="wardNumber"
-                            className="input"
-                            value={editingProfileData.wardNumber? editingProfileData.wardNumber : ""}
-                            onChange={handleChange}
-                            />
-                        {wardNumberError && (
-                            <span className="text-red-500 text-sm mt-1">{wardNumberError}</span>
-                        )}
+                        <CardLabel
+                            label={translations.profile.ward_label}
+                            data={profileData.wardNumber}
+                        />
                     </div>
+                ) : (
+                    <ProfileInput
+                        label={translations.profile.ward_label}
+                        elementId="wardNumber"
+                        value={editingProfileData.wardNumber? editingProfileData.wardNumber : ""}
+                        changeHandler={handleChange}
+                        error={wardNumberError}
+                        isNumber={true}
+                    />
                 )}
                 
                 {isViewState ? (
                     <div className="mb-4">
-                        <strong>{translations.profile.municipality_label}:</strong> {profileData.municipalityDistrict}
+                        <CardLabel
+                            label={translations.profile.municipality_label}
+                            data={profileData.municipalityDistrict}
+                        />
                     </div>
                 ) : (
-                    <div className="mb-4">
-                        <label htmlFor="municipality-district" className="label">{translations.profile.municipality_label}</label>
-                        <input
-                            type="text"
-                            id="municipality-district"
-                            name="municipalityDistrict"
-                            className="input"
-                            value={editingProfileData.municipalityDistrict}
-                            onChange={handleChange}
-                        />
-                        {municipalityDistrictError && (
-                            <span className="text-red-500 text-sm mt-1">{municipalityDistrictError}</span>
-                        )}
-                    </div>
+                    <ProfileInput
+                        label={translations.profile.municipality_label}
+                        elementId="municipalityDistrict"
+                        value={editingProfileData.municipalityDistrict}
+                        changeHandler={handleChange}
+                        error={municipalityDistrictError}
+                    />
                 )}
             </div>
 

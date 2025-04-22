@@ -3,6 +3,7 @@ import enTranslations from "../languages/en.json";
 import neTranslations from "../languages/ne.json";
 import { useLanguage } from "../context/LanguageContext";
 import Button from "./common/Button";
+import CardLabel from "./common/CardLabel";
 //import { useEffect, useState } from "react";
 
 type VehicleCardProps = {
@@ -32,11 +33,6 @@ const VehicleCard: React.FC<VehicleCardProps> = ({
     const { language } = useLanguage();
     const translations = language === 'ne' ? neTranslations : enTranslations;
 
-    // useEffect(() => {
-    //     // This effect runs when the component mounts or when the language changes
-    //     // You can add any side effects here if needed
-    // }, [language]);
-
     //Function to display available days nicely 
     function prettyDays(days: string | null){
         if(days === null || days === "" || days === undefined){
@@ -61,25 +57,32 @@ const VehicleCard: React.FC<VehicleCardProps> = ({
 
     return (
         <div className="border rounded-lg shadow-md p-4 mb-4 bg-white">
-            <p className="text-sm text-gray-600">
-                <strong>{translations.vehicles.license_plate_label}</strong> {licensePlate}
-            </p>
-            <p className="text-sm text-gray-600">
-                <strong>{translations.vehicles.seat_capacity_label}</strong> {seatCapacity}
-            </p>
-            <p className="text-sm text-gray-600">
-                <strong>{translations.vehicles.available_seats_label}</strong> {seatsAvailable}
-            </p>
-            <p className="text-sm text-gray-600">
-                <strong>{translations.vehicles.driver_start_time_label}</strong> {driveStartTime}
-            </p>
-            <p className="text-sm text-gray-600">
-                <strong>{translations.vehicles.driver_end_time_label}</strong> {driverEndTime}
-            </p>
-            <p className="text-sm text-gray-600">
-                <strong>{translations.vehicles.days_label}</strong> {prettyDays(daysAvailable)}
-            </p>
-
+            <div>
+                <CardLabel 
+                    label={translations.vehicles.license_plate_label}
+                    data={licensePlate} 
+                />
+                <CardLabel 
+                    label={translations.vehicles.seat_capacity_label}
+                    data={seatCapacity} 
+                />
+                <CardLabel 
+                    label={translations.vehicles.available_seats_label}
+                    data={seatsAvailable} 
+                />
+                <CardLabel 
+                    label={translations.vehicles.driver_start_time_label}
+                    data={driveStartTime} 
+                />
+                <CardLabel 
+                    label={translations.vehicles.driver_end_time_label}
+                    data={driverEndTime} 
+                />
+                <CardLabel 
+                    label={translations.vehicles.days_label}
+                    data={prettyDays(daysAvailable)} 
+                />
+            </div>
             <div className="mt-4 flex space-x-4">
                 <Button
                     onClick={() => onDelete(vehicleId)}

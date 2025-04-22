@@ -7,6 +7,7 @@ import neTranslations from "../../../languages/ne.json";
 import { useLanguage } from "../../../context/LanguageContext";
 import { useEffect, useState } from "react";
 import { isFieldEmpty, isNameValid, isPhoneValid } from "../../../schema/signupSchema";
+import ProfileInput from "../../../components/common/ProfileInput";
 
 
 export default function SignupStep1() {
@@ -89,49 +90,35 @@ export default function SignupStep1() {
       <form className="space-y-6 mx-6" onSubmit={handleNextStep}>
         <fieldset className="space-y-2">
           <div className="flex flex-col">
-            <label htmlFor="first-name" className="label">{translations.sign_up.first_name_label}</label>
-            <input
-              type="text"
-              id="first-name"
-              name="firstName"
-              className="input"
+            <ProfileInput
+              label={translations.sign_up.first_name_label}
+              elementId="firstName"
+              changeHandler={handleChange}
               value={signupData.firstName}
-              onChange={handleChange}
+              error={firstNameError}
             />
-            {firstNameError && (
-              <span className="text-red-500 text-sm mt-1">{firstNameError}</span>
-            )}
           </div>
 
           <div className="flex flex-col">
-            <label htmlFor="last-name" className="label">{translations.sign_up.last_name_label}</label>
-            <input
-              type="text"
-              id="last-name"
-              name="lastName"
-              className="input"
+            <ProfileInput
+              label={translations.sign_up.last_name_label}
+              elementId="lastName"
+              changeHandler={handleChange}
               value={signupData.lastName}
-              onChange={handleChange}
+              error={lastNameError}
             />
-            {lastNameError && (
-              <span className="text-red-500 text-sm mt-1">{lastNameError}</span>
-            )}
           </div>
 
           <div className="flex flex-col">
-            <label htmlFor="phone-number" className="label">{translations.sign_up.phone_number_label}</label>
-            <input
-              type="phone"
-              id="phone-number"
-              name="phoneNumber"
-              className="input"
-							placeholder={translations.sign_up.phone_placeholder}
+            <ProfileInput
+              label={translations.sign_up.phone_number_label}
+              elementId="phoneNumber"
+              changeHandler={handleChange}
               value={signupData.phoneNumber}
-              onChange={handleChange}
+              error={phoneError}
+              isPhone={true}
+              placeholder={translations.sign_up.phone_placeholder}
             />
-            {phoneError && (
-              <span className="text-red-500 text-sm mt-1">{phoneError}</span>
-            )}
           </div>
 
         </fieldset>

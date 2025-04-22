@@ -8,6 +8,8 @@ import axios from "axios";
 import enTranslations from "../../../languages/en.json";
 import neTranslations from "../../../languages/ne.json";
 import { useLanguage } from "../../../context/LanguageContext";
+import ProfileInput from "../../../components/common/ProfileInput";
+import FormInput from "../../../components/common/FormInput";
 
 // Define the possible error keys
 type SignupServerErrors = 'empty_fields' | 'firstname_length' | 'lastname_length' |'username_length' |'email_length' |'phone_length' |'username_exists' |  'email_exists' | 'server_error' | 'generic_error';
@@ -158,65 +160,46 @@ export default function SignupStep3 () {
 
       <form className="space-y-6 mx-6" onSubmit={handleSubmit}>
         <fieldset className="space-y-2">
-          
 					<div className="flex flex-col">
-							<label htmlFor="username" className="label">{translations.sign_up.username_label}</label>
-							<input
-								type="text"
-								id="username"
-								name="username"
-								className="input"
-                value={signupData.username}
-                onChange={handleChange}
-							/>
-              {usernameError && (
-              <span className="text-red-500 text-sm mt-1">{usernameError}</span>
-            )}
+            <ProfileInput
+              label={translations.sign_up.username_label}
+              elementId="username"
+              value={signupData.username}
+              changeHandler={handleChange}
+              error={usernameError}
+            />
           </div>
 
           <div className="flex flex-col">
-            <label htmlFor="email" className="label">{translations.sign_up.email_label}</label>
-            <input
-              type="text"
-              id="email"
-              name="email"
-              className="input"
+            <ProfileInput
+              label={translations.sign_up.email_label}
+              elementId="email"
               value={signupData.email}
-              onChange={handleChange}
+              changeHandler={handleChange}
+              error={emailError}
             />
-            {emailError && (
-              <span className="text-red-500 text-sm mt-1">{emailError}</span>
-            )}
           </div>
 
           <div className="flex flex-col">
-            <label htmlFor="password" className="label">{translations.sign_up.password_label}</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              className="input"
+            <ProfileInput
+              label={translations.sign_up.password_label}
+              elementId="password"
               value={signupData.password}
-              onChange={handleChange}
+              changeHandler={handleChange}
+              error={passwordError}
+              isPassword={true}
             />
-            {passwordError && (
-              <span className="text-red-500 text-sm mt-1">{passwordError}</span>
-            )}
           </div>
 
           <div className="flex flex-col">
-            <label htmlFor="confirmPassword" className={styles.label}>{translations.sign_up.confirm_password_label}</label>
-            <input
-              type="password"
-              id="confirmPassword"
-              name="confirmPassword"
-              className="input"
+            <FormInput
+              label={translations.sign_up.confirm_password_label}
+              elementId="confirmPassword"
               value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              changeHandler={setConfirmPassword}
+              error={confirmPasswordError}
+              isPassword={true}
             />
-            {confirmPasswordError && (
-              <span className="text-red-500 text-sm mt-1">{confirmPasswordError}</span>
-            )}
           </div>
           {serverError && (
             <span className="text-red-500 text-sm mt-1">{serverError}</span>
