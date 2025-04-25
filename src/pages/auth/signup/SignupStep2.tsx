@@ -7,6 +7,7 @@ import neTranslations from "../../../languages/ne.json";
 import { useLanguage } from "../../../context/LanguageContext";
 import { useEffect, useState } from "react";
 import { isFieldEmpty, isMunicipalityOrDistrictValid, isStreetAddressValid, isWardValid } from "../../../schema/signupSchema";
+import ProfileInput from "../../../components/common/ProfileInput";
 
 
 export default function SignupStep2() {
@@ -89,55 +90,42 @@ export default function SignupStep2() {
       <form className="space-y-6 mx-6" onSubmit={handleNextStep}>
         <fieldset className="space-y-2">
           <div className="flex flex-col">
-            <label htmlFor="street-address" className="label">{translations.sign_up.address_label}</label>
-            <input
-              type="text"
-              id="street-address"
-              name="streetAddress"
-              className="input"
+            <ProfileInput
+              label={translations.sign_up.address_label}
+              elementId="streetAddress"
+              changeHandler={handleChange}
               value={signupData.streetAddress}
-              onChange={handleChange}
+              error={addressError}
             />
-            {addressError && (
-              <span className="text-red-500 text-sm mt-1">{addressError}</span>
-            )}
           </div>
 
           <div className="flex flex-col">
-            <label htmlFor="ward" className="label">{translations.sign_up.ward_label}</label>
-            <input
-              type="number"
-              id="ward"
-              name="wardNumber"
-              className="input"
+            <ProfileInput
+              label={translations.sign_up.ward_label}
+              elementId="wardNumber"
+              changeHandler={handleChange}
               value={signupData.wardNumber? signupData.wardNumber : ""}
-              onChange={handleChange}
+              error={wardError}
+              isNumber={true}
             />
-            {wardError && (
-              <span className="text-red-500 text-sm mt-1">{wardError}</span>
-            )}
           </div>
 
           <div className="flex flex-col">
-            <label htmlFor="municipality-district" className="label">{translations.sign_up.municipality_label}</label>
-            <input
-              type="text"
-              id="municipality-district"
-              name="municipalityDistrict"
-              className="input"
-							value={signupData.municipalityDistrict}
-              onChange={handleChange}
+            <ProfileInput
+              label={translations.sign_up.municipality_label}
+              elementId="municipalityDistrict"
+              changeHandler={handleChange}
+              value={signupData.municipalityDistrict}
+              error={municipalityError}
             />
-            {municipalityError && (
-              <span className="text-red-500 text-sm mt-1">
-                {municipalityError}
-              </span>
-            )}
           </div>
-
         </fieldset>
-
-        <Button label={translations.sign_up.next_button} variant="primary" className="w-full p-2 rounded-md" type="submit" />
+        <Button 
+          label={translations.sign_up.next_button} 
+          variant="primary" 
+          className="w-full p-2 rounded-md" 
+          type="submit" 
+        />
       </form>
     </div>
   );

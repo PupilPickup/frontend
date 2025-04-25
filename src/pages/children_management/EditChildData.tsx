@@ -7,6 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import ChildForm from "../../components/ChildForm";
 import { isFieldEmpty, isNameValid, isTimeValid, isPickupAfterDropoff } from "../../utils/childValidation";
 import axios from "axios";
+import Button from "../../components/common/Button";
 
 type EditChildDataProps = {
     isLoggedIn: boolean;
@@ -219,18 +220,18 @@ const EditChildData: React.FC<EditChildDataProps> = ({
                 dropoffTimeError={dropoffTimeError}
             />
             <div className="mt-4 flex space-x-4">
-                <button
+                <Button
                     onClick={handleCancel}
                     className="bg-[#F4D03F] hover:bg-[#FFFFFF] text-black px-4 py-2 rounded border-transparent hover:border-black border-2"
-                >
-                    {translations.children.cancel_button}
-                </button>
-                <button
+                    variant="secondary"
+                    label={translations.children.cancel_button}
+                />
+                <Button
                     onClick={handleSave}
                     className="bg-[#3498DB] hover:bg-[#2C3E50] text-white px-4 py-2 rounded"
-                >
-                    {translations.children.save_button}
-                </button>  
+                    variant="primary"
+                    label={translations.children.save_button}
+                />  
             </div>
         </div>
     );

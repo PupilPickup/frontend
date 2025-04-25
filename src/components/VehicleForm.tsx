@@ -4,6 +4,8 @@ import neTranslations from "../languages/ne.json";
 import { useLanguage } from "../context/LanguageContext";
 import { useEffect } from "react";
 import DaysCheckBoxes from "./DaysCheckBoxes";
+import FormInput from "./common/FormInput";
+import FormNumberInput from "./common/FormNumberInput";
 
 type VehicleFormProps = {
     licensePlate: string;
@@ -60,66 +62,41 @@ const VehicleForm: React.FC<VehicleFormProps> = ({
 
     return (
         <div className="border rounded-lg shadow-md p-4 mb-4 bg-white">
-            <div>
-                <label htmlFor="licensePlate" className="text-sm text-gray-600">{translations.vehicles.license_plate_label}</label>
-                <input
-                    type="text"
-                    name="licensePlate"
-                    id="licensePlate"
-                    value={licensePlate}
-                    onChange={(e) => setLicensePlate(e.target.value)}  
-                    className="border rounded-lg shadow-md p-2 mb-4 w-full"
-                />
-                {licensePlateError && <p className="text-red-500 text-sm">{licensePlateError}</p>}
-            </div>
-            <div>
-                <label htmlFor="seatCapacity" className="text-sm text-gray-600">{translations.vehicles.seat_capacity_label}</label>
-                <input
-                    type="number"
-                    name="seatCapacity"
-                    id="seatCapacity"
-                    value={seatCapacity}
-                    onChange={(e) => setSeatCapacity(Number(e.target.value))}  
-                    className="border rounded-lg shadow-md p-2 mb-4 w-full"
-                />
-                {seatCapacityError && <p className="text-red-500 text-sm">{seatCapacityError}</p>}
-            </div>
-            <div>
-                <label htmlFor="seatsAvailable" className="text-sm text-gray-600">{translations.vehicles.available_seats_label}</label>
-                <input
-                    type="number"
-                    name="seatsAvailable"
-                    id="seatsAvailable"
-                    value={seatsAvailable}
-                    onChange={(e) => setSeatsAvailable(Number(e.target.value))}  
-                    className="border rounded-lg shadow-md p-2 mb-4 w-full"
-                />
-                {seatsAvailableError && <p className="text-red-500 text-sm">{seatsAvailableError}</p>}
-            </div>
-            <div>
-                <label htmlFor="driveStartTime" className="text-sm text-gray-600">{translations.vehicles.driver_start_time_label}</label>
-                <input
-                    type="text"
-                    name="driveStartTime"
-                    id="driveStartTime"
-                    value={driveStartTime}
-                    onChange={(e) => setDriveStartTime(e.target.value)}  
-                    className="border rounded-lg shadow-md p-2 mb-4 w-full"
-                />
-                {driveStartTimeError && <p className="text-red-500 text-sm">{driveStartTimeError}</p>}
-            </div>
-            <div>
-                <label htmlFor="driverEndTime" className="text-sm text-gray-600">{translations.vehicles.driver_end_time_label}</label>
-                <input
-                    type="text"
-                    name="driverEndTime"
-                    id="driverEndTime"
-                    value={driverEndTime}
-                    onChange={(e) => setDriverEndTime(e.target.value)}  
-                    className="border rounded-lg shadow-md p-2 mb-4 w-full"
-                />
-                {driverEndTimeError && <p className="text-red-500 text-sm">{driverEndTimeError}</p>}
-            </div>
+            <FormInput
+                label={translations.vehicles.license_plate_label}
+                elementId="licensePlate"
+                changeHandler={setLicensePlate}
+                value={licensePlate}
+                error={licensePlateError}
+            />
+            <FormNumberInput
+                label={translations.vehicles.seat_capacity_label}
+                elementId="seatCapacity"
+                changeHandler={setSeatCapacity}
+                value={seatCapacity}
+                error={seatCapacityError}
+            />
+            <FormNumberInput
+                label={translations.vehicles.available_seats_label}
+                elementId="seatsAvailable"
+                changeHandler={setSeatsAvailable}
+                value={seatsAvailable}
+                error={seatsAvailableError}
+            />
+            <FormInput
+                label={translations.vehicles.driver_start_time_label}
+                elementId="driveStartTime"
+                changeHandler={setDriveStartTime}
+                value={driveStartTime}
+                error={driveStartTimeError}
+            />
+            <FormInput
+                label={translations.vehicles.driver_end_time_label}
+                elementId="driverEndTime"
+                changeHandler={setDriverEndTime}
+                value={driverEndTime}
+                error={driverEndTimeError}
+            />
             <div>
                 <label className="text-sm text-gray-600">{translations.vehicles.days_prompt_label}</label>
                 <DaysCheckBoxes 

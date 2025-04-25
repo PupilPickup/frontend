@@ -3,6 +3,7 @@ import enTranslations from "../languages/en.json";
 import neTranslations from "../languages/ne.json";
 import { useLanguage } from "../context/LanguageContext";
 import { useEffect } from "react";
+import FormInput from "./common/FormInput";
 
 type ChildFormProps = {
     firstName: string;
@@ -45,54 +46,34 @@ const ChildForm: React.FC<ChildFormProps> = ({
 
     return (
         <div className="border rounded-lg shadow-md p-4 mb-4 bg-white">
-            <div>
-                <label htmlFor="firstName" className="text-sm text-gray-600">{translations.children.first_name_label}</label>
-                <input
-                    type="text"
-                    name="firstName"
-                    id="firstName"
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}  
-                    className="border rounded-lg shadow-md p-2 mb-4 w-full"
-                />
-                {firstNameError && <p className="text-red-500 text-sm">{firstNameError}</p>}
-            </div>
-            <div>
-                <label htmlFor="lastName" className="text-sm text-gray-600">{translations.children.last_name_label}</label>
-                <input
-                    type="text"
-                    name="lastName"
-                    id="lastName"
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}  
-                    className="border rounded-lg shadow-md p-2 mb-4 w-full"
-                />
-                {lastNameError && <p className="text-red-500 text-sm">{lastNameError}</p>}
-            </div>
-            <div>
-                <label htmlFor="dropoffTime" className="text-sm text-gray-600">{translations.children.school_arrival_time_label}</label>
-                <input
-                    type="text"
-                    name="dropoffTime"
-                    id="dropoffTime"
-                    value={dropoffTime}
-                    onChange={(e) => setDropoffTime(e.target.value)}  
-                    className="border rounded-lg shadow-md p-2 mb-4 w-full"
-                />
-                {dropoffTimeError && <p className="text-red-500 text-sm">{dropoffTimeError}</p>}
-            </div>
-            <div>
-                <label htmlFor="pickupTime" className="text-sm text-gray-600">{translations.children.school_departure_time_label}</label>
-                <input
-                    type="text"
-                    name="pickupTime"
-                    id="pickupTime"
-                    value={pickupTime}
-                    onChange={(e) => setPickupTime(e.target.value)}  
-                    className="border rounded-lg shadow-md p-2 mb-4 w-full"
-                />
-                {pickupTimeError && <p className="text-red-500 text-sm">{pickupTimeError}</p>}
-            </div>
+            <FormInput
+                label={translations.children.first_name_label}
+                elementId="firstName"
+                changeHandler={setFirstName}
+                value={firstName}
+                error={firstNameError}
+            />
+            <FormInput
+                label={translations.children.last_name_label}
+                elementId="lastName"
+                changeHandler={setLastName}
+                value={lastName}
+                error={lastNameError}
+            />
+            <FormInput
+                label={translations.children.school_arrival_time_label}
+                elementId="dropoffTime"
+                changeHandler={setDropoffTime}
+                value={dropoffTime}
+                error={dropoffTimeError}
+            />
+            <FormInput
+                label={translations.children.school_departure_time_label}
+                elementId="pickupTime"
+                changeHandler={setPickupTime}
+                value={pickupTime}
+                error={pickupTimeError}
+            />
         </div>
     );
 };

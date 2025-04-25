@@ -142,7 +142,12 @@ export default function ChildrenManagement ( { isLoggedIn }: ChildrenManagementP
             ) : (
                 <div className="text-center mt-4">{translations.children.no_children_message}</div>
             )}
-            <Button label={translations.children.add_child_button} variant="primary" onClick={handleAddClick} className="mt-4" />
+            <Button 
+                label={translations.children.add_child_button} 
+                variant="primary" 
+                onClick={handleAddClick} 
+                className="mt-4" 
+            />
         </div>
     );
 }

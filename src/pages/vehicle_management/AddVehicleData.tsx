@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { isFieldEmpty, isNumberFieldPresent, isTimeValid, isValidLicensePlate, isValidAvailability, isValidCapacity, isEndAfterStart, isUnderOrAtCapacity } from "../../utils/vehicleValidation";
 import VehicleForm from "../../components/VehicleForm";
 import axios from "axios";
+import Button from "../../components/common/Button";
 
 type AddVehicleDataProps = {
     isLoggedIn: boolean;
@@ -203,18 +204,18 @@ const AddVehicleData: React.FC<AddVehicleDataProps> = ({ isLoggedIn }) => {
                 driverEndTimeError={driverEndTimeError}
             />
             <div className="mt-4 flex space-x-4">
-                <button
+                <Button
                     onClick={handleCancel}
                     className="bg-[#F4D03F] hover:bg-[#FFFFFF] text-black px-4 py-2 rounded border-transparent hover:border-black border-2"
-                >
-                    {translations.vehicles.cancel_button}
-                </button>
-                <button
+                    variant="secondary"
+                    label={translations.vehicles.cancel_button}
+                />
+                <Button 
                     onClick={handleAdd}
                     className="bg-[#3498DB] hover:bg-[#2C3E50] text-white px-4 py-2 rounded"
-                >
-                    {translations.vehicles.add_vehicle_button}
-                </button>
+                    variant="primary"
+                    label={translations.vehicles.add_vehicle_button}
+                />
             </div>
         </div>
     );
