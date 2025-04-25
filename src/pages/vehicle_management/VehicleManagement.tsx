@@ -6,15 +6,12 @@ import { useEffect, useState } from "react";
 import VehicleCard from "../../components/VehicleCard";
 import axios from "axios";
 import Button from "../../components/common/Button";
-
-type VehicleManagementProps = {
-    isLoggedIn: boolean;
-};
+import { useUser } from "../../context/UserContext";
 
 // Define the possible error keys
 type VehicleServerErrors = 'empty_fields' | 'seat_capacity_invalid' | 'available_seats_invalid' | 'seat_mismatch_error' | 'license_plate_invalid' | 'driver_start_time_invalid' | 'driver_end_time_invalid' | 'server_error_get' | 'server_error_post' | 'server_error_put' | 'server_error_delete' | 'generic_error';
 
-export default function VehicleManagement ( { isLoggedIn }: VehicleManagementProps) {
+export default function VehicleManagement () {
     const [isLoading, setIsLoading] = useState(true);
     const [vehiclesList, setVehiclesList] = useState([]);
     const [serverError, setServerError] = useState<string>("");
@@ -24,30 +21,26 @@ export default function VehicleManagement ( { isLoggedIn }: VehicleManagementPro
 
     const navigate = useNavigate();
     const token = sessionStorage.getItem("token");
-    const username = sessionStorage.getItem("user_name");
-	const userId = sessionStorage.getItem("user_id");
+    const { user, logout } = useUser();
     const apiUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
 
     useEffect(() => {
-        if(!token || !userId || !username || !isLoggedIn){
-            sessionStorage.removeItem("token");
-            sessionStorage.removeItem("user_name");
-            sessionStorage.removeItem("user_id");
-            navigate("/"); 
+        if(!token || !user){
+            logout();
         }
-        populateVehicles(token!, username!, userId!);
+        populateVehicles(token!);
 
         setIsLoading(false);
-    }, [token, userId, username, navigate]);
+    }, [token, user]);
 
 
-    const populateVehicles = async (token:string, userName:string, userId:string) => {
+    const populateVehicles = async (token:string) => {
         try {
             const response = await axios.get(`${apiUrl}/vehicles`, {
                 headers: {
                     Authorization: "Bearer " + token,
-                    user_name: userName,
-                    user_id: userId,
+                    user_name: user!.username,
+                    user_id: user!.userId,
                 },
             });
             const vehiclesRetrieved = response.data;
@@ -65,13 +58,13 @@ export default function VehicleManagement ( { isLoggedIn }: VehicleManagementPro
         }
     }
 
-    async function deleteVehicleData(token:string, userName:string, userId:string, vehicleId:string) {
+    async function deleteVehicleData(token:string, vehicleId:string) {
         try {
             await axios.delete(`${apiUrl}/vehicles/${vehicleId}`, {
                 headers: {
                     Authorization: "Bearer " + token,
-                    user_name: userName,
-                    user_id: userId,
+                    user_name: user!.username,
+                    user_id: user!.userId,
                 },
             });
             // Filter out the deleted vehicle from the vehiclesList
@@ -97,8 +90,8 @@ export default function VehicleManagement ( { isLoggedIn }: VehicleManagementPro
     function deleteVehicle(vehicleId: string) {
         // TODO make user verify choice
         // Handle delete action here
-        if(token && username && userId){
-            deleteVehicleData(token, username, userId, vehicleId);
+        if(!!token && !!user){
+            deleteVehicleData(token, vehicleId);
         }
         // TODO success message
     }

@@ -7,17 +7,14 @@ import Button from "../../components/common/Button";
 import { useNavigate } from "react-router-dom";
 import { useLanguage } from "../../context/LanguageContext";
 import { useEffect, useState } from "react";
+import { useUser } from "../../context/UserContext";
 
-interface AuthPageProps {
-	isLoggedIn: boolean, 
-	// setIsLoggedIn:(isLoggedIn: boolean) => void
-}
-
-const AuthPage: React.FC<AuthPageProps> = ( { isLoggedIn } ) => {
+const AuthPage: React.FC = () => {
 
 	const [isLoading, setIsLoading] = useState(true);
 	
 	const navigate = useNavigate();
+	const { user } = useUser();
 
 	const { language } = useLanguage();
 	const translations = language === 'ne' ? neTranslations : enTranslations;
@@ -31,17 +28,17 @@ const AuthPage: React.FC<AuthPageProps> = ( { isLoggedIn } ) => {
 	};
 
 	useEffect(() => {
-		if ((!!sessionStorage.getItem("token") || (!!sessionStorage.getItem("user_id")) || (!!sessionStorage.getItem("user_name"))) || isLoggedIn) {
+		if ((!!sessionStorage.getItem("token") && !!user)) {
 			navigate("/dashboard");
 		}
 		setIsLoading(false);
-	}, []);
+	}, [user]);
 
 	if(isLoading){
 		return <div className="flex justify-center items-center min-h-screen">{translations.universal.loading}</div>
 	}
 
-	if(isLoggedIn){
+	if(!!user){
 		return <div className="flex justify-center items-center min-h-screen">{translations.universal.redirecting}</div>
 	}
 

@@ -8,20 +8,17 @@ import ChildForm from "../../components/ChildForm";
 import { isFieldEmpty, isNameValid, isTimeValid, isPickupAfterDropoff } from "../../utils/childValidation";
 import axios from "axios";
 import Button from "../../components/common/Button";
+import { useUser } from "../../context/UserContext";
 
-type EditChildDataProps = {
-    isLoggedIn: boolean;
-};
 
 // Define the possible error keys
 type ChildrenServerErrors = 'empty_fields'| 'firstname_length' | 'lastname_length' | 'school_arrival_time_invalid' | 'school_departure_time_invalid' | 'server_error_get' | 'server_error_post' | 'server_error_put' | 'server_error_delete' | 'generic_error';
 
 
-const EditChildData: React.FC<EditChildDataProps> = ({
-    isLoggedIn
-}) => {
+const EditChildData: React.FC = () => {
 
     const { language } = useLanguage();
+    const { user, logout } = useUser();
     const translations = language === 'ne' ? neTranslations : enTranslations;
 
     const [isLoading, setIsLoading] = useState(true);
@@ -36,8 +33,6 @@ const EditChildData: React.FC<EditChildDataProps> = ({
     const [dropoffTimeError, setDropoffTimeError] = useState<string>("");
 
     const token = sessionStorage.getItem("token");
-    const username = sessionStorage.getItem("user_name");
-    const userId = sessionStorage.getItem("user_id");
     const apiUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
     const navigate = useNavigate();
 
@@ -45,29 +40,25 @@ const EditChildData: React.FC<EditChildDataProps> = ({
     const { id: childId } = useParams();
 
     useEffect(() => {
-        if(!token || !userId || !username || !isLoggedIn){
-            sessionStorage.removeItem("token");
-            sessionStorage.removeItem("user_name");
-            sessionStorage.removeItem("user_id");
-            navigate("/"); 
+        if(!token || !user){
+            logout(); 
         }else if(!childId){
             navigate("/my-children");
         }else{
             // Fetch child data here and set the state variables
-            fetchChildData(token, username, userId, childId);
+            fetchChildData(token, childId);
         }
         setIsLoading(false);
-        // This effect runs when the component mounts or when the language changes
-        // You can add any side effects here if needed
-    }, [language]);
 
-    async function fetchChildData(token:string, userName:string, userId:string, childId:string) {
+    }, [language, token, user]);
+
+    async function fetchChildData(token:string, childId:string) {
         try {
             const response = await axios.get(`${apiUrl}/children/${childId}`, {
                 headers: {
                     Authorization: "Bearer " + token,
-                    user_name: userName,
-                    user_id: userId,
+                    user_name: user!.username,
+                    user_id: user!.userId,
                 },
             });
             const childData = response.data;
@@ -117,8 +108,8 @@ const EditChildData: React.FC<EditChildDataProps> = ({
             return;
         }else{
             const childData = {
-                userName: username,
-                userId: userId,
+                userName: user!.username,
+                userId: user!.userId,
                 firstName: firstName,
                 lastName: lastName,
                 schoolPickupTime: pickupTime,

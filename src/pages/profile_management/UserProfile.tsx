@@ -7,18 +7,13 @@ import { isFieldEmpty, isNameValid, isEmailValid, isPhoneValid, isMunicipalityOr
 import axios from "axios";
 import Button from "../../components/common/Button";
 import CardLabel from "../../components/common/CardLabel";
-import FormInput from "../../components/common/FormInput";
 import ProfileInput from "../../components/common/ProfileInput";
+import { useUser } from "../../context/UserContext";
 
 // Define the possible error keys
 type ProfileServerErrors = 'empty_fields' | 'username_not_existent' | 'invalid_credentials' | 'server_error_get' |'server_error_put' |'server_error_delete' | 'generic_error' | 'firstname_length' | 'lastname_length' | 'email_length' | 'phone_length' | 'street_address_length' | 'ward_number_invalid' | 'municipality_district_length' | 'username_unknown' | 'email_exists';
 
-type UserProfileProps = {
-    isLoggedIn: boolean;
-    setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
-export default function UserProfile ( { isLoggedIn, setIsLoggedIn }: UserProfileProps) {
+export default function UserProfile () {
     const [isLoading, setIsLoading] = useState(true);
     const[isViewState, setIsViewState] = useState(true);
     const [profileData, setProfileData] = useState({
@@ -60,8 +55,7 @@ export default function UserProfile ( { isLoggedIn, setIsLoggedIn }: UserProfile
 
     const navigate = useNavigate();
     const token = sessionStorage.getItem("token");
-    const username = sessionStorage.getItem("user_name");
-	const userId = sessionStorage.getItem("user_id");
+    const { user, logout } = useUser();
     
     /**
      * updateUser is an asynchronous function that takes a validated User data and PUTs it to the server to update the user's profile in the database.
@@ -224,23 +218,19 @@ export default function UserProfile ( { isLoggedIn, setIsLoggedIn }: UserProfile
     }
 
     // Function to delete a user's account
-    const deleteUser = async (token:string, userName:string, userId:string) => {
+    const deleteUser = async (token:string) => {
         try {
             await axios.delete(`${apiUrl}/profile`, {
                 headers: {
                     Authorization: "Bearer " + token,
-                    user_name: userName,
-                    user_id: userId,
+                    user_name: user!.username,
+                    user_id: user!.userId,
                 },
             });
             setServerError("");
             // TODO show a success message
             // Logout the user and redirect to the login page
-            sessionStorage.removeItem("token");
-            sessionStorage.removeItem("user_name");
-            sessionStorage.removeItem("user_id");
-            setIsLoggedIn(false);
-            navigate("/");
+            logout();
 
         } catch (error) {
             console.error(error);
@@ -253,24 +243,20 @@ export default function UserProfile ( { isLoggedIn, setIsLoggedIn }: UserProfile
     } 
 
     useEffect(() => {
-        if(!token || !userId || !username || !isLoggedIn){
-            sessionStorage.removeItem("token");
-            sessionStorage.removeItem("user_name");
-            sessionStorage.removeItem("user_id");
-            setIsLoggedIn(false);
-            navigate("/"); 
+        if(!token || !user){
+            logout();
         }
         // Fetch user profile data from the API using the token
         try {
-            if(!!token && !!userId && !!username){
-                populateUserData(token!, username!, userId!);
+            if(!!token && !!user){
+                populateUserData(token!, user.username!, user.userId!);
                 resetErrors();
             }
         } catch (error) {
             console.error(error);
         }
         setIsLoading(false);
-    }, [language, token, userId, username, navigate]);
+    }, [language, token, user]);
 
     // Function for handling the user wanting to edit their profile
     const handleEditProfile = () => {
@@ -280,7 +266,7 @@ export default function UserProfile ( { isLoggedIn, setIsLoggedIn }: UserProfile
 
     // Function for handling the user wanting to change their password
     const handleChangePassword = () => {
-        navigate("/profile/change-password", { state: { userId } });
+        navigate("/profile/change-password");
     };
 
     // Function for handling the user wanting to delete their account
@@ -288,7 +274,7 @@ export default function UserProfile ( { isLoggedIn, setIsLoggedIn }: UserProfile
         // TODO Show a confirmation dialog before deleting the account
 
         // Call the deleteUser function to delete the account
-        deleteUser(token!, username!, userId!);
+        deleteUser(token!);
         console.log("Account deleted");
 
         // TODO deal with issLoggedIn state still being true after deleting user

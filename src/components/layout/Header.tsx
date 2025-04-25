@@ -1,29 +1,26 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import LanguageSelect from "../common/LanguageSelect";
 import enTranslations from "../../languages/en.json";
 import neTranslations from "../../languages/ne.json";
 import { useLanguage } from "../../context/LanguageContext";
 import NavHeaderLink from "../common/NavLink";
+import { useUser } from "../../context/UserContext";
 
 interface HeaderProps {
     changeLanguage: (language: string) => void;
-    setIsLoggedIn:(isLoggedIn: boolean) => void
 }
 
-const Header: React.FC<HeaderProps> = ( { changeLanguage, setIsLoggedIn } ) => {
-  const navigate = useNavigate();
+const Header: React.FC<HeaderProps> = ({ changeLanguage }) => {
+
   const { language } = useLanguage();
+  const { logout } = useUser();
   const translations = language === 'ne' ? neTranslations : enTranslations;
 
   const handleLogout = () => {
     // Perform logout logic here (e.g., clearing tokens, resetting state)
-    sessionStorage.removeItem("token");
-    sessionStorage.removeItem("user_id");
-    sessionStorage.removeItem("user_name");
-    setIsLoggedIn(false); // Update the logged-in state in context or parent component
-    console.log("User logged out");
-    navigate("/login"); // Redirect to login page
+    logout();
+    // console.log("User logged out");
   };
 
   return (

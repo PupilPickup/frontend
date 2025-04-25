@@ -7,15 +7,13 @@ import { validatePassword } from "../../utils/profileValidation";
 import axios from "axios";
 import Button from "../../components/common/Button";
 import FormInput from "../../components/common/FormInput";
+import { useUser } from "../../context/UserContext";
 
 // Define the possible error keys
 type PasswordServerErrors = 'empty_fields' | 'invalid_password' | 'server_error_put' | 'generic_error';
 
-type ChangePasswordProps = {
-    isLoggedIn: boolean;
-};
 
-export default function ChangePassword ( { isLoggedIn }: ChangePasswordProps) {
+export default function ChangePassword () {
     
     const [currentPassword, setcurrentPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
@@ -24,8 +22,7 @@ export default function ChangePassword ( { isLoggedIn }: ChangePasswordProps) {
     
     const navigate = useNavigate();
     const token = sessionStorage.getItem("token");
-    const username = sessionStorage.getItem("user_name");
-	const userId = sessionStorage.getItem("user_id");
+    const { user, logout } = useUser();
     
 
     const { language } = useLanguage();
@@ -34,14 +31,11 @@ export default function ChangePassword ( { isLoggedIn }: ChangePasswordProps) {
     const apiUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
 
     useEffect(() => {
-        if(!token || !userId || !username || !isLoggedIn){
-            sessionStorage.removeItem("token");
-            sessionStorage.removeItem("user_name");
-            sessionStorage.removeItem("user_id");
-            navigate("/"); 
+        if(!token || !user){
+            logout(); 
         }
         setErrorMessage("");
-    }, [language, token, userId, username, navigate]);
+    }, [language, token, user]);
 
 
     const handleSave = async () => {
@@ -64,7 +58,7 @@ export default function ChangePassword ( { isLoggedIn }: ChangePasswordProps) {
 
         try {
             const requestBody = {
-                username: username,
+                username: user!.username,
                 oldPassword: currentPassword,
                 newPassword: newPassword
             };
