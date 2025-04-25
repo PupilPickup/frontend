@@ -152,69 +152,71 @@ export default function SignupStep3 () {
   };
 
   return (
-    <div className="p-4 ">
-      <header className="flex flex-col text-center mb-6">
-        <h1 className="text-3xl font-bold">{translations.sign_up.header3}</h1>
-        <p className="text-sm w-1/2 mx-auto">{translations.sign_up.prompt3}</p>
-      </header>
+    <div className="px-4 pb-4 flex flex-col w-full items-center">
+      <div className="w-full sm:max-w-[52rem]">
+        <header className="flex flex-col text-center mb-6">
+          <h1 className="text-3xl font-bold">{translations.sign_up.header3}</h1>
+          <p className="text-sm w-1/2 mx-auto">{translations.sign_up.prompt3}</p>
+        </header>
 
-      <form className="space-y-6 mx-6" onSubmit={handleSubmit}>
-        <fieldset className="space-y-2">
-					<div className="flex flex-col">
-            <ProfileInput
-              label={translations.sign_up.username_label}
-              elementId="username"
-              value={signupData.username}
-              changeHandler={handleChange}
-              error={usernameError}
+        <form className="flex flex-col space-y-6 mx-6" onSubmit={handleSubmit}>
+          <fieldset className="space-y-2">
+            <div className="flex flex-col">
+              <ProfileInput
+                label={translations.sign_up.username_label}
+                elementId="username"
+                value={signupData.username}
+                changeHandler={handleChange}
+                error={usernameError}
+              />
+            </div>
+
+            <div className="flex flex-col">
+              <ProfileInput
+                label={translations.sign_up.email_label}
+                elementId="email"
+                value={signupData.email}
+                changeHandler={handleChange}
+                error={emailError}
+              />
+            </div>
+
+            <div className="flex flex-col">
+              <ProfileInput
+                label={translations.sign_up.password_label}
+                elementId="password"
+                value={signupData.password}
+                changeHandler={handleChange}
+                error={passwordError}
+                isPassword={true}
+              />
+            </div>
+
+            <div className="flex flex-col">
+              <FormInput
+                label={translations.sign_up.confirm_password_label}
+                elementId="confirmPassword"
+                value={confirmPassword}
+                changeHandler={setConfirmPassword}
+                error={confirmPasswordError}
+                isPassword={true}
+              />
+            </div>
+            {serverError && (
+              <span className="text-red-500 text-sm mt-1">{serverError}</span>
+            )}
+          </fieldset>
+
+          <div className='flex flex-row gap-2'>
+            <Button 
+              label={translations.sign_up.submit_button} 
+              variant="primary" 
+              className="w-full p-2 rounded-md" 
+              type="submit" 
             />
           </div>
-
-          <div className="flex flex-col">
-            <ProfileInput
-              label={translations.sign_up.email_label}
-              elementId="email"
-              value={signupData.email}
-              changeHandler={handleChange}
-              error={emailError}
-            />
-          </div>
-
-          <div className="flex flex-col">
-            <ProfileInput
-              label={translations.sign_up.password_label}
-              elementId="password"
-              value={signupData.password}
-              changeHandler={handleChange}
-              error={passwordError}
-              isPassword={true}
-            />
-          </div>
-
-          <div className="flex flex-col">
-            <FormInput
-              label={translations.sign_up.confirm_password_label}
-              elementId="confirmPassword"
-              value={confirmPassword}
-              changeHandler={setConfirmPassword}
-              error={confirmPasswordError}
-              isPassword={true}
-            />
-          </div>
-          {serverError && (
-            <span className="text-red-500 text-sm mt-1">{serverError}</span>
-          )}
-        </fieldset>
-
-				<div className='flex flex-row gap-2'>
-					<Button 
-            label={translations.sign_up.submit_button} 
-            variant="primary" 
-            className="w-full p-2 rounded-md" 
-            type="submit" 
-          />
-				</div>
-      </form>
+        </form>
+      </div>
     </div>
   );
 };

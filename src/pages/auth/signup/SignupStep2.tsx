@@ -78,55 +78,57 @@ export default function SignupStep2() {
   };
 
   return (
-    <div className="px-4 pb-4">
-			<div className="flex justify-center">
-				<img src={WeShare} alt={translations.sign_up.alt_logo_text} />
-			</div>
-      <header className="flex flex-col text-center mb-6">
-        <h1 className="text-3xl font-bold">{translations.sign_up.header2}</h1>
-        <p className="text-sm w-1/2 mx-auto">{translations.sign_up.prompt2}</p>
-      </header>
+    <div className="px-4 pb-4 flex flex-col w-full items-center">
+      <div className="w-full sm:max-w-[52rem]">
+        <div className="flex justify-center">
+          <img src={WeShare} alt={translations.sign_up.alt_logo_text} />
+        </div>
+        <header className="flex flex-col text-center mb-6">
+          <h1 className="text-3xl font-bold">{translations.sign_up.header2}</h1>
+          <p className="text-sm w-1/2 mx-auto">{translations.sign_up.prompt2}</p>
+        </header>
 
-      <form className="space-y-6 mx-6" onSubmit={handleNextStep}>
-        <fieldset className="space-y-2">
-          <div className="flex flex-col">
-            <ProfileInput
-              label={translations.sign_up.address_label}
-              elementId="streetAddress"
-              changeHandler={handleChange}
-              value={signupData.streetAddress}
-              error={addressError}
-            />
-          </div>
+        <form className="flex flex-col space-y-6 mx-6" onSubmit={handleNextStep}>
+          <fieldset className="space-y-2">
+            <div className="flex flex-col">
+              <ProfileInput
+                label={translations.sign_up.address_label}
+                elementId="streetAddress"
+                changeHandler={handleChange}
+                value={signupData.streetAddress}
+                error={addressError}
+              />
+            </div>
 
-          <div className="flex flex-col">
-            <ProfileInput
-              label={translations.sign_up.ward_label}
-              elementId="wardNumber"
-              changeHandler={handleChange}
-              value={signupData.wardNumber? signupData.wardNumber : ""}
-              error={wardError}
-              isNumber={true}
-            />
-          </div>
+            <div className="flex flex-col">
+              <ProfileInput
+                label={translations.sign_up.ward_label}
+                elementId="wardNumber"
+                changeHandler={handleChange}
+                value={signupData.wardNumber? signupData.wardNumber : ""}
+                error={wardError}
+                isNumber={true}
+              />
+            </div>
 
-          <div className="flex flex-col">
-            <ProfileInput
-              label={translations.sign_up.municipality_label}
-              elementId="municipalityDistrict"
-              changeHandler={handleChange}
-              value={signupData.municipalityDistrict}
-              error={municipalityError}
-            />
-          </div>
-        </fieldset>
-        <Button 
-          label={translations.sign_up.next_button} 
-          variant="primary" 
-          className="w-full p-2 rounded-md" 
-          type="submit" 
-        />
-      </form>
+            <div className="flex flex-col">
+              <ProfileInput
+                label={translations.sign_up.municipality_label}
+                elementId="municipalityDistrict"
+                changeHandler={handleChange}
+                value={signupData.municipalityDistrict}
+                error={municipalityError}
+              />
+            </div>
+          </fieldset>
+          <Button 
+            label={translations.sign_up.next_button} 
+            variant="primary" 
+            className="w-full p-2 rounded-md" 
+            type="submit" 
+          />
+        </form>
+      </div>
     </div>
   );
 };
