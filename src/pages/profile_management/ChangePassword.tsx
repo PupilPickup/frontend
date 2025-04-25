@@ -162,7 +162,7 @@ export default function ChangePassword ( { isLoggedIn }: ChangePasswordProps) {
                         onChange={(e) => setConfirmPassword(e.target.value)}
                     />
                 </div> */}
-                <div className="flex space-x-4">
+                <div className="mt-4 flex flex-row justify-between space-x-4">
                     <Button
                         onClick={handleCancel}
                         variant="secondary"

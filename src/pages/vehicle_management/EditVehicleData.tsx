@@ -248,7 +248,7 @@ const EditVehicleData: React.FC<EditVehicleDataProps> = ({
                 daysAvailable={daysAvailable}
                 setDaysAvailable={setDaysAvailable}
             />
-            <div className="mt-4 flex space-x-4">
+            <div className="mt-4 flex flex-row justify-between space-x-4">
                 <Button
                     onClick={handleCancel}
                     variant="secondary"

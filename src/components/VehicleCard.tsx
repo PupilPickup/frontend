@@ -56,7 +56,7 @@ const VehicleCard: React.FC<VehicleCardProps> = ({
     }
 
     return (
-        <div className="border rounded-lg shadow-md p-4 mb-4 bg-white w-full max-w-[20rem]">
+        <div className="border rounded-lg shadow-md p-4 my-4 bg-white w-full max-w-[20rem]">
             <div>
                 <CardLabel 
                     label={translations.vehicles.license_plate_label}
@@ -80,10 +80,11 @@ const VehicleCard: React.FC<VehicleCardProps> = ({
                 />
                 <CardLabel 
                     label={translations.vehicles.days_label}
-                    data={prettyDays(daysAvailable)} 
+                    data={prettyDays(daysAvailable)}
+                    className="flex-col w-full space-x-0"
                 />
             </div>
-            <div className="mt-4 flex space-x-4">
+            <div className="mt-4 px-2 flex flex-row w-full justify-between">
                 <Button
                     onClick={() => onDelete(vehicleId)}
                     variant="secondary"

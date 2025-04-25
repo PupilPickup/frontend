@@ -29,8 +29,8 @@ const ChildCard: React.FC<ChildCardProps> = ({
     const translations = language === 'ne' ? neTranslations : enTranslations;
 
     return (
-        <div className="border rounded-lg shadow-md p-4 mb-4 bg-white w-full max-w-[20rem]">
-            <h2 className="text-lg font-bold mb-2">
+        <div className="border rounded-lg shadow-md p-4 my-4 bg-white w-full max-w-[20rem]">
+            <h2 className="text-lg font-bold mb-2 text-center">
                 {firstName} {lastName}
             </h2>
             <CardLabel 
@@ -39,7 +39,7 @@ const ChildCard: React.FC<ChildCardProps> = ({
             <CardLabel 
                 label={translations.children.school_departure_time_label} data={pickupTime} 
             />
-            <div className="mt-4 flex space-x-4">
+            <div className="mt-4 px-2 flex flex-row w-full justify-between">
                 <Button
                     onClick={() => onDelete(childId)}
                     variant="secondary"

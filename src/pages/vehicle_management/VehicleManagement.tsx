@@ -121,7 +121,7 @@ export default function VehicleManagement ( { isLoggedIn }: VehicleManagementPro
     }
 
     return (
-        <div className="flex flex-col justify-center items-center min-h-screen">
+        <div className="flex flex-col justify-center items-center min-h-screen w-full mx-4 px-4">
             <h1 className="text-3xl font-bold mb-4">{translations.vehicles.vehicles_header}</h1>
             <h2>{translations.vehicles.vehicles_prompt}</h2>
             {serverError && <div className="text-red-500 mb-4">{serverError}</div>}

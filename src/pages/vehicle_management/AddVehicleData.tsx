@@ -203,7 +203,7 @@ const AddVehicleData: React.FC<AddVehicleDataProps> = ({ isLoggedIn }) => {
                 driveStartTimeError={driverStartTimeError}
                 driverEndTimeError={driverEndTimeError}
             />
-            <div className="mt-4 flex space-x-4">
+            <div className="mt-4 flex flex-row justify-between space-x-4">
                 <Button
                     onClick={handleCancel}
                     variant="secondary"

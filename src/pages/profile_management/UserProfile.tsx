@@ -455,9 +455,9 @@ export default function UserProfile ( { isLoggedIn, setIsLoggedIn }: UserProfile
                 )}
             </div>
 
-            <div className="mt-8 flex space-x-4">
+            <div className="mt-8 w-full max-w-md flex flex-row justify-center">
                 {isViewState ? (
-                    <div>
+                    <div className="flex flex-row w-full max-w-md justify-between space-x-4">
                         <Button
                             onClick={handleDeleteAccount}
                             variant="secondary"
@@ -475,7 +475,7 @@ export default function UserProfile ( { isLoggedIn, setIsLoggedIn }: UserProfile
                         />
                     </div>
                 ):(
-                    <div>
+                    <div className="flex flex-row w-full max-w-md justify-between space-x-6">
                         <Button
                             onClick={handleCancelEdit}
                             variant="secondary"

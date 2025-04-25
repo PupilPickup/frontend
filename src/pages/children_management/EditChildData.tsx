@@ -217,7 +217,7 @@ const EditChildData: React.FC<EditChildDataProps> = ({
                 pickupTimeError={pickupTimeError}
                 dropoffTimeError={dropoffTimeError}
             />
-            <div className="mt-4 flex space-x-4">
+            <div className="mt-4 flex flex-row justify-between space-x-4">
                 <Button
                     onClick={handleCancel}
                     variant="secondary"
