@@ -29,7 +29,7 @@ const ChildCard: React.FC<ChildCardProps> = ({
     const translations = language === 'ne' ? neTranslations : enTranslations;
 
     return (
-        <div className="border rounded-lg shadow-md p-4 mb-4 bg-white">
+        <div className="border rounded-lg shadow-md p-4 mb-4 bg-white w-full max-w-[20rem]">
             <h2 className="text-lg font-bold mb-2">
                 {firstName} {lastName}
             </h2>

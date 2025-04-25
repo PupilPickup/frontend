@@ -56,7 +56,7 @@ const VehicleCard: React.FC<VehicleCardProps> = ({
     }
 
     return (
-        <div className="border rounded-lg shadow-md p-4 mb-4 bg-white">
+        <div className="border rounded-lg shadow-md p-4 mb-4 bg-white w-full max-w-[20rem]">
             <div>
                 <CardLabel 
                     label={translations.vehicles.license_plate_label}

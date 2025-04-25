@@ -125,7 +125,7 @@ export default function ChildrenManagement ( { isLoggedIn }: ChildrenManagementP
             <h2>{translations.children.children_prompt}</h2>
             {serverError && <div className="text-red-500 mb-4">{serverError}</div>}
             {childrenList.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 justify-center items-center">
                     {childrenList.map((child: any) => (
                         <ChildCard 
                             key={child.childId}
