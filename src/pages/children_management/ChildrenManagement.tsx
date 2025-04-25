@@ -6,12 +6,15 @@ import { useEffect, useState } from "react";
 import ChildCard from "../../components/ChildCard";
 import axios from "axios";
 import Button from "../../components/common/Button";
-import { useUser } from "../../context/UserContext";
+
+type ChildrenManagementProps = {
+    isLoggedIn: boolean;
+};
 
 // Define the possible error keys
 type ChildrenServerErrors = 'empty_fields'| 'firstname_length' | 'lastname_length' | 'school_arrival_time_invalid' | 'school_departure_time_invalid' | 'server_error_get' | 'server_error_post' | 'server_error_put' | 'server_error_delete' | 'generic_error';
 
-export default function ChildrenManagement () {
+export default function ChildrenManagement ( { isLoggedIn }: ChildrenManagementProps) {
     const [isLoading, setIsLoading] = useState(true);
     const [childrenList, setChildrenList] = useState([]);
     const [serverError, setServerError] = useState<string>("");
@@ -21,25 +24,29 @@ export default function ChildrenManagement () {
 
     const navigate = useNavigate();
     const token = sessionStorage.getItem("token");
-    const { user, logout } = useUser();
+    const username = sessionStorage.getItem("user_name");
+	const userId = sessionStorage.getItem("user_id");
     const apiUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
 
     useEffect(() => {
-        if(!token || !user){
-            logout(); 
+        if(!token || !userId || !username || !isLoggedIn){
+            sessionStorage.removeItem("token");
+            sessionStorage.removeItem("user_name");
+            sessionStorage.removeItem("user_id");
+            navigate("/"); 
         }
-        populateChildren(token!);
+        populateChildren(token!, username!, userId!);
 
         setIsLoading(false);
-    }, [token, user]);
+    }, [token, userId, username, navigate]);
 
-    const populateChildren = async (token:string) => {
+    const populateChildren = async (token:string, userName:string, userId:string) => {
         try {
             const response = await axios.get(`${apiUrl}/children`, {
                 headers: {
                     Authorization: "Bearer " + token,
-                    user_name: user!.username,
-                    user_id: user!.userId,
+                    user_name: userName,
+                    user_id: userId,
                 },
             });
             const childrenRetrieved = response.data;
@@ -57,13 +64,13 @@ export default function ChildrenManagement () {
         }
     }
 
-    async function deleteChildData(token:string, childId:string) {
+    async function deleteChildData(token:string, userName:string, userId:string, childId:string) {
         try {
             await axios.delete(`${apiUrl}/children/${childId}`, {
                 headers: {
                     Authorization: "Bearer " + token,
-                    user_name: user!.username,
-                    user_id: user!.userId,
+                    user_name: userName,
+                    user_id: userId,
                 },
             });
             // Filter out the deleted child from the childrenList
@@ -89,8 +96,8 @@ export default function ChildrenManagement () {
     function deleteChild(childId: string) {
         // TODO make user verify choice
         // Handle delete action here
-        if(!!token && !!user){
-            deleteChildData(token, childId);
+        if(token && username && userId){
+            deleteChildData(token, username, userId, childId);
         }
         // TODO success message
     }

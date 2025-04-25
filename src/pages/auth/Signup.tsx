@@ -10,29 +10,31 @@ import { useNavigate } from "react-router-dom";
 import { useLanguage } from "../../context/LanguageContext";
 import enTranslations from "../../languages/en.json";
 import neTranslations from "../../languages/ne.json";
-import { useUser } from "../../context/UserContext";
 
-const SignUpPage: React.FC = ( ) => {
+interface SignUpPageProps {
+	isLoggedIn: boolean, 
+	
+}
+
+const SignUpPage: React.FC<SignUpPageProps> = ( { isLoggedIn } ) => {
   
   const [isLoading, setIsLoading] = useState(true);
   const { language } = useLanguage();
   const translations = language === 'ne' ? neTranslations : enTranslations;
 
   const navigate = useNavigate();
-  const { user } = useUser();
-
   useEffect(() => {
-    if ((!!sessionStorage.getItem("token") && !!user)) {
+    if ((!!sessionStorage.getItem("token") || (!!sessionStorage.getItem("user_id")) || (!!sessionStorage.getItem("user_name"))) || isLoggedIn) {
       navigate("/dashboard");
     }
     setIsLoading(false);
-  }, [user, navigate]);
+  }, [isLoggedIn, navigate]);
 
   if(isLoading){
 		return <div className="flex justify-center items-center min-h-screen">{translations.universal.loading}</div>
 	}
 
-	if(!!user){
+	if(isLoggedIn){
 		return <div className="flex justify-center items-center min-h-screen">{translations.universal.redirecting}</div>
 	}
   
@@ -43,7 +45,7 @@ const SignUpPage: React.FC = ( ) => {
         <Route path="/2" element={<AuthLayout><SignupStep2 /></AuthLayout>} />
         <Route path="/3" element={<AuthLayout><SignupStep3 /></AuthLayout>} />
         <Route path="/complete" element={<SignupSuccess />} />
-        <Route path="/" element={<AuthPage />} />
+        <Route path="/" element={<AuthPage isLoggedIn={isLoggedIn} />} />
       </Routes>
 
   );

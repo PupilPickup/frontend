@@ -9,12 +9,16 @@ import neTranslations from "../../languages/ne.json";
 import { useLanguage } from "../../context/LanguageContext";
 import axios from "axios";
 import FormInput from "../../components/common/FormInput";
-import { useUser } from "../../context/UserContext";
 
 // Define the possible error keys
 type LoginServerErrors = 'empty_fields' | 'username_not_existent' | 'invalid_credentials' | 'server_error' | 'generic_error';
 
-const LoginPage: React.FC = ( ) => {
+interface LoginPageProps {
+	isLoggedIn: boolean, 
+	setIsLoggedIn:(isLoggedIn: boolean) => void
+}
+
+const LoginPage: React.FC<LoginPageProps> = ( { isLoggedIn, setIsLoggedIn } ) => {
 
   const navigate = useNavigate();
   const [loginInput, setLoginInput] = useState("");
@@ -25,7 +29,6 @@ const LoginPage: React.FC = ( ) => {
 
   const [isLoading, setIsLoading] = useState(true);
 
-  const { user, setUser } = useUser();
   const { language } = useLanguage();
   const translations = language === 'ne' ? neTranslations : enTranslations;
 
@@ -38,11 +41,11 @@ const LoginPage: React.FC = ( ) => {
   }, [language]);
 
   useEffect(() => {
-		if ((!!sessionStorage.getItem("token") && !!user)) {
+		if ((!!sessionStorage.getItem("token") || (!!sessionStorage.getItem("user_id")) || (!!sessionStorage.getItem("user_name"))) || isLoggedIn) {
 			navigate("/dashboard");
 		}
     setIsLoading(false);
-	}, [user]);
+	}, []);
   
   function clearFieldsOnLogin(){
     setLoginInput("");
@@ -97,8 +100,10 @@ const LoginPage: React.FC = ( ) => {
     try {
       const response = await axios.post(`${apiUrl}/users/login`, loginData);  
       sessionStorage.setItem("token", response.data.token);
+      sessionStorage.setItem("user_id", response.data.user_id);
+      sessionStorage.setItem("user_name", response.data.user_name);
       clearFieldsOnLogin();
-      setUser({username: response.data.user_name, userId: response.data.user_id});
+      setIsLoggedIn(true);
       navigate("/dashboard");
 
     } catch (error) {
@@ -127,7 +132,7 @@ const LoginPage: React.FC = ( ) => {
 		return <div className="flex justify-center items-center min-h-screen">{translations.universal.loading}</div>
 	}
 
-	if(!!user){
+	if(isLoggedIn){
 		return <div className="flex justify-center items-center min-h-screen">{translations.universal.redirecting}</div>
 	}
 

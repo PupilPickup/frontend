@@ -7,13 +7,15 @@ import { validatePassword } from "../../utils/profileValidation";
 import axios from "axios";
 import Button from "../../components/common/Button";
 import FormInput from "../../components/common/FormInput";
-import { useUser } from "../../context/UserContext";
 
 // Define the possible error keys
 type PasswordServerErrors = 'empty_fields' | 'invalid_password' | 'server_error_put' | 'generic_error';
 
+type ChangePasswordProps = {
+    isLoggedIn: boolean;
+};
 
-export default function ChangePassword () {
+export default function ChangePassword ( { isLoggedIn }: ChangePasswordProps) {
     
     const [currentPassword, setcurrentPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
@@ -22,7 +24,8 @@ export default function ChangePassword () {
     
     const navigate = useNavigate();
     const token = sessionStorage.getItem("token");
-    const { user, logout } = useUser();
+    const username = sessionStorage.getItem("user_name");
+	const userId = sessionStorage.getItem("user_id");
     
 
     const { language } = useLanguage();
@@ -31,11 +34,14 @@ export default function ChangePassword () {
     const apiUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
 
     useEffect(() => {
-        if(!token || !user){
-            logout(); 
+        if(!token || !userId || !username || !isLoggedIn){
+            sessionStorage.removeItem("token");
+            sessionStorage.removeItem("user_name");
+            sessionStorage.removeItem("user_id");
+            navigate("/"); 
         }
         setErrorMessage("");
-    }, [language, token, user]);
+    }, [language, token, userId, username, navigate]);
 
 
     const handleSave = async () => {
@@ -58,7 +64,7 @@ export default function ChangePassword () {
 
         try {
             const requestBody = {
-                username: user!.username,
+                username: username,
                 oldPassword: currentPassword,
                 newPassword: newPassword
             };

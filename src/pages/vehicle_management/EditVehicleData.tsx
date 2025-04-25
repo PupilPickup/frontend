@@ -8,17 +8,21 @@ import VehicleForm from "../../components/VehicleForm";
 import { isFieldEmpty, isNumberFieldPresent, isTimeValid, isValidLicensePlate, isValidAvailability, isValidCapacity, isEndAfterStart, isUnderOrAtCapacity } from "../../utils/vehicleValidation";
 import axios from "axios";
 import Button from "../../components/common/Button";
-import { useUser } from "../../context/UserContext";
+
+type EditVehicleDataProps = {
+    isLoggedIn: boolean;
+};
 
 // Define the possible error keys
 type VehiclesServerErrors = 'empty_fields' | 'seat_capacity_invalid' | 'available_seats_invalid' | 'seat_mismatch_error' | 'license_plate_invalid' | 'driver_start_time_invalid' | 'driver_end_time_invalid' | 'server_error_get' | 'server_error_post' | 'server_error_put' | 'server_error_delete' | 'generic_error';
 
 
-const EditVehicleData: React.FC = () => {
+const EditVehicleData: React.FC<EditVehicleDataProps> = ({
+    isLoggedIn
+}) => {
 
     const { language } = useLanguage();
     const translations = language === 'ne' ? neTranslations : enTranslations;
-    const { user, logout } = useUser();
 
     const [isLoading, setIsLoading] = useState(true);
     const [licensePlate, setLicensePlate] = useState<string>("");
@@ -35,6 +39,8 @@ const EditVehicleData: React.FC = () => {
     const [driverEndTimeError, setDriverEndTimeError] = useState<string>("");
 
     const token = sessionStorage.getItem("token");
+    const username = sessionStorage.getItem("user_name");
+    const userId = sessionStorage.getItem("user_id");
     const apiUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
     const navigate = useNavigate();
 
@@ -42,26 +48,29 @@ const EditVehicleData: React.FC = () => {
     const { id: vehicleId } = useParams();
 
     useEffect(() => {
-        if(!token || !user){
-           logout();
+        if(!token || !userId || !username || !isLoggedIn){
+            sessionStorage.removeItem("token");
+            sessionStorage.removeItem("user_name");
+            sessionStorage.removeItem("user_id");
+            navigate("/"); 
         }else if(!vehicleId){
             navigate("/my-vehicles");
         }else{
             // Fetch vehicle data here and set the state variables
-            fetchVehicleData(token, vehicleId);
+            fetchVehicleData(token, username, userId, vehicleId);
         }
         setIsLoading(false);
         // This effect runs when the component mounts or when the language changes
         // You can add any side effects here if needed
-    }, [language, token, user, navigate, vehicleId]);
+    }, [language, token, userId, username, isLoggedIn, navigate, vehicleId]);
 
-    async function fetchVehicleData(token:string, vehicleId:string) {
+    async function fetchVehicleData(token:string, userName:string, userId:string, vehicleId:string) {
         try {
             const response = await axios.get(`${apiUrl}/vehicles/${vehicleId}`, {
                 headers: {
                     Authorization: "Bearer " + token,
-                    user_name: user!.username,
-                    user_id: user!.userId,
+                    user_name: userName,
+                    user_id: userId,
                 },
             });
             const vehicleData = response.data;
@@ -115,8 +124,8 @@ const EditVehicleData: React.FC = () => {
             return;
         }else{
             const vehicleData = {
-                userName: user!.username,
-                userId: user!.userId,
+                userName: username,
+                userId: userId,
                 licensePlate: licensePlate,
                 seatCapacity: seatCapacity,
                 availableSeats: seatsAvailable,

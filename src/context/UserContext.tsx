@@ -26,10 +26,12 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const logout = () => {
     setUser(null);
     sessionStorage.removeItem("token");
-    // sessionStorage.removeItem("user_name");
-    // sessionStorage.removeItem("user_id");
     navigate("/login");
   };
+
+  React.useEffect(() => {
+    console.log("User state updated:", user);
+  }, [user]);
 
   return (
     <UserContext.Provider value={{ user, setUser, logout }}>
