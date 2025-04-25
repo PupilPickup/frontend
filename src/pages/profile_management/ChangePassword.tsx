@@ -165,13 +165,11 @@ export default function ChangePassword ( { isLoggedIn }: ChangePasswordProps) {
                 <div className="flex space-x-4">
                     <Button
                         onClick={handleCancel}
-                        className="bg-[#F4D03F] hover:bg-[#FFFFFF] text-black px-4 py-2 rounded border-transparent hover:border-black border-2"
                         variant="secondary"
                         label={translations.profile.cancel_button}
                     />
                     <Button
                         onClick={handleSave}
-                        className="bg-[#3498DB] hover:bg-[#2C3E50] text-white px-4 py-2 rounded"
                         variant="primary"
                         label={translations.profile.save_button}
                     />

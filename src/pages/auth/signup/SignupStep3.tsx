@@ -210,7 +210,7 @@ export default function SignupStep3 () {
 					<Button 
             label={translations.sign_up.submit_button} 
             variant="primary" 
-            className="btn-primary w-full" 
+            className="w-full p-2 rounded-md" 
             type="submit" 
           />
 				</div>

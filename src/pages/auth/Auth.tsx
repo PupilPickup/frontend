@@ -61,7 +61,7 @@ const AuthPage: React.FC<AuthPageProps> = ( { isLoggedIn } ) => {
 					className="w-full p-2 rounded-md" /> 
 				<Button 
 					label={translations.auth.sign_up}
-					variant="secondary" 
+					variant="primary" 
 					onClick={handleSignUpClick}
 					className="w-full p-2 rounded-md" />
 			</div>

@@ -178,13 +178,11 @@ const AddChildData: React.FC<AddChildDataProps> = ({ isLoggedIn }) => {
             <div className="mt-4 flex space-x-4">
                 <Button
                     onClick={handleCancel}
-                    className="bg-[#F4D03F] hover:bg-[#FFFFFF] text-black px-4 py-2 rounded border-transparent hover:border-black border-2"
                     variant="secondary"
                     label={translations.children.cancel_button}
                 />
                 <Button
                     onClick={handleAdd}
-                    className="bg-[#3498DB] hover:bg-[#2C3E50] text-white px-4 py-2 rounded"
                     variant="primary"
                     label={translations.children.add_child_button}
                 />

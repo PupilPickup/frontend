@@ -43,13 +43,11 @@ const ChildCard: React.FC<ChildCardProps> = ({
                 <Button
                     onClick={() => onDelete(childId)}
                     variant="secondary"
-                    className="bg-[#F4D03F] hover:bg-[#FFFFFF] text-black px-4 py-2 rounded border-transparent hover:border-black border-2"
                     label={translations.children.delete_child_button}
                 />
                 <Button
                     onClick={() => onEdit(childId)}
                     variant="primary"
-                    className="bg-[#3498DB] hover:bg-[#2C3E50] text-white px-4 py-2 rounded"
                     label={translations.children.edit_child_button}
                 />  
             </div>
