@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import LanguageSelect from "../common/LanguageSelect";
 import enTranslations from "../../languages/en.json";
@@ -16,6 +16,9 @@ const Header: React.FC<HeaderProps> = ( { changeLanguage, setIsLoggedIn } ) => {
   const { language } = useLanguage();
   const translations = language === 'ne' ? neTranslations : enTranslations;
 
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
   const handleLogout = () => {
     // Perform logout logic here (e.g., clearing tokens, resetting state)
     sessionStorage.removeItem("token");
@@ -25,6 +28,28 @@ const Header: React.FC<HeaderProps> = ( { changeLanguage, setIsLoggedIn } ) => {
     console.log("User logged out");
     navigate("/login"); // Redirect to login page
   };
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const closeDropdown = () => {
+    setIsDropdownOpen(false);
+  };
+  // Close dropdown when clicking outside
+  
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+            closeDropdown();
+        }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <header>
@@ -38,7 +63,7 @@ const Header: React.FC<HeaderProps> = ( { changeLanguage, setIsLoggedIn } ) => {
           </div>
 
           {/* Navigation Links */}
-          <ul className="flex space-x-6">
+          <ul className="hidden sm:flex space-x-6">
             <li>
               <NavHeaderLink btnText={translations.header.profile} navTo={"/profile"}/>
             </li>
@@ -49,6 +74,43 @@ const Header: React.FC<HeaderProps> = ( { changeLanguage, setIsLoggedIn } ) => {
               <NavHeaderLink btnText={translations.header.vehicles} navTo={"/my-vehicles"}/>
             </li>
           </ul>
+
+          {/* Mobile Menu Button */}
+          <button
+            className="sm:hidden hover:text-gray-200"
+            onClick={toggleDropdown}
+          >
+            {translations.header.manage}
+          </button>
+
+          {/* Dropdown Menu for Mobile */}
+          {isDropdownOpen && (
+              <div 
+                ref={dropdownRef}
+                className="absolute top-16 left-4 bg-[#3498DB] text-white rounded shadow-lg z-50 w-[9rem]"
+              >
+                  <ul className="flex flex-col space-y-2 w-full">
+                      <li onClick={closeDropdown} className="w-full p-4 hover:bg-[#2C3E50] active:bg-[#2C3E50]">
+                          <NavHeaderLink 
+                            btnText={translations.header.profile} 
+                            navTo={"/profile"} 
+                          />
+                      </li>
+                      <li onClick={closeDropdown} className="w-full p-4 hover:bg-[#2C3E50] active:bg-[#2C3E50]">
+                          <NavHeaderLink 
+                            btnText={translations.header.children} 
+                            navTo={"/my-children"} 
+                          />
+                      </li>
+                      <li onClick={closeDropdown} className="w-full p-4 hover:bg-[#2C3E50] active:bg-[#2C3E50]">
+                          <NavHeaderLink 
+                            btnText={translations.header.vehicles} 
+                            navTo={"/my-vehicles"} 
+                          />
+                      </li>
+                  </ul>
+              </div>
+          )}
 
           {/* Language Selector */}
           <LanguageSelect changeLanguage={changeLanguage} />

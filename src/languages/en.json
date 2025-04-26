@@ -118,7 +118,8 @@
         "profile": "My Profile",
         "children": "My Children",
         "vehicles": "My Vehicles",
-        "logout": "Logout"
+        "logout": "Logout",
+        "manage": "Manage"
     }, 
 
     "universal":{
