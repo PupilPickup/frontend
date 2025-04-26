@@ -169,51 +169,53 @@ const AddVehicleData: React.FC<AddVehicleDataProps> = ({ isLoggedIn }) => {
     }
 
     if(isLoading){
-        return <div className="flex justify-center items-center min-h-screen">{translations.universal.loading}</div>
+        return <div className="flex justify-center items-center min-h-[90vh]">{translations.universal.loading}</div>
     }
 
     if(!token){
-        return <div className="flex justify-center items-center min-h-screen">{translations.universal.redirecting}</div>
+        return <div className="flex justify-center items-center min-h-[90vh]">{translations.universal.redirecting}</div>
     }
 
     return (
-        <div className="border rounded-lg shadow-md p-4 mb-4 bg-white">
-            <h2 className="text-lg font-bold mb-2">
-                {translations.vehicles.add_vehicle_prompt}
-            </h2>
-            {!!serverError && 
-               <p className="text-red-500 text-sm">{serverError}</p>
-            }
-            <VehicleForm 
-                licensePlate={licensePlate}
-                seatCapacity={seatCapacity}
-                seatsAvailable={seatsAvailable}
-                driveStartTime={driverStartTime}
-                driverEndTime={driverEndTime}
-                daysAvailable={daysAvailable}
-                setLicensePlate={setLicensePlate}
-                setSeatCapacity={setSeatCapacity}
-                setSeatsAvailable={setSeatsAvailable}
-                setDriveStartTime={setDriverStartTime}
-                setDriverEndTime={setDriverEndTime}
-                setDaysAvailable={setDaysAvailable}
-                licensePlateError={licensePlateError}
-                seatCapacityError={seatCapacityError}
-                seatsAvailableError={seatsAvailableError}
-                driveStartTimeError={driverStartTimeError}
-                driverEndTimeError={driverEndTimeError}
-            />
-            <div className="mt-4 flex flex-row justify-between space-x-4">
-                <Button
-                    onClick={handleCancel}
-                    variant="secondary"
-                    label={translations.vehicles.cancel_button}
+        <div className="px-4 pb-4 flex flex-col w-full items-center">
+            <div className="flex flex-col border rounded-lg shadow-md p-4 my-4 bg-white w-full sm:max-w-[52rem]">
+                <h2 className="text-lg font-bold mb-2 sm:text-center">
+                    {translations.vehicles.add_vehicle_prompt}
+                </h2>
+                {!!serverError && 
+                <p className="text-red-500 text-sm">{serverError}</p>
+                }
+                <VehicleForm 
+                    licensePlate={licensePlate}
+                    seatCapacity={seatCapacity}
+                    seatsAvailable={seatsAvailable}
+                    driveStartTime={driverStartTime}
+                    driverEndTime={driverEndTime}
+                    daysAvailable={daysAvailable}
+                    setLicensePlate={setLicensePlate}
+                    setSeatCapacity={setSeatCapacity}
+                    setSeatsAvailable={setSeatsAvailable}
+                    setDriveStartTime={setDriverStartTime}
+                    setDriverEndTime={setDriverEndTime}
+                    setDaysAvailable={setDaysAvailable}
+                    licensePlateError={licensePlateError}
+                    seatCapacityError={seatCapacityError}
+                    seatsAvailableError={seatsAvailableError}
+                    driveStartTimeError={driverStartTimeError}
+                    driverEndTimeError={driverEndTimeError}
                 />
-                <Button 
-                    onClick={handleAdd}
-                    variant="primary"
-                    label={translations.vehicles.add_vehicle_button}
-                />
+                <div className="mt-4 flex flex-row justify-between space-x-4">
+                    <Button
+                        onClick={handleCancel}
+                        variant="secondary"
+                        label={translations.vehicles.cancel_button}
+                    />
+                    <Button 
+                        onClick={handleAdd}
+                        variant="primary"
+                        label={translations.vehicles.add_vehicle_button}
+                    />
+                </div>
             </div>
         </div>
     );

@@ -56,8 +56,8 @@ const VehicleCard: React.FC<VehicleCardProps> = ({
     }
 
     return (
-        <div className="border rounded-lg shadow-md p-4 my-4 bg-white w-full max-w-[20rem]">
-            <div>
+        <div className="flex flex-col border rounded-lg shadow-md p-4 my-4 bg-white w-full max-w-[20rem] justify-between">
+            <div className="flex flex-col">
                 <CardLabel 
                     label={translations.vehicles.license_plate_label}
                     data={licensePlate} 

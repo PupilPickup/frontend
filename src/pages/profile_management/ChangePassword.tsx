@@ -96,7 +96,7 @@ export default function ChangePassword ( { isLoggedIn }: ChangePasswordProps) {
     };
 
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center p-6">
+        <div className="min-h-screen flex flex-col items-center p-6">
             <h1 className="text-2xl font-bold mb-6">{translations.profile.change_password_button}</h1>
             <div className="w-full max-w-md bg-white shadow-md rounded-lg p-6">
                 {errorMessage && (
@@ -110,18 +110,6 @@ export default function ChangePassword ( { isLoggedIn }: ChangePasswordProps) {
                     error="" 
                     isPassword={true}
                 />
-                {/* <div className="mb-4">
-                    <label htmlFor="currentPassword" className="block text-sm font-medium mb-1">
-                        {translations.profile.current_password_label}
-                    </label>
-                    <input
-                        type="password"
-                        id="currentPassword"
-                        className="w-full border rounded px-3 py-2"
-                        value={currentPassword}
-                        onChange={(e) => setcurrentPassword(e.target.value)}
-                    />
-                </div> */}
                 <FormInput 
                     label={translations.profile.new_password_label}
                     elementId="newPassword"
@@ -130,18 +118,6 @@ export default function ChangePassword ( { isLoggedIn }: ChangePasswordProps) {
                     error="" 
                     isPassword={true}
                 />
-                {/* <div className="mb-4">
-                    <label htmlFor="newPassword" className="block text-sm font-medium mb-1">
-                        {translations.profile.new_password_label}
-                    </label>
-                    <input
-                        type="password"
-                        id="newPassword"
-                        className="w-full border rounded px-3 py-2"
-                        value={newPassword}
-                        onChange={(e) => setNewPassword(e.target.value)}
-                    />
-                </div> */}
                 <FormInput 
                     label={translations.profile.confirm_new_password_label}
                     elementId="confirmPassword"
@@ -150,18 +126,6 @@ export default function ChangePassword ( { isLoggedIn }: ChangePasswordProps) {
                     error="" 
                     isPassword={true}
                 />
-                {/* <div className="mb-4">
-                    <label htmlFor="confirmPassword" className="block text-sm font-medium mb-1">
-                        {translations.profile.confirm_new_password_label}
-                    </label>
-                    <input
-                        type="password"
-                        id="confirmPassword"
-                        className="w-full border rounded px-3 py-2"
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                    />
-                </div> */}
                 <div className="mt-4 flex flex-row justify-between space-x-4">
                     <Button
                         onClick={handleCancel}

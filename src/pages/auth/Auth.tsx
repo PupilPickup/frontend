@@ -46,7 +46,7 @@ const AuthPage: React.FC<AuthPageProps> = ( { isLoggedIn } ) => {
 	}
 
 	return (
-		<div className='flex flex-col min-h-screen mx-2'>
+		<div className='flex flex-col min-h-[67vh] mx-2'>
 			{/* Logo */}
 			<div className="flex-grow flex justify-center items-center">
 				<img src={WeShare} alt={translations.auth.alt_logo_text} />

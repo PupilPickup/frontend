@@ -98,7 +98,7 @@ const VehicleForm: React.FC<VehicleFormProps> = ({
                 error={driverEndTimeError}
             />
             <div>
-                <label className="text-sm text-gray-600">{translations.vehicles.days_prompt_label}</label>
+                <label className="text-sm sm:text-base text-black">{translations.vehicles.days_prompt_label}</label>
                 <DaysCheckBoxes 
                     mondayLabel={translations.vehicles.monday_label}
                     tuesdayLabel={translations.vehicles.tuesday_label}
