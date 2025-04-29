@@ -1,9 +1,9 @@
-import { env } from 'process';
 import { Resend } from 'resend';
 
-const resend = new Resend(env.RESEND_API_KE);
+const apiKey = process.env.RESEND_API_KEY || "abc";
 
 export function forgotPasswordEmail(email: string, subject: string, body: string){
+    const resend = new Resend(apiKey);
     resend.emails.send({
         from: 'no-reply@weshare.dev',
         to: email,

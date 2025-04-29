@@ -234,12 +234,14 @@ const LoginPage: React.FC<LoginPageProps> = ( { isLoggedIn, setIsLoggedIn } ) =>
             type="submit"
           />
         </form>
-        <p
-          className="text-sm text-blue-500 cursor-pointer hover:underline"
-          onClick={() => setIsModalOpen(true)}
-        >
-          {translations.login.forgot_password_text}
-        </p>
+        <div className="m-6">
+          <p
+            className="text-base text-[#27AE60] cursor-pointer hover:underline"
+            onClick={() => setIsModalOpen(true)}
+          >
+            {translations.login.forgot_password_text}
+          </p>
+        </div>
 
         {isModalOpen && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
@@ -268,6 +270,8 @@ const LoginPage: React.FC<LoginPageProps> = ( { isLoggedIn, setIsLoggedIn } ) =>
                     className="w-[40%]"
                     type="button"
                     onClick={() => {
+                      setForgotEmailError("");
+                      setForgotUsernameError("");
                       setIsModalOpen(false);
                     }}
                   />
