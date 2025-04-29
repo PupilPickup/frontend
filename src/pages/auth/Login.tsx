@@ -9,12 +9,11 @@ import { useLanguage } from "../../context/LanguageContext";
 import axios from "axios";
 import FormInput from "../../components/common/FormInput";
 import { isFieldEmpty } from "../../utils/profileValidation";
-import { forgotPasswordEmail } from "../../utils/emailHelper";
 
 // Define the possible error keys
 type LoginServerErrors = 'empty_fields' | 'username_not_existent' | 'invalid_credentials' | 'server_error' | 'generic_error';
 
-type ResetPasswordServerErrors = 'username_email_mismatch' | 'user_password_update_fail' | 'generic_error';
+type ResetPasswordServerErrors = 'empty_fields' | 'username_email_mismatch' | 'user_password_update_fail' | 'email_sent_failed'| 'generic_error';
 
 interface LoginPageProps {
 	isLoggedIn: boolean, 
@@ -33,6 +32,7 @@ const LoginPage: React.FC<LoginPageProps> = ( { isLoggedIn, setIsLoggedIn } ) =>
   const [forgotUsernameError, setForgotUsernameError] = useState("");
   const [forgotEmailError, setForgotEmailError] = useState("");
   const [serverError, setServerError] = useState("");
+  const [emailSuccess, setEmailSuccess] = useState(false);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -47,6 +47,9 @@ const LoginPage: React.FC<LoginPageProps> = ( { isLoggedIn, setIsLoggedIn } ) =>
     setUsernameEmailError("");
     setPasswordError("");
     setServerError("");
+    setForgotEmailError("");
+    setForgotUsernameError("");
+    setEmailSuccess(false);
   }, [language]);
 
   useEffect(() => {
@@ -62,6 +65,11 @@ const LoginPage: React.FC<LoginPageProps> = ( { isLoggedIn, setIsLoggedIn } ) =>
     setUsernameEmailError("");
     setPasswordError("");
     setServerError("");
+    setEmailSuccess(false);
+    setForgotEmail("");
+    setForgotEmailError("");
+    setForgotUsername("");
+    setForgotUsernameError("");
   }
   
   const handleSubmit = async (e: React.FormEvent) => {
@@ -151,25 +159,23 @@ const LoginPage: React.FC<LoginPageProps> = ( { isLoggedIn, setIsLoggedIn } ) =>
     }else{
       setForgotEmailError("");
     }
-
     if(hasError){
       return;
     }else{
+      console.log("no errors in input");
       const userData = {
         username: forgotUsername,
-        email: forgotEmail
+        email: forgotEmail,
+        subject: translations.forgot_password.email_subject,
+        body: translations.forgot_password.email_body
       }
       try{
-        const response = await axios.post(`${apiUrl}/users/reset-password`, userData);
-
-        const email = response.data.email;
-        const password = response.data.password;
-        const subject = translations.forgot_password.email_subject;
-        let body = translations.forgot_password.email_body;
-        body = body.replace("$PASSWORD", password);
-        forgotPasswordEmail(email, subject, body);
-
+        await axios.put(`${apiUrl}/users/reset-password`, userData);
+        console.log("no errors in sending");
+        setForgotEmail("");
+        setForgotUsername("");
         setServerError("");
+        setEmailSuccess(true);
         
       }catch(error){
         if (axios.isAxiosError(error) && error.response) {
@@ -177,6 +183,7 @@ const LoginPage: React.FC<LoginPageProps> = ( { isLoggedIn, setIsLoggedIn } ) =>
           let errorMessage: string = translations.forgot_password_server_error[errorKey] || translations.forgot_password_server_error.generic_error;
           setServerError(errorMessage);
         }
+        setEmailSuccess(false);
       }
       setIsModalOpen(false);
     }
@@ -224,6 +231,9 @@ const LoginPage: React.FC<LoginPageProps> = ( { isLoggedIn, setIsLoggedIn } ) =>
             </div>
             {serverError && (
               <span className="text-red-500 text-sm mt-1">{serverError}</span>
+            )}
+            {emailSuccess && (
+              <span className="text-[#27AE60] text-sm mt-1">{translations.forgot_password.email_sent}</span>
             )}
           </fieldset>
 
