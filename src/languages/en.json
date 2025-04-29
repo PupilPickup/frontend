@@ -20,7 +20,8 @@
         "password_label": "Password",
         "login_button": "Login", 
         "require_username_email_error": "Please enter your username or email",
-        "require_password_error": "Please enter your password"
+        "require_password_error": "Please enter your password",
+        "forgot_password_text": "Forgot your password? Click here."
     },
 
     "sign_up": {
@@ -267,5 +268,27 @@
         "server_error_put": "An error occurred while updating your vehicle. Please try again later.",
         "server_error_delete": "An error occurred while deleting your vehicle. Please try again later.",
         "generic_error": "An error occurred. Please try again later."
+    }, 
+    
+    "forgot_password":{
+        "modal_title":"Reset Forgotten Password",
+        "modal_message": "Enter your username and email. If this pair exists then an email containing a new password will be sent to your email.",
+        "username_label": "Username",
+        "email_label": "Email",
+        "reset_password_button": "Reset Password",
+        "cancel_button": "Cancel",
+        "require_username_error":"Please enter your username",
+        "require_email_error":"Please enter your email",
+        "email_subject": "WeShare Password Reset",
+        "email_body": "A request was made to reset your password. Your new password is $PASSWORD. Please login with this password and change your password in your profile management area.",
+        "email_sent": "Email to reset password successfully sent."
+    },
+
+    "forgot_password_server_error":{
+        "username_email_mismatch": "No username with this email was found",
+        "user_password_update_fail": "Password failed to reset",
+        "generic_error": "An error occured when resetting the password. Please try again later.",
+        "empty_fields": "No fields can be left empty.",
+        "email_sent_failed": "Email failed to send"
     }
 }

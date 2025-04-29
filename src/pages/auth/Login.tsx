@@ -2,16 +2,18 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { validatePassword } from "../../schema/loginSchema";
 import Button from "../../components/common/Button";
-import styles from "../../styles/Auth.module.css";
 import WeShare from "../../assets/icons/Weshare.svg";
 import enTranslations from "../../languages/en.json";
 import neTranslations from "../../languages/ne.json";
 import { useLanguage } from "../../context/LanguageContext";
 import axios from "axios";
 import FormInput from "../../components/common/FormInput";
+import { isFieldEmpty } from "../../utils/profileValidation";
 
 // Define the possible error keys
 type LoginServerErrors = 'empty_fields' | 'username_not_existent' | 'invalid_credentials' | 'server_error' | 'generic_error';
+
+type ResetPasswordServerErrors = 'empty_fields' | 'username_email_mismatch' | 'user_password_update_fail' | 'email_sent_failed'| 'generic_error';
 
 interface LoginPageProps {
 	isLoggedIn: boolean, 
@@ -25,7 +27,14 @@ const LoginPage: React.FC<LoginPageProps> = ( { isLoggedIn, setIsLoggedIn } ) =>
   const [password, setPassword] = useState("");
   const [usernameEmailError, setUsernameEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [forgotUsername, setForgotUsername] = useState("");
+  const [forgotEmail, setForgotEmail] = useState("");
+  const [forgotUsernameError, setForgotUsernameError] = useState("");
+  const [forgotEmailError, setForgotEmailError] = useState("");
   const [serverError, setServerError] = useState("");
+  const [emailSuccess, setEmailSuccess] = useState(false);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -38,6 +47,9 @@ const LoginPage: React.FC<LoginPageProps> = ( { isLoggedIn, setIsLoggedIn } ) =>
     setUsernameEmailError("");
     setPasswordError("");
     setServerError("");
+    setForgotEmailError("");
+    setForgotUsernameError("");
+    setEmailSuccess(false);
   }, [language]);
 
   useEffect(() => {
@@ -53,6 +65,11 @@ const LoginPage: React.FC<LoginPageProps> = ( { isLoggedIn, setIsLoggedIn } ) =>
     setUsernameEmailError("");
     setPasswordError("");
     setServerError("");
+    setEmailSuccess(false);
+    setForgotEmail("");
+    setForgotEmailError("");
+    setForgotUsername("");
+    setForgotUsernameError("");
   }
   
   const handleSubmit = async (e: React.FormEvent) => {
@@ -128,6 +145,50 @@ const LoginPage: React.FC<LoginPageProps> = ( { isLoggedIn, setIsLoggedIn } ) =>
     }
   };
 
+  const handleForgotPassword = async () => {
+    let hasError: boolean = false;
+    if(isFieldEmpty(forgotUsername)){
+      setForgotUsernameError(translations.forgot_password.require_username_error);
+      hasError = true;
+    }else{
+      setForgotUsernameError("");
+    }
+    if(isFieldEmpty(forgotEmail)){
+      setForgotEmailError(translations.forgot_password.require_email_error);
+      hasError = true;
+    }else{
+      setForgotEmailError("");
+    }
+    if(hasError){
+      return;
+    }else{
+      console.log("no errors in input");
+      const userData = {
+        username: forgotUsername,
+        email: forgotEmail,
+        subject: translations.forgot_password.email_subject,
+        body: translations.forgot_password.email_body
+      }
+      try{
+        await axios.put(`${apiUrl}/users/reset-password`, userData);
+        console.log("no errors in sending");
+        setForgotEmail("");
+        setForgotUsername("");
+        setServerError("");
+        setEmailSuccess(true);
+        
+      }catch(error){
+        if (axios.isAxiosError(error) && error.response) {
+          const errorKey = error.response.data.error as ResetPasswordServerErrors;
+          let errorMessage: string = translations.forgot_password_server_error[errorKey] || translations.forgot_password_server_error.generic_error;
+          setServerError(errorMessage);
+        }
+        setEmailSuccess(false);
+      }
+      setIsModalOpen(false);
+    }
+  }
+
   if(isLoading){
 		return <div className="flex justify-center items-center min-h-screen">{translations.universal.loading}</div>
 	}
@@ -158,20 +219,6 @@ const LoginPage: React.FC<LoginPageProps> = ( { isLoggedIn, setIsLoggedIn } ) =>
                 error={usernameEmailError}
               />
             </div>
-              {/* <label htmlFor="username" className={styles.label}>
-                {translations.login.username_or_email_label}
-              </label>
-              <input
-                type="text"
-                id="username"
-                name="username"
-                className="input"
-                value={loginInput}
-                onChange={(e) => setLoginInput(e.target.value)}
-              />
-              {usernameEmailError && (
-                <span className="text-red-500 text-sm mt-1">{usernameEmailError}</span>
-              )} */}
             <div className="flex flex-col">
               <FormInput
                 label={translations.login.password_label}
@@ -182,23 +229,11 @@ const LoginPage: React.FC<LoginPageProps> = ( { isLoggedIn, setIsLoggedIn } ) =>
                 isPassword={true}
               />
             </div>
-              {/* <label htmlFor="password" className={styles.label}>
-                {translations.login.password_label}
-              </label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                className="input"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              {passwordError && (
-                <span className="text-red-500 text-sm mt-1">{passwordError}</span>
-              )}
-            </div> */}
             {serverError && (
               <span className="text-red-500 text-sm mt-1">{serverError}</span>
+            )}
+            {emailSuccess && (
+              <span className="text-[#27AE60] text-sm mt-1">{translations.forgot_password.email_sent}</span>
             )}
           </fieldset>
 
@@ -209,6 +244,59 @@ const LoginPage: React.FC<LoginPageProps> = ( { isLoggedIn, setIsLoggedIn } ) =>
             type="submit"
           />
         </form>
+        <div className="m-6">
+          <p
+            className="text-base text-[#27AE60] cursor-pointer hover:underline"
+            onClick={() => setIsModalOpen(true)}
+          >
+            {translations.login.forgot_password_text}
+          </p>
+        </div>
+
+        {isModalOpen && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+            <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+              <h2 className="text-lg font-bold mb-4">{translations.forgot_password.modal_title}</h2>
+              <p className="text-sm mb-4">{translations.forgot_password.modal_message}</p>
+              <form className="flex flex-col space-y-4">
+                <FormInput
+                  label={translations.forgot_password.username_label}
+                  elementId="forgotPasswordUser"
+                  changeHandler={setForgotUsername}
+                  value={forgotUsername}
+                  error={forgotUsernameError}
+                />
+                <FormInput
+                  label={translations.forgot_password.email_label}
+                  elementId="forgotPasswordEmail"
+                  changeHandler={setForgotEmail}
+                  value={forgotEmail}
+                  error={forgotEmailError}
+                />
+                <div className="flex flex-row justify-between" >
+                  <Button
+                    label={translations.forgot_password.cancel_button}
+                    variant="secondary"
+                    className="w-[40%]"
+                    type="button"
+                    onClick={() => {
+                      setForgotEmailError("");
+                      setForgotUsernameError("");
+                      setIsModalOpen(false);
+                    }}
+                  />
+                  <Button
+                    label={translations.forgot_password.reset_password_button}
+                    variant="primary"
+                    className="w-[40%]"
+                    type="button"
+                    onClick={handleForgotPassword}
+                  />
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
