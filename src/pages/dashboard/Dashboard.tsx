@@ -26,15 +26,15 @@ export default function Dashboard () {
 	}, []);
 
 	if(isLoading){
-		return <div className="flex justify-center items-center min-h-screen">{translations.universal.loading}</div>
+		return <div className="flex justify-center items-center min-h-[90vh]">{translations.universal.loading}</div>
 	}
 
 	if(!token){
-		return <div className="flex justify-center items-center min-h-screen">{translations.universal.redirecting}</div>
+		return <div className="flex justify-center items-center min-h-[90vh]">{translations.universal.redirecting}</div>
 	}
 
 	return (
-		<div className="flex justify-center items-center min-h-screen text-3xl">{translations.dashboard.welcome_message}</div>
+		<div className="flex flex-col items-center min-h-[90vh] text-3xl my-4 p-4">{translations.dashboard.welcome_message}</div>
 	);
 }
 

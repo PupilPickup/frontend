@@ -184,54 +184,52 @@ const EditChildData: React.FC<EditChildDataProps> = ({
     function removeSeconds(timeString: string){
         const sections = timeString.split(":")
         return sections[0] + ":" + sections[1];
-        // const size: number = timeString.length;
-        // return timeString.substring(0, size-3);
     }
 
 
     if(isLoading){
-        return <div className="flex justify-center items-center min-h-screen">{translations.universal.loading}</div>
+        return <div className="flex justify-center items-center min-h-[90vh]">{translations.universal.loading}</div>
     }
 
     if(!token){
-        return <div className="flex justify-center items-center min-h-screen">{translations.universal.redirecting}</div>
+        return <div className="flex justify-center items-center min-h-[90vh]">{translations.universal.redirecting}</div>
     }
 
     return (
-        <div className="border rounded-lg shadow-md p-4 mb-4 bg-white">
-            <h2 className="text-lg font-bold mb-2">
-                {translations.children.edit_child_prompt}
-            </h2>
-            {!!serverError && 
-               <p className="text-red-500 text-sm">{serverError}</p>
-            }
-            <ChildForm
-                firstName={firstName}
-                lastName={lastName}
-                pickupTime={pickupTime}
-                dropoffTime={dropoffTime}
-                setFirstName={setFirstName}
-                setLastName={setLastName}
-                setPickupTime={setPickupTime}
-                setDropoffTime={setDropoffTime}            
-                firstNameError={firstNameError}
-                lastNameError={lastNameError}
-                pickupTimeError={pickupTimeError}
-                dropoffTimeError={dropoffTimeError}
-            />
-            <div className="mt-4 flex space-x-4">
-                <Button
-                    onClick={handleCancel}
-                    className="bg-[#F4D03F] hover:bg-[#FFFFFF] text-black px-4 py-2 rounded border-transparent hover:border-black border-2"
-                    variant="secondary"
-                    label={translations.children.cancel_button}
+        <div className="px-4 pb-4 flex flex-col w-full items-center">
+            <div className="flex flex-col border rounded-lg shadow-md p-4 my-4 bg-white w-full sm:max-w-[52rem]">
+                <h2 className="text-lg font-bold mb-2 sm:text-center">
+                    {translations.children.edit_child_prompt}
+                </h2>
+                {!!serverError && 
+                <p className="text-red-500 text-sm">{serverError}</p>
+                }
+                <ChildForm
+                    firstName={firstName}
+                    lastName={lastName}
+                    pickupTime={pickupTime}
+                    dropoffTime={dropoffTime}
+                    setFirstName={setFirstName}
+                    setLastName={setLastName}
+                    setPickupTime={setPickupTime}
+                    setDropoffTime={setDropoffTime}            
+                    firstNameError={firstNameError}
+                    lastNameError={lastNameError}
+                    pickupTimeError={pickupTimeError}
+                    dropoffTimeError={dropoffTimeError}
                 />
-                <Button
-                    onClick={handleSave}
-                    className="bg-[#3498DB] hover:bg-[#2C3E50] text-white px-4 py-2 rounded"
-                    variant="primary"
-                    label={translations.children.save_button}
-                />  
+                <div className="mt-4 flex flex-row justify-between space-x-4">
+                    <Button
+                        onClick={handleCancel}
+                        variant="secondary"
+                        label={translations.children.cancel_button}
+                    />
+                    <Button
+                        onClick={handleSave}
+                        variant="primary"
+                        label={translations.children.save_button}
+                    />  
+                </div>
             </div>
         </div>
     );

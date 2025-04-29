@@ -113,20 +113,20 @@ export default function VehicleManagement ( { isLoggedIn }: VehicleManagementPro
     }
 
     if(isLoading){
-        return <div className="flex justify-center items-center min-h-screen">{translations.universal.loading}</div>
+        return <div className="flex justify-center items-center min-h-[90vh]">{translations.universal.loading}</div>
     }
 
     if(!token){
-        return <div className="flex justify-center items-center min-h-screen">{translations.universal.redirecting}</div>
+        return <div className="flex justify-center items-center min-h-[90vh]">{translations.universal.redirecting}</div>
     }
 
     return (
-        <div className="flex flex-col justify-center items-center min-h-screen text-3xl">
+        <div className="flex flex-col items-center min-h-[90vh] w-full my-4 px-4">
             <h1 className="text-3xl font-bold mb-4">{translations.vehicles.vehicles_header}</h1>
             <h2>{translations.vehicles.vehicles_prompt}</h2>
             {serverError && <div className="text-red-500 mb-4">{serverError}</div>}
             {vehiclesList.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 justify-center items-stretch">
                     {vehiclesList.map((vehicle: any) => (
                         <VehicleCard 
                             key={vehicle.vehicleId}
@@ -149,7 +149,6 @@ export default function VehicleManagement ( { isLoggedIn }: VehicleManagementPro
                 label={translations.vehicles.add_vehicle_button} 
                 variant="primary" 
                 onClick={handleAddClick} 
-                className="mt-4" 
             />
         </div>
     );

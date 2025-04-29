@@ -46,24 +46,24 @@ const AuthPage: React.FC<AuthPageProps> = ( { isLoggedIn } ) => {
 	}
 
 	return (
-		<div className='flex flex-col min-h-screen mx-2'>
+		<div className='flex flex-col min-h-[67vh] mx-2'>
 			{/* Logo */}
 			<div className="flex-grow flex justify-center items-center">
 				<img src={WeShare} alt={translations.auth.alt_logo_text} />
 			</div>
 
 			{/* Buttons */}
-			<div className="flex flex-col gap-2 justify-evenly pb-24">
+			<div className="flex flex-col gap-2 items-center pb-24 px-4">
 				<Button 
 					label={translations.auth.login}
 					variant="primary" 
 					onClick={handleLoginClick}
-					className="w-full p-2 rounded-md" /> 
+					className="w-full p-2 rounded-md sm:max-w-[50%]" /> 
 				<Button 
 					label={translations.auth.sign_up}
-					variant="secondary" 
+					variant="primary" 
 					onClick={handleSignUpClick}
-					className="w-full p-2 rounded-md" />
+					className="w-full p-2 rounded-md sm:max-w-[50%]" />
 			</div>
 		</div>	
 	);

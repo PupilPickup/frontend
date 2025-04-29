@@ -39,74 +39,87 @@ const DaysCheckBoxes: React.FC<DaysCheckBoxesProps> = ({
     };
 
     return(
-<div className="flex flex-col space-y-2">
-            <div>
-                <label>
+        <div className="flex flex-col mt-2">
+            <div className="flex flex-col sm:flex-row sm:gap-2">
+                <div className="flex flex-row mb-2 sm:w-[50%]">
                     <input
                         type="checkbox"
+                        id="mondayInput"
                         checked={selectedDays.includes("Monday")}
                         onChange={(e) => handleCheckboxChange("Monday", e.target.checked)}
                     />
-                    {mondayLabel}
-                </label>
-            </div>
-            <div>
-                <label>
+                    <label htmlFor="mondayInput" className="ml-1">
+                        {mondayLabel}
+                    </label>
+                </div>
+                <div className="flex flex-row mb-2 sm:w-[50%]">
                     <input
                         type="checkbox"
+                        id="tuesdayInput"
                         checked={selectedDays.includes("Tuesday")}
                         onChange={(e) => handleCheckboxChange("Tuesday", e.target.checked)}
                     />
-                    {tuesdayLabel}
-                </label>
+                    <label htmlFor="tuesdayInput" className="ml-1">
+                        {tuesdayLabel}
+                    </label>
+                </div>
             </div>
-            <div>
-                <label>
+            <div className="flex flex-col sm:flex-row sm:gap-2">
+                <div className="flex flex-row mb-2 sm:w-[50%]">
                     <input
                         type="checkbox"
+                        id="wednesdayInput"
                         checked={selectedDays.includes("Wednesday")}
                         onChange={(e) => handleCheckboxChange("Wednesday", e.target.checked)}
                     />
-                    {wednesdayLabel}
-                </label>
-            </div>
-            <div>
-                <label>
+                    <label htmlFor="wednesdayInput" className="ml-1">
+                        {wednesdayLabel}
+                    </label>
+                </div>
+                <div className="flex flex-row mb-2 sm:w-[50%]">
                     <input
                         type="checkbox"
+                        id="thursdayInput"
                         checked={selectedDays.includes("Thursday")}
                         onChange={(e) => handleCheckboxChange("Thursday", e.target.checked)}
                     />
-                    {thursdayLabel}
-                </label>
+                    <label htmlFor="thursdayInput" className="ml-1">
+                        {thursdayLabel}
+                    </label>
+                </div>
             </div>
-            <div>
-                <label>
+            <div className="flex flex-col sm:flex-row sm:gap-2">
+                <div className="flex flex-row mb-2 sm:w-[50%]">
                     <input
                         type="checkbox"
+                        id="fridayInput"
                         checked={selectedDays.includes("Friday")}
                         onChange={(e) => handleCheckboxChange("Friday", e.target.checked)}
                     />
-                    {fridayLabel}
-                </label>
-            </div>
-            <div>
-                <label>
+                    <label htmlFor="fridayInput" className="ml-1">
+                        {fridayLabel}
+                    </label>
+                </div>
+                <div className="flex flex-row mb-2 sm:w-[50%]">
                     <input
                         type="checkbox"
+                        id="saturdayInput"
                         checked={selectedDays.includes("Saturday")}
                         onChange={(e) => handleCheckboxChange("Saturday", e.target.checked)}
                     />
-                    {saturdayLabel}
-                </label>
+                    <label htmlFor="saturdayInput" className="ml-1">
+                        {saturdayLabel}
+                    </label>
+                </div>
             </div>
-            <div>
-                <label>
-                    <input
-                        type="checkbox"
-                        checked={selectedDays.includes("Sunday")}
-                        onChange={(e) => handleCheckboxChange("Sunday", e.target.checked)}
-                    />
+            <div className="flex flex-row mb-2 sm:w-[50%]">
+                <input
+                    type="checkbox"
+                    id="sundayInput"
+                    checked={selectedDays.includes("Sunday")}
+                    onChange={(e) => handleCheckboxChange("Sunday", e.target.checked)}
+                />
+                <label htmlFor="sundayInput" className="ml-1">
                     {sundayLabel}
                 </label>
             </div>

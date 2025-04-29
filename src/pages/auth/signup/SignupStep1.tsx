@@ -78,58 +78,60 @@ export default function SignupStep1() {
   };
 
   return (
-    <div className="px-4 pb-4">
-			<div className="flex justify-center">
-				<img src={WeShare} alt={translations.sign_up.alt_logo_text} />
-			</div>
-      <header className="flex flex-col text-center mb-6">
-        <h1 className="text-3xl font-bold">{translations.sign_up.header1}</h1>
-        <p className="text-sm w-1/2 mx-auto">{translations.sign_up.prompt1}</p>
-      </header>
+    <div className="px-4 pb-4 flex flex-col w-full items-center">
+      <div className="w-full sm:max-w-[52rem]">
+        <div className="flex justify-center">
+          <img src={WeShare} alt={translations.sign_up.alt_logo_text} />
+        </div>
+        <header className="flex flex-col text-center mb-6">
+          <h1 className="text-3xl font-bold">{translations.sign_up.header1}</h1>
+          <p className="text-sm w-1/2 mx-auto">{translations.sign_up.prompt1}</p>
+        </header>
 
-      <form className="space-y-6 mx-6" onSubmit={handleNextStep}>
-        <fieldset className="space-y-2">
-          <div className="flex flex-col">
-            <ProfileInput
-              label={translations.sign_up.first_name_label}
-              elementId="firstName"
-              changeHandler={handleChange}
-              value={signupData.firstName}
-              error={firstNameError}
-            />
-          </div>
+        <form className="flex flex-col space-y-6 mx-6" onSubmit={handleNextStep}>
+          <fieldset className="space-y-2">
+            <div className="flex flex-col">
+              <ProfileInput
+                label={translations.sign_up.first_name_label}
+                elementId="firstName"
+                changeHandler={handleChange}
+                value={signupData.firstName}
+                error={firstNameError}
+              />
+            </div>
 
-          <div className="flex flex-col">
-            <ProfileInput
-              label={translations.sign_up.last_name_label}
-              elementId="lastName"
-              changeHandler={handleChange}
-              value={signupData.lastName}
-              error={lastNameError}
-            />
-          </div>
+            <div className="flex flex-col">
+              <ProfileInput
+                label={translations.sign_up.last_name_label}
+                elementId="lastName"
+                changeHandler={handleChange}
+                value={signupData.lastName}
+                error={lastNameError}
+              />
+            </div>
 
-          <div className="flex flex-col">
-            <ProfileInput
-              label={translations.sign_up.phone_number_label}
-              elementId="phoneNumber"
-              changeHandler={handleChange}
-              value={signupData.phoneNumber}
-              error={phoneError}
-              isPhone={true}
-              placeholder={translations.sign_up.phone_placeholder}
-            />
-          </div>
+            <div className="flex flex-col">
+              <ProfileInput
+                label={translations.sign_up.phone_number_label}
+                elementId="phoneNumber"
+                changeHandler={handleChange}
+                value={signupData.phoneNumber}
+                error={phoneError}
+                isPhone={true}
+                placeholder={translations.sign_up.phone_placeholder}
+              />
+            </div>
 
-        </fieldset>
+          </fieldset>
 
-        <Button 
-          label={translations.sign_up.next_button} 
-          variant="primary" 
-          className="w-full p-2 rounded-md" 
-          type="submit"
-        />
-      </form>
+          <Button 
+            label={translations.sign_up.next_button} 
+            variant="primary" 
+            className="w-full p-2 rounded-md" 
+            type="submit"
+          />
+        </form>
+      </div>
     </div>
   );
 };

@@ -455,39 +455,34 @@ export default function UserProfile ( { isLoggedIn, setIsLoggedIn }: UserProfile
                 )}
             </div>
 
-            <div className="mt-8 flex space-x-4">
+            <div className="mt-8 w-full max-w-md flex flex-row justify-center">
                 {isViewState ? (
-                    <div>
+                    <div className="flex flex-row w-full max-w-md justify-between space-x-4">
                         <Button
                             onClick={handleDeleteAccount}
-                            className="bg-[#F4D03F] hover:bg-[#FFFFFF] text-black px-4 py-2 rounded border-transparent hover:border-black border-2"
                             variant="secondary"
                             label={translations.profile.delete_button}
                         />
                         <Button
                             onClick={handleChangePassword}
-                            className="bg-[#3498DB] hover:bg-[#2C3E50] text-white px-4 py-2 rounded"
                             variant="primary"
                             label={translations.profile.change_password_button}
                         />
                         <Button
                             onClick={handleEditProfile}
-                            className="bg-[#3498DB] hover:bg-[#2C3E50] text-white px-4 py-2 rounded"
                             variant="primary"
                             label={translations.profile.edit_button}
                         />
                     </div>
                 ):(
-                    <div>
+                    <div className="flex flex-row w-full max-w-md justify-between space-x-6">
                         <Button
                             onClick={handleCancelEdit}
-                            className="bg-[#3498DB] hover:bg-[#2C3E50] text-white px-4 py-2 rounded"
                             variant="secondary"
                             label={translations.profile.cancel_button}
                         />
                         <Button
                             onClick={handleSaveProfileChanges}
-                            className="bg-[#3498DB] hover:bg-[#2C3E50] text-white px-4 py-2 rounded"
                             variant="primary"
                             label={translations.profile.save_button}
                         />

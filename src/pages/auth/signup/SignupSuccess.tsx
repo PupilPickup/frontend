@@ -17,7 +17,7 @@ export default function SignupSuccess () {
   };
 
 	return (
-		<div className="p-4">
+		<div className="p-4 flex flex-col items-center">
 			<div className="flex justify-center">
 				<img src={WeShare} alt={translations.sign_up.alt_logo_text} />
 			</div>
@@ -29,7 +29,7 @@ export default function SignupSuccess () {
 			<Button 
 				label={translations.sign_up.login_button}
 				variant="primary"
-				className="w-full p-2 rounded-md"
+				className="w-full sm:max-w-[50%] p-2 rounded-md"
 				type="button"
 				onClick={handleLoginClick}
 			/>
