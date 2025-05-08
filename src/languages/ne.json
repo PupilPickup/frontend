@@ -1,0 +1,297 @@
+{
+    "languages": {
+        "english_shorthand": "EN",
+        "nepali_shorthand": "NE"
+    },
+    
+    "auth": {
+        "login": "लगइन",
+        "sign_up": "साइन अप",
+        "alt_logo_text": "WeShare आइकन"
+    },
+
+    "login": {
+        "alt_logo_text": "WeShare आइकन",
+        "password_error_message": "पासवर्डमा कम्तीमा ८ अक्षर, एक संख्या, एक ठूलो अक्षर र एक विशेष प्रतीक समावेश हुनुपर्छ।",
+        "welcome_back_message": "पुन: स्वागत छ!",
+        "login_prompt_message": "आफ्नो सवारी बुक गर्न सुरु गर्न लगइन गर्नुहोस्।",
+        "username_label": "प्रयोगकर्ता नाम",
+        "username_or_email_label": "प्रयोगकर्ता नाम/इमेल",
+        "password_label": "पासवर्ड",
+        "login_button": "लगइन",
+        "require_username_email_error": "कृपया आफ्नो प्रयोगकर्ता नाम वा इमेल प्रविष्ट गर्नुहोस्",
+        "require_password_error": "कृपया आफ्नो पासवर्ड प्रविष्ट गर्नुहोस्",
+        "forgot_password_text": "पासवर्ड बिर्सनुभयो? यहाँ क्लिक गर्नुहोस्।"
+
+    },
+
+    "sign_up": {
+        "alt_logo_text": "WeShare आइकन",
+        "header1": "अहिले सुरु गर्नुहोस्",
+        "prompt1": "चरण 1 को 3: आधारभूत जानकारी",
+        "first_name_label": "पहिलो नाम",
+        "last_name_label": "थर",
+        "phone_number_label": "फोन नम्बर",
+        "phone_placeholder": "XXXXXXXXXX",
+        "next_button": "अगाडि बढ्नुहोस्",
+        "header2": "तपाईंको ठेगाना भर्नुहोस्",
+        "prompt2": "चरण 2 को 3: ठेगाना",
+        "address_label": "ठेगाना",
+        "ward_label": "वडाको संख्या",
+        "municipality_label": "नगरपालिका/जिल्ला",
+        "header3": "तपाईंको प्रोफाइल पूरा गर्नुहोस्",
+        "prompt3": "चरण 3 को 3: खाता विवरण",
+        "email_label": "इमेल",
+        "username_label": "प्रयोगकर्ता नाम",
+        "password_label": "पासवर्ड",
+        "confirm_password_label": "पासवर्ड पुष्टि गर्नुहोस्",
+        "password_requirements_error": "पासवर्ड कम्तिमा 8 अक्षरको हुनुपर्छ, एक संख्या, एक ठाडो अक्षर र एक विशेष चिह्न समावेश गर्नुपर्छ।",
+        "password_mismatch_error": "पासवर्ड मिल्दैन!",
+        "submit_button": "खाता बनाउनुहोस्",
+        "success_header": "साइन अप सफल भयो!",
+        "thanks_message": "हाम्रो सवारी साझेदारी समुदायमा सामेल हुनुभएकोमा धन्यवाद!",
+        "commitment_message": "हामी अभिभावकलाई आफ्ना बच्चाका लागि सवारी बुक गर्न सुरक्षित र विश्वसनीय यातायात विकल्प प्रदान गर्न प्रतिबद्ध छौं।",
+        "login_button": "लग इन गर्नुहोस्",
+        "require_first_name_error": "कृपया आफ्नो पहिलो नाम प्रविष्ट गर्नुहोस्",
+        "require_last_name_error": "कृपया आफ्नो थर प्रविष्ट गर्नुहोस्",
+        "require_phone_number_error": "कृपया आफ्नो फोन नम्बर प्रविष्ट गर्नुहोस्",
+        "require_address_error": "कृपया आफ्नो ठेगाना प्रविष्ट गर्नुहोस्",
+        "require_ward_error": "कृपया आफ्नो वडाको संख्या प्रविष्ट गर्नुहोस्",
+        "require_municipality_error": "कृपया आफ्नो नगरपालिका/जिल्ला प्रविष्ट गर्नुहोस्",
+        "require_email_error": "कृपया आफ्नो इमेल प्रविष्ट गर्नुहोस्",
+        "require_username_error": "कृपया आफ्नो प्रयोगकर्ता नाम प्रविष्ट गर्नुहोस्",
+        "invalid_first_name_error": "पहिलो नाम कम्तिमा 2 अक्षर लामो हुनुपर्छ",
+        "invalid_last_name_error": "थर कम्तिमा 2 अक्षर लामो हुनुपर्छ",
+        "invalid_phone_number_error": "फोन नम्बर XXXXXXXXXX को ढाँचामा हुनुपर्छ",
+        "invalid_address_error": "ठेगाना कम्तिमा 5 अक्षर लामो हुनुपर्छ",
+        "invalid_ward_error": "वडाको संख्या 1 र 32 बीचको संख्या हुनुपर्छ",
+        "invalid_municipality_error": "नगरपालिका/जिल्ला कम्तिमा 3 अक्षर लामो हुनुपर्छ र केवल अक्षरहरू, स्थानहरू, र हाइफनहरू समावेश गर्न सकिन्छ",
+        "invalid_email_error": "कृपया एक वैध इमेल ठेगाना प्रविष्ट गर्नुहोस्",
+        "invalid_username_error": "प्रयोगकर्ता नाम कम्तिमा 6 अक्षर लामो हुनुपर्छ"
+    },
+
+    "dashboard": {
+        "welcome_message": "WeShare मा स्वागत छ!"
+    },
+
+    "signup_server_errors": {
+        "empty_fields": "कुनै पनि क्षेत्र खाली राख्न सकिँदैन।",
+        "firstname_length": "पहिलो नाम धेरै लामो छ।",
+        "lastname_length": "थर धेरै लामो छ।",
+        "username_length": "प्रयोगकर्ता नाम धेरै लामो छ।",
+        "email_length": "इमेल धेरै लामो छ।",
+        "phone_length": "फोन नम्बर धेरै लामो छ।",
+        "username_exists": "प्रयोगकर्ता नाम ${username} पहिले नै प्रयोगमा छ। कृपया अर्को प्रयोगकर्ता नाम चयन गर्नुहोस्।",
+        "email_exists": "इमेल ${email} सँग पहिले नै खाता छ। कृपया अर्को इमेल चयन गर्नुहोस् वा विद्यमान खातासँग लगइन गर्नुहोस्।",
+        "server_error": "खाता सिर्जना गर्दा समस्या आयो। कृपया पछि पुन: प्रयास गर्नुहोस्।",
+        "generic_error": "समस्या आयो। कृपया पछि पुन: प्रयास गर्नुहोस्।"
+    },
+
+    "login_server_errors": {
+        "empty_fields": "प्रयोगकर्ता नाम/इमेल र पासवर्ड खाली हुँदैन।",
+        "username_not_existent": "प्रयोगकर्ता नाम ${username} अवस्थित छैन। कृपया खाता साइन अप गर्नुहोस्।",
+        "email_not_existent": "इमेल ${email} अवस्थित छैन। कृपया खाता साइन अप गर्नुहोस्।",
+        "invalid_credentials": "लगइन असफल भयो। गलत प्रयोगकर्ता नाम र पासवर्ड। कृपया पुन: प्रयास गर्नुहोस्।",
+        "server_error": "लगइन गर्दा समस्या आयो। कृपया पछि पुन: प्रयास गर्नुहोस्।",
+        "generic_error": "समस्या आयो। कृपया पछि पुन: प्रयास गर्नुहोस्।"
+    },
+
+    "profile_server_errors": {
+        "empty_fields": "कुनै क्षेत्र खाली छोड्न सकिँदैन।",
+        "firstname_length": "पहिलो नाम धेरै लामो छ।",
+        "lastname_length": "थर धेरै लामो छ।",
+        "email_length": "इमेल धेरै लामो छ।",
+        "phone_length": "फोन नम्बर धेरै लामो छ।",
+        "street_address_length": "ठेगाना धेरै लामो छ।",
+        "ward_number_invalid": "वार्ड नम्बर १ देखि ३२ सम्म हुनुपर्छ।",
+        "municipality_district_length": "नगरपालिका/जिल्ला धेरै लामो छ।",
+        "username_unknown": "उपयोगकर्ता नाम ${username} फेला परेन।",
+        "email_exists": "इमेल ${email} पहिले नै प्रयोगमा छ।",
+        "server_error_get": "तपाईंको प्रोफाइल पुन: प्राप्त गर्दा त्रुटि भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।",
+        "server_error_put": "तपाईंको प्रोफाइल अपडेट गर्दा त्रुटि भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।",
+        "server_error_delete": "तपाईंको प्रोफाइल मेट्दा त्रुटि भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।",
+        "username_not_existent": "प्रयोगकर्ता नाम ${username} भएको प्रयोगकर्ता डाटाबेसमा फेला परेन।",
+        "invalid_credentials": "प्रयोगकर्ता ${username} लाई यो बच्चामा पहुँच अनुमति छैन।",
+        "invalid_password": "पासवर्ड परिवर्तन असफल भयो। तपाईंले प्रविष्ट गर्नुभएको पासवर्ड गलत छ। कृपया फेरि प्रयास गर्नुहोस्।",
+        "generic_error": "समस्या आएको छ। कृपया पछि पुन: प्रयास गर्नुहोस्।"
+    }, 
+
+    "header":{
+        "profile": "मेरो प्रोफाइल",
+        "children": "मेरो बच्चाहरू",
+        "vehicles": "मेरो सवारी साधन",
+        "logout": "लगआउट",
+        "manage": "व्यवस्थापन गर्नुहोस्"
+    }, 
+
+    "universal":{
+        "loading": "लोड हुँदैछ...",
+        "redirecting": "पुनःनिर्देशन गर्दै..."
+    },
+
+    "profile": {
+        "profile_header": "मेरो प्रोफाइल",
+        "profile_prompt": "तपाईंको प्रोफाइल जानकारी व्यवस्थापन गर्नुहोस्",
+
+        "first_name_label": "पहिलो नाम",
+        "last_name_label": "थर",
+        "phone_number_label": "फोन नम्बर",
+        "email_label": "इमेल",
+        "street_address_label": "ठेगाना",
+        "ward_label": "वार्ड नम्बर",
+        "municipality_label": "नगरपालिका/जिल्ला",
+        "current_password_label": "हालको पासवर्ड",
+        "new_password_label": "नयाँ पासवर्ड",
+        "confirm_new_password_label": "नयाँ पासवर्ड पुष्टि गर्नुहोस्",
+
+        "edit_button": "संपादन गर्नुहोस्",
+        "change_password_button": "पासवर्ड परिवर्तन गर्नुहोस्",
+        "save_button": "सुरक्षित गर्नुहोस्",
+        "cancel_button": "रद्द गर्नुहोस्",
+        "delete_button": "मेटाउनुहोस्",
+        
+        "update_success_message": "प्रोफाइल सफलतापूर्वक अपडेट गरियो!",
+        "password_change_success_message": "पासवर्ड सफलतापूर्वक परिवर्तन गरियो!",
+        "delete_confirmation_message": "के तपाईंलाई आफ्नो खाता मेट्न चाहनुहुन्छ? यो क्रिया फर्काउन सकिँदैन।",
+        "delete_success_message": "खाता सफलतापूर्वक मेटाइयो!",
+        
+        "require_first_name_error": "कृपया आफ्नो पहिलो नाम प्रविष्ट गर्नुहोस्",
+        "require_last_name_error": "कृपया आफ्नो थर प्रविष्ट गर्नुहोस्",
+        "require_phone_number_error": "कृपया आफ्नो फोन नम्बर प्रविष्ट गर्नुहोस्",
+        "require_email_error": "कृपया आफ्नो इमेल प्रविष्ट गर्नुहोस्",
+        "require_street_address_error": "कृपया आफ्नो ठेगाना प्रविष्ट गर्नुहोस्",
+        "require_ward_error": "कृपया आफ्नो वार्ड नम्बर प्रविष्ट गर्नुहोस्",
+        "require_municipality_error": "कृपया आफ्नो नगरपालिका/जिल्ला प्रविष्ट गर्नुहोस्",
+        "invalid_first_name_error": "पहिलो नाम कम्तीमा २ अक्षर लामो हुनुपर्छ",
+        "invalid_last_name_error": "थर कम्तीमा २ अक्षर लामो हुनुपर्छ",
+        "invalid_phone_number_error": "फोन नम्बर XXXXXXXXXX को ढाँचामा हुनु पर्छ",
+        "invalid_email_error": "कृपया एउटा वैध इमेल ठेगाना प्रविष्ट गर्नुहोस्",
+        "invalid_street_address_error": "सडकको ठेगाना कम्तीमा ५ अक्षर लामो हुनुपर्छ",
+        "invalid_ward_error": "वडाको नम्बर १ देखि ३२ भित्रको अंक हुनुपर्छ",
+        "invalid_municipality_error": "नगरपालिका/जिल्ला कम्तीमा ३ अक्षर लामो हुनुपर्छ र अक्षर, स्पेस, र हाइफन मात्र समावेश गर्नुपर्छ",
+        "require_current_password_error": "कृपया आफ्नो हालको पासवर्ड प्रविष्ट गर्नुहोस्",
+        "require_new_password_error": "कृपया आफ्नो नयाँ पासवर्ड प्रविष्ट गर्नुहोस्",
+        "current_password_incorrect_error": "हालको पासवर्ड गलत छ",
+        "require_confirm_new_password_error": "कृपया आफ्नो नयाँ पासवर्ड पुष्टि गर्नुहोस्",
+        "password_mismatch_error": "नयाँ पासवर्डहरू मिल्दैनन्",
+        "invalid_password_error": "नयाँ पासवर्ड कम्तीमा ८ अक्षर लामो, एउटा अंक, एकवटा ठुलो अक्षर, र विशेष चिह्न हुनु पर्छ"
+    },
+
+    "children": {
+        "children_header": "मेरो बच्चा",
+        "children_prompt": "तपाईंका बच्चाहरूको जानकारी व्यवस्थापन गर्नुहोस्",
+        "add_child_prompt": "नयाँ बच्चा थप्नुहोस्",
+        "edit_child_prompt": "बच्चाको जानकारी सम्पादन गर्नुहोस्",
+        "no_children_message": "तपाईंले कुनै बच्चा थप्नु भएको छैन। कृपया आफ्नो बच्चाहरू थप्नुहोस्।",
+        "add_child_button": "थप्नुहोस्",
+        "edit_child_button": "संपादन गर्नुहोस्",
+        "delete_child_button": "मेटाउनुहोस्",
+        "save_button": "सुरक्षित गर्नुहोस्",
+        "cancel_button": "रद्द गर्नुहोस्",
+        "delete_confirmation_message": "के तपाईंलाई यो बच्चा मेट्न चाहनुहुन्छ? यो क्रिया फर्काउन सकिँदैन।",
+        "first_name_label": "पहिलो नाम",
+        "last_name_label": "थर",
+        "school_arrival_time_label": "स्कूल आगमन समय",
+        "school_departure_time_label": "स्कूल प्रस्थान समय",
+        "require_first_name_error": "कृपया आफ्नो पहिलो नाम प्रविष्ट गर्नुहोस्",
+        "require_last_name_error": "कृपया आफ्नो थर प्रविष्ट गर्नुहोस्",
+        "require_start_time_error": "कृपया आफ्नो बच्चा स्कूल जानुपर्ने समय प्रविष्ट गर्नुहोस्",
+        "require_end_time_error": "कृपया आफ्नो बच्चा स्कूलबाट फर्किने समय प्रविष्ट गर्नुहोस्",
+        "invalid_first_name_error": "पहिलो नाम कम्तीमा २ अक्षर लामो हुनुपर्छ",
+        "invalid_last_name_error": "थर कम्तीमा २ अक्षर लामो हुनुपर्छ",
+        "invalid_start_time_error": "ड्राइभर सुरु समय HH:MM ढाँचामा हुनुपर्छ",
+        "invalid_end_time_error": "ड्राइभर अन्त्य समय HH:MM ढाँचामा हुनुपर्छ",
+        "invalid_time_order": "विद्यालय आइपुग्ने समय विद्यालयबाट छुट्ने समयभन्दा अघि हुनुपर्छ"
+    },
+
+    "vehicles": {
+        "vehicles_header": "मेरो सवारी साधन",
+        "vehicles_prompt": "तपाईंको सवारी साधनको जानकारी व्यवस्थापन गर्नुहोस्",
+        "add_vehicle_prompt": "नयाँ सवारी साधन थप्नुहोस्",
+        "edit_vehicle_prompt": "सवारी साधनको जानकारी सम्पादन गर्नुहोस्",
+        "no_vehicles_message": "तपाईंले कुनै सवारी साधन थप्नु भएको छैन। कृपया आफ्नो कारपुल सवारी साधनहरू थप्नुहोस्।",
+        "no_days_selected": "यो सवारी साधनले हाल कुनै पनि दिनमा यात्रा उपलब्ध छैन",
+        "add_vehicle_button": "थप्नुहोस्",
+        "edit_vehicle_button": "संपादन गर्नुहोस्",
+        "delete_vehicle_button": "मेटाउनुहोस्",
+        "save_button": "सुरक्षित गर्नुहोस्",
+        "cancel_button": "रद्द गर्नुहोस्",
+        "delete_confirmation_message": "के तपाईंलाई यो सवारी साधन मेट्न चाहनुहुन्छ? यो क्रिया फर्काउन सकिँदैन।",
+        "available_seats_label": "उपलब्ध सिटहरूको संख्या",
+        "seat_capacity_label": "बस्ने क्षमताको संख्या",
+        "license_plate_label": "लाइसेन्स प्लेट",
+        "driver_start_time_label": "चालकको आरम्भ समय",
+        "driver_end_time_label": "चालकको समाप्ति समय",
+        "days_label": "सवारी चलाउन उपलब्ध दिनहरू",
+        "days_prompt_label": "कृपया ती दिनहरू चयन गर्नुहोस् जब तपाईं ड्राइभ गर्न उपलब्ध हुनुहुन्छ",
+        "monday_label": "सोमबार",
+        "tuesday_label": "मंगलवार",
+        "wednesday_label": "बुधबार",
+        "thursday_label": "बिहीवार",
+        "friday_label": "शुक्रबार",
+        "saturday_label": "शनिवार",
+        "sunday_label": "आइतवार",
+        "require_available_seats_error": "कृपया उपलब्ध सिटहरूको संख्या प्रविष्ट गर्नुहोस्",
+        "require_seat_capacity_error": "कृपया सवारी साधनको बस्ने क्षमताको संख्या प्रविष्ट गर्नुहोस्",
+        "require_license_plate_error": "कृपया लाइसेन्स प्लेट प्रविष्ट गर्नुहोस्",
+        "require_start_time_error": "कृपया आफ्नो ड्राइभिंगको आरम्भ समय प्रविष्ट गर्नुहोस्",
+        "require_end_time_error": "कृपया आफ्नो ड्राइभिंगको समाप्ति समय प्रविष्ट गर्नुहोस्",
+        "invalid_seat_capacity_error": "उपलब्ध सिट संख्या ० देखि १०० भित्रको पूर्णाङ्क हुनुपर्छ",
+        "invalid_available_seats_error": "उपलब्ध सिट संख्या ० देखि १०० भित्रको पूर्णाङ्क हुनुपर्छ",
+        "invalid_license_plate_error": "लाइसेन्स प्लेट उचित ढाँचामा हुनु पर्छ",
+        "invalid_start_time_error": "ड्राइभर सुरु समय HH:MM ढाँचामा हुनुपर्छ",
+        "invalid_end_time_error": "ड्राइभर अन्त्य समय HH:MM ढाँचामा हुनुपर्छ",
+        "available_exceeds_capacity_error": "उपलब्ध सिट संख्या बस्ने क्षमताभन्दा बढी हुन सक्दैन",
+        "start_after_end_error": "सुरु समय अन्त्य समयभन्दा ढिलो हुन सक्दैन"
+    },
+    "children_server_errors": {
+        "empty_fields": "कुनै पनि फिल्ड खाली राख्न मिल्दैन।",
+        "firstname_length": "पहिलो नाम धेरै लामो छ।",
+        "lastname_length": "थर धेरै लामो छ।",
+        "school_arrival_time_invalid": "विद्यालय आइपुग्ने समय HH:MM ढाँचामा हुनुपर्छ।",
+        "school_departure_time_invalid": "विद्यालयबाट छुट्ने समय HH:MM ढाँचामा हुनुपर्छ।",
+        "server_error_get": "तपाईंका बच्चाको जानकारी ल्याउँदा त्रुटि आयो। कृपया पछि फेरि प्रयास गर्नुहोस्।",
+        "server_error_post": "बच्चाको जानकारी थप्दा त्रुटि आयो। कृपया पछि फेरि प्रयास गर्नुहोस्।",
+        "server_error_put": "बच्चाको जानकारी अद्यावधिक गर्दा त्रुटि आयो। कृपया पछि फेरि प्रयास गर्नुहोस्।",
+        "server_error_delete": "बच्चाको जानकारी मेटाउँदा त्रुटि आयो। कृपया पछि फेरि प्रयास गर्नुहोस्।",
+        "generic_error": "त्रुटि आयो। कृपया पछि फेरि प्रयास गर्नुहोस्।"
+    },
+    "vehilces_server_error": {
+        "empty_fields": "कुनै पनि फिल्ड खाली राख्न मिल्दैन।",
+        "seat_capacity_invalid": "कुल सिट संख्या सकारात्मक पूर्णाङ्क हुनुपर्छ।",
+        "available_seats_invalid": "उपलब्ध सिट संख्या सकारात्मक पूर्णाङ्क हुनुपर्छ।",
+        "seat_mismatch_error": "उपलब्ध सिट संख्या कुल सिट संख्या भन्दा बढी हुन मिल्दैन।",
+        "license_plate_invalid": "गाडीको नम्बर प्लेट सही ढाँचामा हुनुपर्छ।",
+        "driver_start_time_invalid": "ड्राइभर सुरु समय HH:MM ढाँचामा हुनुपर्छ।",
+        "driver_end_time_invalid": "ड्राइभर अन्त्य समय HH:MM ढाँचामा हुनुपर्छ।",
+        "server_error_get": "तपाईंका सवारी साधनहरू ल्याउँदा त्रुटि आयो। कृपया पछि फेरि प्रयास गर्नुहोस्।",
+        "server_error_post": "सवारी साधन थप्दा त्रुटि आयो। कृपया पछि फेरि प्रयास गर्नुहोस्।",
+        "server_error_put": "सवारी साधन अद्यावधिक गर्दा त्रुटि आयो। कृपया पछि फेरि प्रयास गर्नुहोस्।",
+        "server_error_delete": "सवारी साधन मेटाउँदा त्रुटि आयो। कृपया पछि फेरि प्रयास गर्नुहोस्।",
+        "generic_error": "त्रुटि आयो। कृपया पछि फेरि प्रयास गर्नुहोस्।"
+    },
+
+    "forgot_password": {
+        "modal_title": "पासवर्ड रिसेट गर्नुहोस्",
+        "modal_message": "कृपया आफ्नो प्रयोगकर्ता नाम र इमेल ठेगाना प्रविष्ट गर्नुहोस्। यदि यो जोडी मिल्यो भने, नयाँ पासवर्ड भएको इमेल तपाईंको इमेलमा पठाइनेछ।",
+        "username_label": "प्रयोगकर्ता नाम",
+        "email_label": "इमेल",
+        "reset_password_button": "पासवर्ड रिसेट गर्नुहोस्",
+        "cancel_button": "रद्द गर्नुहोस्",
+        "require_username_error": "कृपया आफ्नो प्रयोगकर्ता नाम प्रविष्ट गर्नुहोस्",
+        "require_email_error": "कृपया आफ्नो इमेल प्रविष्ट गर्नुहोस्",
+        "email_subject": "WeShare पासवर्ड रिसेट",
+        "email_body": "तपाईंको पासवर्ड रिसेट गर्न अनुरोध गरिएको थियो। तपाईंको नयाँ पासवर्ड हो $PASSWORD। कृपया यो पासवर्ड प्रयोग गरेर लगइन गर्नुहोस् र आफ्नो प्रोफाइल व्यवस्थापन क्षेत्रमा पासवर्ड परिवर्तन गर्नुहोस्।",
+        "email_sent": "पासवर्ड रिसेट गर्न इमेल सफलतापूर्वक पठाइयो।"
+    },
+
+    "forgot_password_server_error": {
+        "username_email_mismatch": "यो इमेलमा प्रयोगकर्ता नाम फेला परेन",
+        "user_password_update_fail": "पासवर्ड रिसेट गर्न असफल",
+        "generic_error": "पासवर्ड रिसेट गर्दा त्रुटि भयो। कृपया पछि पुन: प्रयास गर्नुहोस्।",
+        "empty_fields": "कुनै पनि क्षेत्र खाली राख्न सकिँदैन।",
+        "email_sent_failed": "इमेल पठाउन असफल भयो"
+    }
+
+
+}
