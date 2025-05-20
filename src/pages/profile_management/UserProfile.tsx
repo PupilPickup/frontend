@@ -186,41 +186,6 @@ export default function UserProfile ( { isLoggedIn, setIsLoggedIn }: UserProfile
             updateUser(profileData, token!);
         }
     }
-    
-    const populateUserData = async (token:string, userName:string, userId:string) => {
-        try {
-            const response = await axios.get(`${apiUrl}/profile`, {
-                headers: {
-                    Authorization: "Bearer " + token,
-                    user_name: userName,
-                    user_id: userId,
-                },
-            });
-            const userDetails = response.data;
-            setProfileData({
-                userName: userDetails.userName,
-                userId: userDetails.userId,
-                firstName: userDetails.firstName,
-                lastName: userDetails.lastName,
-                email: userDetails.email,
-                phoneNumber: userDetails.contactNumber,
-                streetAddress: userDetails.streetAddress,
-                wardNumber: userDetails.wardNumber,
-                municipalityDistrict: userDetails.municipalityDistrict,
-            });
-            setServerError("");
-            setIsLoading(false);
-
-        } catch (error) {
-            console.error(error);
-            if (axios.isAxiosError(error) && error.response) {
-                const errorKey = error.response.data.error as ProfileServerErrors;
-                let errorMessage: string = translations.profile_server_errors[errorKey] ?? translations.profile_server_errors.generic_error;
-                setServerError(errorMessage);
-            }
-            setIsLoading(false);
-        }
-    }
 
     // Function to delete a user's account
     const deleteUser = async (token:string, userName:string, userId:string) => {
@@ -259,6 +224,42 @@ export default function UserProfile ( { isLoggedIn, setIsLoggedIn }: UserProfile
             setIsLoggedIn(false);
             navigate("/"); 
         }
+
+        async function populateUserData(token:string, userName:string, userId:string) {
+            try {
+                const response = await axios.get(`${apiUrl}/profile`, {
+                    headers: {
+                        Authorization: "Bearer " + token,
+                        user_name: userName,
+                        user_id: userId,
+                    },
+                });
+                const userDetails = response.data;
+                setProfileData({
+                    userName: userDetails.userName,
+                    userId: userDetails.userId,
+                    firstName: userDetails.firstName,
+                    lastName: userDetails.lastName,
+                    email: userDetails.email,
+                    phoneNumber: userDetails.contactNumber,
+                    streetAddress: userDetails.streetAddress,
+                    wardNumber: userDetails.wardNumber,
+                    municipalityDistrict: userDetails.municipalityDistrict,
+                });
+                setServerError("");
+                setIsLoading(false);
+
+            } catch (error) {
+                console.error(error);
+                if (axios.isAxiosError(error) && error.response) {
+                    const errorKey = error.response.data.error as ProfileServerErrors;
+                    let errorMessage: string = translations.profile_server_errors[errorKey] ?? translations.profile_server_errors.generic_error;
+                    setServerError(errorMessage);
+                }
+                setIsLoading(false);
+            }
+        }
+
         // Fetch user profile data from the API using the token
         try {
             if(!!token && !!userId && !!username){
@@ -269,7 +270,7 @@ export default function UserProfile ( { isLoggedIn, setIsLoggedIn }: UserProfile
             console.error(error);
         }
         setIsLoading(false);
-    }, [language, token, userId, username, navigate]);
+    }, [language, token, userId, username, navigate, isLoggedIn, setIsLoggedIn, apiUrl, translations.profile_server_errors]);
 
     // Function for handling the user wanting to edit their profile
     const handleEditProfile = () => {

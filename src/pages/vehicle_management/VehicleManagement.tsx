@@ -35,35 +35,34 @@ export default function VehicleManagement ( { isLoggedIn }: VehicleManagementPro
             sessionStorage.removeItem("user_id");
             navigate("/"); 
         }
-        populateVehicles(token!, username!, userId!);
 
-        setIsLoading(false);
-    }, [token, userId, username, navigate]);
+        async function populateVehicles(token:string, userName:string, userId:string){
+            try {
+                const response = await axios.get(`${apiUrl}/vehicles`, {
+                    headers: {
+                        Authorization: "Bearer " + token,
+                        user_name: userName,
+                        user_id: userId,
+                    },
+                });
+                const vehiclesRetrieved = response.data;
+                setVehiclesList(vehiclesRetrieved);
+                setIsLoading(false);
+                setServerError("");
 
-
-    const populateVehicles = async (token:string, userName:string, userId:string) => {
-        try {
-            const response = await axios.get(`${apiUrl}/vehicles`, {
-                headers: {
-                    Authorization: "Bearer " + token,
-                    user_name: userName,
-                    user_id: userId,
-                },
-            });
-            const vehiclesRetrieved = response.data;
-            setVehiclesList(vehiclesRetrieved);
-            setIsLoading(false);
-            setServerError("");
-
-        } catch (error) {
-            if (axios.isAxiosError(error) && error.response) {
-                const errorKey = error.response.data.error as VehicleServerErrors;
-                let errorMessage: string = translations.vehilces_server_error[errorKey] ?? translations.vehilces_server_error.generic_error;
-                setServerError(errorMessage);
+            } catch (error) {
+                if (axios.isAxiosError(error) && error.response) {
+                    const errorKey = error.response.data.error as VehicleServerErrors;
+                    let errorMessage: string = translations.vehicles_server_error[errorKey] ?? translations.vehicles_server_error.generic_error;
+                    setServerError(errorMessage);
+                }
+                setIsLoading(false);
             }
-            setIsLoading(false);
         }
-    }
+
+        populateVehicles(token!, username!, userId!);
+        setIsLoading(false);
+    }, [token, userId, username, navigate, isLoggedIn, apiUrl, translations.vehicles_server_error]);
 
     async function deleteVehicleData(token:string, userName:string, userId:string, vehicleId:string) {
         try {
@@ -83,7 +82,7 @@ export default function VehicleManagement ( { isLoggedIn }: VehicleManagementPro
         }catch (error) {
             if (axios.isAxiosError(error) && error.response) {
                 const errorKey = error.response.data.error as VehicleServerErrors;
-                let errorMessage: string = translations.vehilces_server_error[errorKey] ?? translations.vehilces_server_error.generic_error;
+                let errorMessage: string = translations.vehicles_server_error[errorKey] ?? translations.vehicles_server_error.generic_error;
                 setServerError(errorMessage);
             }
         }

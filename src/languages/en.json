@@ -255,7 +255,7 @@
         "server_error_delete": "An error occurred while deleting your child. Please try again later.",
         "generic_error": "An error occurred. Please try again later."
     },
-    "vehilces_server_error":{
+    "vehicles_server_error":{
         "empty_fields": "No fields can be left empty.",
         "seat_capacity_invalid": "Number of available seats must be a positive integer",
         "available_seats_invalid": "Number of available seats must be a positive integer",
