@@ -35,7 +35,7 @@ const AuthPage: React.FC<AuthPageProps> = ( { isLoggedIn } ) => {
 			navigate("/dashboard");
 		}
 		setIsLoading(false);
-	}, []);
+	}, [isLoggedIn, navigate]);
 
 	if(isLoading){
 		return <div className="flex justify-center items-center min-h-screen">{translations.universal.loading}</div>

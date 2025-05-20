@@ -3,7 +3,6 @@ import { validatePassword, validateConfirmPassword, isFieldEmpty, isUsernameVali
 import { useNavigate } from "react-router-dom";
 import { useSignup } from "../../../context/SignupContext";
 import Button from "../../../components/common/Button";
-import styles from "../../../styles/Auth.module.css"
 import axios from "axios";
 import enTranslations from "../../../languages/en.json";
 import neTranslations from "../../../languages/ne.json";
@@ -134,11 +133,11 @@ export default function SignupStep3 () {
         const errorKey = error.response.data.error as SignupServerErrors;
         let errorMessage: string = translations.signup_server_errors[errorKey] || translations.signup_server_errors.generic_error;
 
-        if(errorMessage.includes("${username}")){
-          errorMessage = errorMessage.replace("${username}", username);
+        if(errorMessage.includes("$username}")){
+          errorMessage = errorMessage.replace("$username}", username);
         }
-        if(errorMessage.includes("${email}")){
-          errorMessage = errorMessage.replace("${email}", email);
+        if(errorMessage.includes("$email}")){
+          errorMessage = errorMessage.replace("$email}", email);
         }
 
         if(!!error.response.data.server_error){

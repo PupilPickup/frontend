@@ -38,7 +38,7 @@ export default function ChildrenManagement ( { isLoggedIn }: ChildrenManagementP
         populateChildren(token!, username!, userId!);
 
         setIsLoading(false);
-    }, [token, userId, username, navigate]);
+    }, [token, userId, username, isLoggedIn, navigate]);
 
     const populateChildren = async (token:string, userName:string, userId:string) => {
         try {
