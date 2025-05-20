@@ -1,4 +1,4 @@
-import React, { use } from "react";
+import React from "react";
 import enTranslations from "../../languages/en.json";
 import neTranslations from "../../languages/ne.json";
 import { useLanguage } from "../../context/LanguageContext";
@@ -48,6 +48,31 @@ const EditVehicleData: React.FC<EditVehicleDataProps> = ({
     const { id: vehicleId } = useParams();
 
     useEffect(() => {
+        async function fetchVehicleData(token:string, userName:string, userId:string, vehicleId:string) {
+            try {
+                const response = await axios.get(`${apiUrl}/vehicles/${vehicleId}`, {
+                    headers: {
+                        Authorization: "Bearer " + token,
+                        user_name: userName,
+                        user_id: userId,
+                    },
+                });
+                const vehicleData = response.data;
+                setLicensePlate(vehicleData.licensePlate);
+                setSeatCapacity(vehicleData.seatCapacity);
+                setSeatsAvailable(vehicleData.seatsAvailable);
+                setDriverStartTime(removeSeconds(vehicleData.driverStartTime));
+                setDriverEndTime(removeSeconds(vehicleData.driverEndTime));
+                setDaysAvailable(vehicleData.daysAvailable);
+            }catch (error) {
+                if (axios.isAxiosError(error) && error.response) {
+                    const errorKey = error.response.data.error as VehiclesServerErrors;
+                    let errorMessage: string = translations.vehicles_server_error[errorKey] ?? translations.vehicles_server_error.generic_error;
+                    setServerError(errorMessage);
+                }
+            }
+        }
+
         if(!token || !userId || !username || !isLoggedIn){
             sessionStorage.removeItem("token");
             sessionStorage.removeItem("user_name");
@@ -62,32 +87,7 @@ const EditVehicleData: React.FC<EditVehicleDataProps> = ({
         setIsLoading(false);
         // This effect runs when the component mounts or when the language changes
         // You can add any side effects here if needed
-    }, [language, token, userId, username, isLoggedIn, navigate, vehicleId]);
-
-    async function fetchVehicleData(token:string, userName:string, userId:string, vehicleId:string) {
-        try {
-            const response = await axios.get(`${apiUrl}/vehicles/${vehicleId}`, {
-                headers: {
-                    Authorization: "Bearer " + token,
-                    user_name: userName,
-                    user_id: userId,
-                },
-            });
-            const vehicleData = response.data;
-            setLicensePlate(vehicleData.licensePlate);
-            setSeatCapacity(vehicleData.seatCapacity);
-            setSeatsAvailable(vehicleData.seatsAvailable);
-            setDriverStartTime(removeSeconds(vehicleData.driverStartTime));
-            setDriverEndTime(removeSeconds(vehicleData.driverEndTime));
-            setDaysAvailable(vehicleData.daysAvailable);
-        }catch (error) {
-            if (axios.isAxiosError(error) && error.response) {
-                const errorKey = error.response.data.error as VehiclesServerErrors;
-                let errorMessage: string = translations.vehilces_server_error[errorKey] ?? translations.vehilces_server_error.generic_error;
-                setServerError(errorMessage);
-            }
-        }
-    }
+    }, [language, token, userId, username, isLoggedIn, navigate, vehicleId, apiUrl, translations.vehicles_server_error]);
 
     async function updateVehicleData(token:string, vehicleId:string, vehicleData: any) {
         try {
@@ -108,7 +108,7 @@ const EditVehicleData: React.FC<EditVehicleDataProps> = ({
         }catch (error) {
             if (axios.isAxiosError(error) && error.response) {
                 const errorKey = error.response.data.error as VehiclesServerErrors;
-                let errorMessage: string = translations.vehilces_server_error[errorKey] ?? translations.vehilces_server_error.generic_error;
+                let errorMessage: string = translations.vehicles_server_error[errorKey] ?? translations.vehicles_server_error.generic_error;
                 setServerError(errorMessage);
             }
         }

@@ -41,7 +41,7 @@ export default function ChangePassword ( { isLoggedIn }: ChangePasswordProps) {
             navigate("/"); 
         }
         setErrorMessage("");
-    }, [language, token, userId, username, navigate]);
+    }, [language, token, userId, username, navigate, isLoggedIn]);
 
 
     const handleSave = async () => {

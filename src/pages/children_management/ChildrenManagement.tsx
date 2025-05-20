@@ -35,34 +35,34 @@ export default function ChildrenManagement ( { isLoggedIn }: ChildrenManagementP
             sessionStorage.removeItem("user_id");
             navigate("/"); 
         }
-        populateChildren(token!, username!, userId!);
 
-        setIsLoading(false);
-    }, [token, userId, username, navigate]);
+        async function populateChildren(token:string, userName:string, userId:string){
+            try {
+                const response = await axios.get(`${apiUrl}/children`, {
+                    headers: {
+                        Authorization: "Bearer " + token,
+                        user_name: userName,
+                        user_id: userId,
+                    },
+                });
+                const childrenRetrieved = response.data;
+                setChildrenList(childrenRetrieved);
+                setIsLoading(false);
+                setServerError("");
 
-    const populateChildren = async (token:string, userName:string, userId:string) => {
-        try {
-            const response = await axios.get(`${apiUrl}/children`, {
-                headers: {
-                    Authorization: "Bearer " + token,
-                    user_name: userName,
-                    user_id: userId,
-                },
-            });
-            const childrenRetrieved = response.data;
-            setChildrenList(childrenRetrieved);
-            setIsLoading(false);
-            setServerError("");
-
-        } catch (error) {
-            if (axios.isAxiosError(error) && error.response) {
-                const errorKey = error.response.data.error as ChildrenServerErrors;
-                let errorMessage: string = translations.children_server_errors[errorKey] ?? translations.children_server_errors.generic_error;
-                setServerError(errorMessage);
+            } catch (error) {
+                if (axios.isAxiosError(error) && error.response) {
+                    const errorKey = error.response.data.error as ChildrenServerErrors;
+                    let errorMessage: string = translations.children_server_errors[errorKey] ?? translations.children_server_errors.generic_error;
+                    setServerError(errorMessage);
+                }
+                setIsLoading(false);
             }
-            setIsLoading(false);
         }
-    }
+
+        populateChildren(token!, username!, userId!);
+        setIsLoading(false);
+    }, [token, userId, username, isLoggedIn, navigate, apiUrl, translations.children_server_errors]);
 
     async function deleteChildData(token:string, userName:string, userId:string, childId:string) {
         try {

@@ -1,4 +1,4 @@
-import React, { use } from "react";
+import React from "react";
 import enTranslations from "../../languages/en.json";
 import neTranslations from "../../languages/ne.json";
 import { useLanguage } from "../../context/LanguageContext";
@@ -45,6 +45,28 @@ const EditChildData: React.FC<EditChildDataProps> = ({
     const { id: childId } = useParams();
 
     useEffect(() => {
+        async function fetchChildData(token:string, userName:string, userId:string, childId:string) {
+            try {
+                const response = await axios.get(`${apiUrl}/children/${childId}`, {
+                    headers: {
+                        Authorization: "Bearer " + token,
+                        user_name: userName,
+                        user_id: userId,
+                    },
+                });
+                const childData = response.data;
+                setFirstName(childData.first_name);
+                setLastName(childData.last_name);
+                setPickupTime(removeSeconds(childData.school_pickup_time));
+                setDropoffTime(removeSeconds(childData.school_dropoff_time));
+            }catch (error) {
+                if (axios.isAxiosError(error) && error.response) {
+                    const errorKey = error.response.data.error as ChildrenServerErrors;
+                    let errorMessage: string = translations.children_server_errors[errorKey] ?? translations.children_server_errors.generic_error;
+                    setServerError(errorMessage);
+                }
+            }
+        }
         if(!token || !userId || !username || !isLoggedIn){
             sessionStorage.removeItem("token");
             sessionStorage.removeItem("user_name");
@@ -59,30 +81,7 @@ const EditChildData: React.FC<EditChildDataProps> = ({
         setIsLoading(false);
         // This effect runs when the component mounts or when the language changes
         // You can add any side effects here if needed
-    }, [language]);
-
-    async function fetchChildData(token:string, userName:string, userId:string, childId:string) {
-        try {
-            const response = await axios.get(`${apiUrl}/children/${childId}`, {
-                headers: {
-                    Authorization: "Bearer " + token,
-                    user_name: userName,
-                    user_id: userId,
-                },
-            });
-            const childData = response.data;
-            setFirstName(childData.first_name);
-            setLastName(childData.last_name);
-            setPickupTime(removeSeconds(childData.school_pickup_time));
-            setDropoffTime(removeSeconds(childData.school_dropoff_time));
-        }catch (error) {
-            if (axios.isAxiosError(error) && error.response) {
-                const errorKey = error.response.data.error as ChildrenServerErrors;
-                let errorMessage: string = translations.children_server_errors[errorKey] ?? translations.children_server_errors.generic_error;
-                setServerError(errorMessage);
-            }
-        }
-    }
+    }, [language, childId, isLoggedIn, navigate, token, userId, username, apiUrl, translations.children_server_errors]);
 
     async function updateChildData(token:string, childId:string, childData: any) {
         try {
