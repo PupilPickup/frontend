@@ -57,7 +57,7 @@ const LoginPage: React.FC<LoginPageProps> = ( { isLoggedIn, setIsLoggedIn } ) =>
 			navigate("/dashboard");
 		}
     setIsLoading(false);
-	}, []);
+	}, [isLoggedIn, navigate]);
   
   function clearFieldsOnLogin(){
     setLoginInput("");
@@ -127,12 +127,12 @@ const LoginPage: React.FC<LoginPageProps> = ( { isLoggedIn, setIsLoggedIn } ) =>
       if (axios.isAxiosError(error) && error.response) {
         const errorKey = error.response.data.error as LoginServerErrors;
         let errorMessage: string = translations.login_server_errors[errorKey] || translations.login_server_errors.generic_error;
-        if(errorMessage.includes("${username}")){
-          errorMessage = errorMessage.replace("${username}", loginInput);
+        if(errorMessage.includes("$username}")){
+          errorMessage = errorMessage.replace("$username}", loginInput);
         }
 
-        if(errorMessage.includes("${email}")){
-          errorMessage = errorMessage.replace("${email}", loginInput);
+        if(errorMessage.includes("$email}")){
+          errorMessage = errorMessage.replace("$email}", loginInput);
         }
 
         if(!!error.response.data.server_error){

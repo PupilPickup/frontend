@@ -7,7 +7,6 @@ import { isFieldEmpty, isNameValid, isEmailValid, isPhoneValid, isMunicipalityOr
 import axios from "axios";
 import Button from "../../components/common/Button";
 import CardLabel from "../../components/common/CardLabel";
-import FormInput from "../../components/common/FormInput";
 import ProfileInput from "../../components/common/ProfileInput";
 
 // Define the possible error keys
@@ -187,41 +186,6 @@ export default function UserProfile ( { isLoggedIn, setIsLoggedIn }: UserProfile
             updateUser(profileData, token!);
         }
     }
-    
-    const populateUserData = async (token:string, userName:string, userId:string) => {
-        try {
-            const response = await axios.get(`${apiUrl}/profile`, {
-                headers: {
-                    Authorization: "Bearer " + token,
-                    user_name: userName,
-                    user_id: userId,
-                },
-            });
-            const userDetails = response.data;
-            setProfileData({
-                userName: userDetails.userName,
-                userId: userDetails.userId,
-                firstName: userDetails.firstName,
-                lastName: userDetails.lastName,
-                email: userDetails.email,
-                phoneNumber: userDetails.contactNumber,
-                streetAddress: userDetails.streetAddress,
-                wardNumber: userDetails.wardNumber,
-                municipalityDistrict: userDetails.municipalityDistrict,
-            });
-            setServerError("");
-            setIsLoading(false);
-
-        } catch (error) {
-            console.error(error);
-            if (axios.isAxiosError(error) && error.response) {
-                const errorKey = error.response.data.error as ProfileServerErrors;
-                let errorMessage: string = translations.profile_server_errors[errorKey] ?? translations.profile_server_errors.generic_error;
-                setServerError(errorMessage);
-            }
-            setIsLoading(false);
-        }
-    }
 
     // Function to delete a user's account
     const deleteUser = async (token:string, userName:string, userId:string) => {
@@ -260,6 +224,42 @@ export default function UserProfile ( { isLoggedIn, setIsLoggedIn }: UserProfile
             setIsLoggedIn(false);
             navigate("/"); 
         }
+
+        async function populateUserData(token:string, userName:string, userId:string) {
+            try {
+                const response = await axios.get(`${apiUrl}/profile`, {
+                    headers: {
+                        Authorization: "Bearer " + token,
+                        user_name: userName,
+                        user_id: userId,
+                    },
+                });
+                const userDetails = response.data;
+                setProfileData({
+                    userName: userDetails.userName,
+                    userId: userDetails.userId,
+                    firstName: userDetails.firstName,
+                    lastName: userDetails.lastName,
+                    email: userDetails.email,
+                    phoneNumber: userDetails.contactNumber,
+                    streetAddress: userDetails.streetAddress,
+                    wardNumber: userDetails.wardNumber,
+                    municipalityDistrict: userDetails.municipalityDistrict,
+                });
+                setServerError("");
+                setIsLoading(false);
+
+            } catch (error) {
+                console.error(error);
+                if (axios.isAxiosError(error) && error.response) {
+                    const errorKey = error.response.data.error as ProfileServerErrors;
+                    let errorMessage: string = translations.profile_server_errors[errorKey] ?? translations.profile_server_errors.generic_error;
+                    setServerError(errorMessage);
+                }
+                setIsLoading(false);
+            }
+        }
+
         // Fetch user profile data from the API using the token
         try {
             if(!!token && !!userId && !!username){
@@ -270,7 +270,7 @@ export default function UserProfile ( { isLoggedIn, setIsLoggedIn }: UserProfile
             console.error(error);
         }
         setIsLoading(false);
-    }, [language, token, userId, username, navigate]);
+    }, [language, token, userId, username, navigate, isLoggedIn, setIsLoggedIn, apiUrl, translations.profile_server_errors]);
 
     // Function for handling the user wanting to edit their profile
     const handleEditProfile = () => {
@@ -334,7 +334,9 @@ export default function UserProfile ( { isLoggedIn, setIsLoggedIn }: UserProfile
         <div className="min-h-screen flex flex-col items-center p-6">
             <h1 className="text-4xl font-bold mb-4">{translations.profile.profile_header}</h1>
             <h2 className="text-xl text-gray-600 mb-8">{translations.profile.profile_prompt}</h2>
-
+            {serverError && (
+                <div className="text-red-500 text-sm mb-4">{serverError}</div>
+            )}
             <div className="w-full max-w-md bg-white shadow-md rounded-lg p-6">
                 {isViewState ? (
                     <div className="mb-4">
