@@ -7,7 +7,6 @@ import { isFieldEmpty, isNameValid, isEmailValid, isPhoneValid, isMunicipalityOr
 import axios from "axios";
 import Button from "../../components/common/Button";
 import CardLabel from "../../components/common/CardLabel";
-import FormInput from "../../components/common/FormInput";
 import ProfileInput from "../../components/common/ProfileInput";
 
 // Define the possible error keys
@@ -334,7 +333,9 @@ export default function UserProfile ( { isLoggedIn, setIsLoggedIn }: UserProfile
         <div className="min-h-screen flex flex-col items-center p-6">
             <h1 className="text-4xl font-bold mb-4">{translations.profile.profile_header}</h1>
             <h2 className="text-xl text-gray-600 mb-8">{translations.profile.profile_prompt}</h2>
-
+            {serverError && (
+                <div className="text-red-500 text-sm mb-4">{serverError}</div>
+            )}
             <div className="w-full max-w-md bg-white shadow-md rounded-lg p-6">
                 {isViewState ? (
                     <div className="mb-4">

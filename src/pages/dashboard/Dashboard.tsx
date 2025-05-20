@@ -23,7 +23,7 @@ export default function Dashboard () {
 			navigate("/"); 
 		}
 		setIsLoading(false);
-	}, []);
+	}, [navigate, token, userId, username]);
 
 	if(isLoading){
 		return <div className="flex justify-center items-center min-h-[90vh]">{translations.universal.loading}</div>
