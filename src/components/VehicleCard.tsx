@@ -18,6 +18,10 @@ type VehicleCardProps = {
     onDelete: (vehicleId: string) => void;
 };
 
+// Define the possible day keys
+type DaysOfWeek = 'monday_label' | 'tuesday_label' | 'wednesday_label' | 'thursday_label' |'friday_label' |'saturday_label' | 'sunday_label' ;
+
+
 const VehicleCard: React.FC<VehicleCardProps> = ({
     vehicleId,
     licensePlate,
@@ -59,14 +63,17 @@ const VehicleCard: React.FC<VehicleCardProps> = ({
         }else{
             const selectedDays = days.split(",");
             if(selectedDays.length === 1){
-                return selectedDays[0];
+                const dayKey = (selectedDays[0].toLowerCase + "_label") as DaysOfWeek;
+                return translations.vehicles[dayKey] ?? selectedDays[0];
             }else{
                 let display = "";
                 for(let i: number = 0; i < selectedDays.length; i++){
                     if(i === 0){
-                        display += selectedDays[i];
+                        const dayKey = (selectedDays[i].toLowerCase + "_label") as DaysOfWeek;
+                        display += translations.vehicles[dayKey] ?? selectedDays[i];
                     }else{
-                        display += ", " + selectedDays[i];
+                        const dayKey = (selectedDays[i].toLowerCase + "_label") as DaysOfWeek;
+                        display += ", " + (translations.vehicles[dayKey] ?? selectedDays[i]);
                     }
                 }
                 return display;
