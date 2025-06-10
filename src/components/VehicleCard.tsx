@@ -1,10 +1,10 @@
-import React from "react";
+import { useState } from "react";
 import enTranslations from "../languages/en.json";
 import neTranslations from "../languages/ne.json";
 import { useLanguage } from "../context/LanguageContext";
 import Button from "./common/Button";
 import CardLabel from "./common/CardLabel";
-//import { useEffect, useState } from "react";
+import DeleteWarningModal from "./common/DeleteWarningModal";
 
 type VehicleCardProps = {
     vehicleId: string;
@@ -30,8 +30,27 @@ const VehicleCard: React.FC<VehicleCardProps> = ({
     onDelete,
 }) => {
 
+    const [showDeleteWarning, setShowDeleteWarning] = useState(false);
+
     const { language } = useLanguage();
     const translations = language === 'ne' ? neTranslations : enTranslations;
+
+    // Function to confirm the delete action
+    function confirmDelete(){
+        setShowDeleteWarning(true);
+    }
+
+    // Function to handle the delete action
+    async function handleDelete() {
+        setShowDeleteWarning(false);
+        // Call the onDelete function passed as a prop
+        onDelete(vehicleId);
+    }
+
+    // Function to handle cancelling the delete action
+    function cancelDelete() {
+        setShowDeleteWarning(false);
+    }
 
     //Function to display available days nicely 
     function prettyDays(days: string | null){
@@ -86,7 +105,7 @@ const VehicleCard: React.FC<VehicleCardProps> = ({
             </div>
             <div className="mt-4 px-2 flex flex-row w-full justify-between">
                 <Button
-                    onClick={() => onDelete(vehicleId)}
+                    onClick={confirmDelete}
                     variant="secondary"
                     label={translations.vehicles.delete_vehicle_button}
                 />
@@ -96,6 +115,7 @@ const VehicleCard: React.FC<VehicleCardProps> = ({
                     label={translations.vehicles.edit_vehicle_button}
                 />  
             </div>
+            {showDeleteWarning && <DeleteWarningModal prompt={translations.vehicles.delete_confirmation_message} abortLabel={translations.vehicles.cancel_button} confirmLabel={translations.vehicles.delete_vehicle_button} onAbort={cancelDelete} onConfirm={handleDelete} />} 
         </div>
     );
 };
