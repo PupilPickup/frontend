@@ -298,6 +298,7 @@ export default function UserProfile ( { isLoggedIn, setIsLoggedIn }: UserProfile
     // Function for handling the user wanting to delete their account
     const handleDeleteAccount = async () => {
         // Call the deleteUser function to delete the account
+        setShowDeleteWarning(false);
         deleteUser(token!, username!, userId!);
         console.log("Account deleted");
     };
