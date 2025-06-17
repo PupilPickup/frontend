@@ -310,7 +310,7 @@
         "school_name_label" : "School Name",
         "street_address_label": "Street Address",
         "ward_label": "Ward Number",
-        "municipality_label" : "Municipality/District",
+        "municipality_label" : "Municipality/ District",
         "contact_number_label" : "Contact Number",
         "carpool_dropoff_start_time_label" : "Carpool Dropoff Start Time", 
         "carpool_dropoff_end_time_label" : "Carpool Dropoff End Time", 

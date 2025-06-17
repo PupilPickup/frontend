@@ -5,9 +5,13 @@ export function isFieldEmpty(field: string|number): boolean{
 }
 
 // Check if a name is at least two alphabet characters long
-export function isNameValid(name: string): boolean{
-    const namePattern = /^[a-zA-Z]{2,}$/;
-    return namePattern.test(name);
+export function isNameValid(name: string): boolean {
+    // Allows letters, spaces, dashes, and periods
+    const allowedPattern = /^[a-zA-Z\s.-]+$/;
+    // At least 5 alphabetic characters
+    const minAlphaPattern = /([a-zA-Z].*?){5,}/;
+
+    return allowedPattern.test(name) && minAlphaPattern.test(name);
 }
 
 // Check if a phone number is valid (10 digits)

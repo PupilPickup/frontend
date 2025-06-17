@@ -317,7 +317,7 @@ export default function SchoolManagement ( { isLoggedIn, isAdmin, setIsLoggedIn,
         }
 
         setIsLoading(false);
-    }, [language, token, userId, username, navigate, isLoggedIn, setIsLoggedIn, apiUrl, translations.school_server_errors]);
+    }, [language, token, userId, username, navigate, isLoggedIn, setIsLoggedIn, isAdmin, setIsAdmin, apiUrl, translations.school_server_errors]);
 
     // Function for handling the admin wanting to edit the school's profile
     const handleEditProfile = () => {
