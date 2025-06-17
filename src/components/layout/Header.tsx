@@ -8,10 +8,11 @@ import NavHeaderLink from "../common/NavLink";
 
 interface HeaderProps {
     changeLanguage: (language: string) => void;
-    setIsLoggedIn:(isLoggedIn: boolean) => void
+    setIsLoggedIn:(isLoggedIn: boolean) => void;
+    setIsAdmin: (isAdmin: boolean) => void;
 }
 
-const Header: React.FC<HeaderProps> = ( { changeLanguage, setIsLoggedIn } ) => {
+const Header: React.FC<HeaderProps> = ( { changeLanguage, setIsLoggedIn, setIsAdmin } ) => {
   const navigate = useNavigate();
   const { language } = useLanguage();
   const translations = language === 'ne' ? neTranslations : enTranslations;
@@ -25,6 +26,7 @@ const Header: React.FC<HeaderProps> = ( { changeLanguage, setIsLoggedIn } ) => {
     sessionStorage.removeItem("user_id");
     sessionStorage.removeItem("user_name");
     setIsLoggedIn(false); // Update the logged-in state in context or parent component
+    setIsAdmin(false); // Reset admin state if applicable
     console.log("User logged out");
     navigate("/login"); // Redirect to login page
   };

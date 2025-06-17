@@ -45,7 +45,7 @@ function App() {
             <LanguageSelect changeLanguage={changeLanguage} />
           </div>
         ):(
-          <Header changeLanguage={changeLanguage} setIsLoggedIn={setIsLoggedIn} />
+          <Header changeLanguage={changeLanguage} setIsLoggedIn={setIsLoggedIn} setIsAdmin={setIsAdmin} />
         )}
         <Routes>
           <Route path="/" element={<AuthPage isLoggedIn={isLoggedIn} />} />
