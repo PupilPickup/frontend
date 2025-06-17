@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import enTranslations from "../languages/en.json";
 import neTranslations from "../languages/ne.json";
 import { useLanguage } from "../context/LanguageContext";
@@ -35,9 +35,41 @@ const VehicleCard: React.FC<VehicleCardProps> = ({
 }) => {
 
     const [showDeleteWarning, setShowDeleteWarning] = useState(false);
+    const [daysDisplay, setDaysDisplay] = useState("");
 
     const { language } = useLanguage();
     const translations = language === 'ne' ? neTranslations : enTranslations;
+    useEffect(() => {
+
+        //Function to display available days nicely 
+        function prettyDays(days: string | null){
+            if(days === null || days === "" || days === undefined){
+                return translations.vehicles.no_days_selected;
+            }else{
+                const selectedDays = days.split(",");
+                if(selectedDays.length === 1){
+                    const dayKey = (selectedDays[0].toLowerCase() + "_label") as DaysOfWeek;
+                    return translations.vehicles[dayKey];
+                }else{
+                    let display = "";
+                    for(let i: number = 0; i < selectedDays.length; i++){
+                        if(i === 0){
+                            const dayKey = (selectedDays[i].toLowerCase() + "_label") as DaysOfWeek;
+                            display += translations.vehicles[dayKey];
+                        }else{
+                            const dayKey = (selectedDays[i].toLowerCase() + "_label") as DaysOfWeek;
+                            display += ", " + (translations.vehicles[dayKey]);
+                        }
+                    }
+                    return display;
+                }
+            }
+        }
+        
+        // Update the daysDisplay whenever translations or daysAvailable change
+        setDaysDisplay(prettyDays(daysAvailable));
+       
+    }, [language, translations, daysAvailable]);
 
     // Function to confirm the delete action
     function confirmDelete(){
@@ -54,31 +86,6 @@ const VehicleCard: React.FC<VehicleCardProps> = ({
     // Function to handle cancelling the delete action
     function cancelDelete() {
         setShowDeleteWarning(false);
-    }
-
-    //Function to display available days nicely 
-    function prettyDays(days: string | null){
-        if(days === null || days === "" || days === undefined){
-            return translations.vehicles.no_days_selected;
-        }else{
-            const selectedDays = days.split(",");
-            if(selectedDays.length === 1){
-                const dayKey = (selectedDays[0].toLowerCase + "_label") as DaysOfWeek;
-                return translations.vehicles[dayKey] ?? selectedDays[0];
-            }else{
-                let display = "";
-                for(let i: number = 0; i < selectedDays.length; i++){
-                    if(i === 0){
-                        const dayKey = (selectedDays[i].toLowerCase + "_label") as DaysOfWeek;
-                        display += translations.vehicles[dayKey] ?? selectedDays[i];
-                    }else{
-                        const dayKey = (selectedDays[i].toLowerCase + "_label") as DaysOfWeek;
-                        display += ", " + (translations.vehicles[dayKey] ?? selectedDays[i]);
-                    }
-                }
-                return display;
-            }
-        }
     }
 
     return (
@@ -106,7 +113,7 @@ const VehicleCard: React.FC<VehicleCardProps> = ({
                 />
                 <CardLabel 
                     label={translations.vehicles.days_label}
-                    data={prettyDays(daysAvailable)}
+                    data={daysDisplay}
                     className="flex-col w-full space-x-0"
                 />
             </div>
