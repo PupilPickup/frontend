@@ -3,9 +3,16 @@ import neTranslations from "../../languages/ne.json";
 import { useLanguage } from "../../context/LanguageContext";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+// import { useUser } from "../../context/UserContext";
 
-export default function Dashboard () {
+interface DashboardProps {
+  isAdmin: boolean;
+}
+
+export default function Dashboard ( { isAdmin }: DashboardProps ) {
 	const [isLoading, setIsLoading] = useState(true);
+
+	// const { user } = useUser();
 
 	const { language } = useLanguage();
 	const translations = language === 'ne' ? neTranslations : enTranslations;

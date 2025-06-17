@@ -9,6 +9,7 @@ import { useLanguage } from "../../context/LanguageContext";
 import axios from "axios";
 import FormInput from "../../components/common/FormInput";
 import { isFieldEmpty } from "../../utils/profileValidation";
+// import { useUser } from "../../context/UserContext";
 
 // Define the possible error keys
 type LoginServerErrors = 'empty_fields' | 'username_not_existent' | 'invalid_credentials' | 'server_error' | 'generic_error';
@@ -17,10 +18,11 @@ type ResetPasswordServerErrors = 'empty_fields' | 'username_email_mismatch' | 'u
 
 interface LoginPageProps {
 	isLoggedIn: boolean, 
-	setIsLoggedIn:(isLoggedIn: boolean) => void
+	setIsLoggedIn:(isLoggedIn: boolean) => void,
+  setIsAdmin:(isLoggedIn: boolean) => void
 }
 
-const LoginPage: React.FC<LoginPageProps> = ( { isLoggedIn, setIsLoggedIn } ) => {
+const LoginPage: React.FC<LoginPageProps> = ( { isLoggedIn, setIsLoggedIn, setIsAdmin } ) => {
 
   const navigate = useNavigate();
   const [loginInput, setLoginInput] = useState("");
@@ -40,6 +42,8 @@ const LoginPage: React.FC<LoginPageProps> = ( { isLoggedIn, setIsLoggedIn } ) =>
 
   const { language } = useLanguage();
   const translations = language === 'ne' ? neTranslations : enTranslations;
+
+  // const { setUser } = useUser();
 
   const apiUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
 
@@ -115,12 +119,45 @@ const LoginPage: React.FC<LoginPageProps> = ( { isLoggedIn, setIsLoggedIn } ) =>
     }
 
     try {
-      const response = await axios.post(`${apiUrl}/users/login`, loginData);  
+      const response = await axios.post(`${apiUrl}/users/login`, loginData);
+      let isAdmin: boolean = false;
+      // let isParent: boolean = false;
+      // let isDriver: boolean = false;
+      // let isPendingParent: boolean = false;
+      // let isPendingDriver: boolean = false;
+
+      const roles: number[] = response.data.roles || [];
+      if(roles.includes(1)){
+        isAdmin = true;
+      }
+      // if(roles.includes(2)){
+      //   isParent = true;
+      // }
+      // if(roles.includes(3)){
+      //   isDriver = true;
+      // }
+      // if(roles.includes(4)){
+      //   isPendingParent = true;
+      // }
+      // if(roles.includes(5)){
+      //   isPendingDriver = true;
+      // }
+      // const userData = {
+      //   username: response.data.user_name,
+      //   userId: response.data.user_id,
+      //   isAdmin: isAdmin,
+      //   isParent: isParent,
+      //   isDriver: isDriver,
+      //   isPendingParent: isPendingParent,
+      //   isPendingDriver: isPendingDriver
+      // }
+      // setUser(userData);
       sessionStorage.setItem("token", response.data.token);
       sessionStorage.setItem("user_id", response.data.user_id);
       sessionStorage.setItem("user_name", response.data.user_name);
       clearFieldsOnLogin();
       setIsLoggedIn(true);
+      setIsAdmin(isAdmin);
       navigate("/dashboard");
 
     } catch (error) {

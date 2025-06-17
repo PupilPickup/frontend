@@ -5,6 +5,11 @@ import { useNavigate } from "react-router-dom";
 interface UserData {
   username: string;
   userId: string;
+  isAdmin: boolean;
+  isParent: boolean;
+  isDriver: boolean;
+  isPendingParent: boolean;
+  isPendingDriver: boolean;
 }
 
 // Define the context type
@@ -12,6 +17,8 @@ interface UserContextType {
   user: UserData | null;
   setUser: (user: UserData | null) => void;
   logout: () => void;
+  isLoggedIn: boolean;
+  setIsLoggedIn: (isLoggedIn: boolean) => void;
 }
 
 // Create the context with an undefined default value
@@ -20,6 +27,7 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 // Provider component
 export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<UserData | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const navigate = useNavigate();
 
   // Function to log out the user
@@ -31,10 +39,10 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   React.useEffect(() => {
     console.log("User state updated:", user);
-  }, [user]);
+  }, [user, isLoggedIn]);
 
   return (
-    <UserContext.Provider value={{ user, setUser, logout }}>
+    <UserContext.Provider value={{ user, setUser, isLoggedIn, setIsLoggedIn, logout }}>
       {children}
     </UserContext.Provider>
   );

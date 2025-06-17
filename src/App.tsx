@@ -17,10 +17,12 @@ import AddChildData from './pages/children_management/AddChildData';
 import EditChildData from './pages/children_management/EditChildData';
 import AddVehicleData from './pages/vehicle_management/AddVehicleData';
 import EditVehicleData from './pages/vehicle_management/EditVehicleData';
+// import { UserProvider } from './context/UserContext';
 
 function App() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const { changeLanguage } = useLanguage();
   const token = sessionStorage.getItem("token");
  
@@ -47,9 +49,9 @@ function App() {
         )}
         <Routes>
           <Route path="/" element={<AuthPage isLoggedIn={isLoggedIn} />} />
-          <Route path="/login" element={<LoginPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>} />
+          <Route path="/login" element={<LoginPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} setIsAdmin={setIsAdmin}/>} />
           <Route path="/signup/*" element={<SignUpPage isLoggedIn={isLoggedIn}/>} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard" element={<Dashboard isAdmin={isAdmin}/>} />
           <Route path="/my-children/edit-child-data/:id" element={<EditChildData isLoggedIn={isLoggedIn} />} /> 
           <Route path="/my-children/add-child-data" element={<AddChildData isLoggedIn={isLoggedIn} />} />
           <Route path="/my-children" element={<ChildrenManagement isLoggedIn={isLoggedIn} />} />
@@ -67,7 +69,7 @@ function App() {
 export default function LanguageWrappedApp() {
   return(
     <LanguageProvider>
-      <App />
+        <App />
     </LanguageProvider>
   )
 };
