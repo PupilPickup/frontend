@@ -45,13 +45,13 @@ function App() {
             <LanguageSelect changeLanguage={changeLanguage} />
           </div>
         ):(
-          <Header changeLanguage={changeLanguage} setIsLoggedIn={setIsLoggedIn} setIsAdmin={setIsAdmin} />
+          <Header changeLanguage={changeLanguage} setIsLoggedIn={setIsLoggedIn} isAdmin={isAdmin} setIsAdmin={setIsAdmin} />
         )}
         <Routes>
           <Route path="/" element={<AuthPage isLoggedIn={isLoggedIn} />} />
           <Route path="/login" element={<LoginPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} setIsAdmin={setIsAdmin}/>} />
           <Route path="/signup/*" element={<SignUpPage isLoggedIn={isLoggedIn}/>} />
-          <Route path="/dashboard" element={<Dashboard isAdmin={isAdmin}/>} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/my-children/edit-child-data/:id" element={<EditChildData isLoggedIn={isLoggedIn} />} /> 
           <Route path="/my-children/add-child-data" element={<AddChildData isLoggedIn={isLoggedIn} />} />
           <Route path="/my-children" element={<ChildrenManagement isLoggedIn={isLoggedIn} />} />

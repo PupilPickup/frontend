@@ -70,7 +70,20 @@
     },
 
     "dashboard":{
-        "welcome_message": "Welcome to WeShare!"
+        "welcome_message": "Welcome to WeShare!",
+        "username_unknown": "The username $username} was not found.",
+        "school_unknown": "The school was not found",
+        "server_error_get": "An error occurred while retrieving the school's data. Please try again later.", 
+        "generic_error": "An error occurred. Please try again later.",
+        "school_name": "School Name",
+        "school_address": "School Address",
+        "school_number": "Contact Number",
+        "carpool_dropoff": "Carpoo; Drop-off Information",
+        "carpool_pickup": "Carpoo; Pick-up Information",
+        "location": "Location",
+        "start_time": "Start Time",
+        "end_time": "End Time",
+        "ward_number": "Ward Number"
     },
 
     "signup_server_errors":{
@@ -120,7 +133,8 @@
         "children": "My Children",
         "vehicles": "My Vehicles",
         "logout": "Logout",
-        "manage": "Manage"
+        "manage": "Manage",
+        "carpool": "School Information"
     }, 
 
     "universal":{

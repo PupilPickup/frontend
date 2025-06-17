@@ -9,10 +9,11 @@ import NavHeaderLink from "../common/NavLink";
 interface HeaderProps {
     changeLanguage: (language: string) => void;
     setIsLoggedIn:(isLoggedIn: boolean) => void;
+    isAdmin: boolean;
     setIsAdmin: (isAdmin: boolean) => void;
 }
 
-const Header: React.FC<HeaderProps> = ( { changeLanguage, setIsLoggedIn, setIsAdmin } ) => {
+const Header: React.FC<HeaderProps> = ( { changeLanguage, setIsLoggedIn, isAdmin, setIsAdmin } ) => {
   const navigate = useNavigate();
   const { language } = useLanguage();
   const translations = language === 'ne' ? neTranslations : enTranslations;
@@ -70,11 +71,16 @@ const Header: React.FC<HeaderProps> = ( { changeLanguage, setIsLoggedIn, setIsAd
               <NavHeaderLink btnText={translations.header.profile} navTo={"/profile"}/>
             </li>
             <li>
-            <NavHeaderLink btnText={translations.header.children} navTo={"/my-children"}/>
+              <NavHeaderLink btnText={translations.header.children} navTo={"/my-children"}/>
             </li>
             <li>
               <NavHeaderLink btnText={translations.header.vehicles} navTo={"/my-vehicles"}/>
             </li>
+            {isAdmin && (
+              <li>
+                <NavHeaderLink btnText={translations.header.carpool} navTo={"/school-carpool"} />
+              </li>
+            )}
           </ul>
 
           {/* Mobile Menu Button */}
@@ -110,6 +116,14 @@ const Header: React.FC<HeaderProps> = ( { changeLanguage, setIsLoggedIn, setIsAd
                             navTo={"/my-vehicles"} 
                           />
                       </li>
+                      {isAdmin && (
+                         <li onClick={closeDropdown} className="w-full p-4 hover:bg-[#2C3E50] active:bg-[#2C3E50]">
+                          <NavHeaderLink 
+                            btnText={translations.header.carpool} 
+                            navTo={"/school-carpool"} 
+                          />
+                        </li>
+                      )}
                   </ul>
               </div>
           )}

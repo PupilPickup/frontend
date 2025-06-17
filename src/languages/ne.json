@@ -71,7 +71,20 @@
     },
 
     "dashboard": {
-        "welcome_message": "WeShare मा स्वागत छ!"
+        "welcome_message": "WeShare मा स्वागत छ!",
+        "username_unknown": "प्रयोगकर्ता नाम $username} फेला परेन।",
+        "school_unknown": "विद्यालय फेला परेन।",
+        "server_error_get": "विद्यालयको डाटा प्राप्त गर्दा त्रुटि भयो। कृपया केही समयपछि फेरि प्रयास गर्नुहोस्।",
+        "generic_error": "त्रुटि भयो। कृपया केही समयपछि फेरि प्रयास गर्नुहोस्।",
+        "school_name": "विद्यालयको नाम",
+        "school_address": "विद्यालयको ठेगाना",
+        "school_number": "सम्पर्क नम्बर",
+        "carpool_dropoff": "कारपूल ओराल्ने जानकारी",
+        "carpool_pickup": "कारपूल चढाउने जानकारी",
+        "location": "स्थान",
+        "start_time": "सुरु समय",
+        "end_time": "अन्त्य समय", 
+        "ward_number": "वार्ड नम्बर"
     },
 
     "signup_server_errors": {
@@ -121,7 +134,8 @@
         "children": "मेरो बच्चाहरू",
         "vehicles": "मेरो सवारी साधन",
         "logout": "लगआउट",
-        "manage": "व्यवस्थापन गर्नुहोस्"
+        "manage": "व्यवस्थापन गर्नुहोस्",
+        "carpool": "विद्यालय सम्बन्धी जानकारी"
     }, 
 
     "universal":{
