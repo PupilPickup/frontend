@@ -79,7 +79,7 @@ export default function Dashboard () {
 				console.error(error);
 				if (axios.isAxiosError(error) && error.response) {
 					const errorKey = error.response.data.error as DashboardServerErrors;
-					let errorMessage: string = translations.dashboard[errorKey] ?? translations.profile_server_errors.generic_error;
+					let errorMessage: string = translations.dashboard[errorKey] ?? translations.dashboard.generic_error;
 					if(errorMessage.includes("$username}")){
 						errorMessage = errorMessage.replace("$username}", userName);
 					}
@@ -90,7 +90,7 @@ export default function Dashboard () {
 		}
 
 		populateSchoolCarpoolData(token, username, userId);
-	}, [navigate, token, userId, username]);
+	}, [navigate, token, userId, username, apiUrl, translations.dashboard]);
 
 
 	function prettyAddress(streetAddress: string, municipalityDistrict: string, wardLabel: string, wardNumber: string): string {
@@ -107,31 +107,31 @@ export default function Dashboard () {
 	}
 
 	return (
-		<div className="flex flex-col items-center min-h-[90vh] ">
+		<div className="flex flex-col items-center min-h-[90vh] text-base sm:text-lg text-black">
 			<h1 className="text-3xl my-4 p-4">{translations.dashboard.welcome_message}</h1>
 			{serverError ? 
 			(
             	<span className="text-red-500 text-sm mt-1">{serverError}</span>
             ):
 			(
-				<div className="flex flex-col items-center w-full">
-					<CardLabel label={translations.dashboard.school_name} data={carpoolData.schoolName} className=""/>
+				<div className="flex flex-col items-center w-[90%] md:w-[60%] lg:w-[40%] xl:w-[30%] bg-white shadow-md rounded-lg p-6">
+					<h3>{carpoolData.schoolName}</h3>
 					<div className="flex flex-col items-start w-full mb-2">
-						<CardLabel label={translations.dashboard.school_address} data={prettyAddress(carpoolData.streetAddress, translations.dashboard.ward_number, carpoolData.wardNumber, carpoolData.municipalityDistrict)} />
-						<CardLabel label={translations.dashboard.school_number} data={carpoolData.contactNumber} />
+						<CardLabel label={translations.dashboard.school_address} data={prettyAddress(carpoolData.streetAddress, carpoolData.municipalityDistrict, translations.dashboard.ward_number, carpoolData.wardNumber )} className={"py -0 my-0"} />
+						<CardLabel label={translations.dashboard.school_number} data={carpoolData.contactNumber} className={"py-0 my-0"} />
 					</div>
 					<h3>{translations.dashboard.carpool_dropoff}</h3>
 					<div className="flex flex-col items-start w-full mb-2">
-						<CardLabel label={translations.dashboard.location} data={carpoolData.carpoolDropoffLocation} />
-						<CardLabel label={translations.dashboard.start_time} data={carpoolData.carpoolDropoffStartTime} />
-						<CardLabel label={translations.dashboard.end_time} data={carpoolData.carpoolDropoffEndTime} />
+						<CardLabel label={translations.dashboard.location} data={carpoolData.carpoolDropoffLocation} className={"py-0 my-0"} />
+						<CardLabel label={translations.dashboard.start_time} data={carpoolData.carpoolDropoffStartTime} className={"py-0 my-0"} />
+						<CardLabel label={translations.dashboard.end_time} data={carpoolData.carpoolDropoffEndTime} className={"py-0 my-0"} />
 						
 					</div>
 					<h3>{translations.dashboard.carpool_pickup}</h3>
 					<div className="flex flex-col items-start w-full mb-2">
-						<CardLabel label={translations.dashboard.location} data={carpoolData.carpoolPickupLocation} />
-						<CardLabel label={translations.dashboard.start_time} data={carpoolData.carpoolPickupStartTime} />
-						<CardLabel label={translations.dashboard.end_time} data={carpoolData.carpoolPickupEndTime} />
+						<CardLabel label={translations.dashboard.location} data={carpoolData.carpoolPickupLocation} className={"py-0 my-0"} />
+						<CardLabel label={translations.dashboard.start_time} data={carpoolData.carpoolPickupStartTime} className={"py-0 my-0"} />
+						<CardLabel label={translations.dashboard.end_time} data={carpoolData.carpoolPickupEndTime} className={"py-0 my-0"} />
 						
 					</div>
 				</div>
