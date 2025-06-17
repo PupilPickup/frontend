@@ -304,5 +304,47 @@
         "generic_error": "An error occured when resetting the password. Please try again later.",
         "empty_fields": "No fields can be left empty.",
         "email_sent_failed": "Email failed to send"
+    },
+
+    "school" :{
+        "school_name_label" : "School Name",
+        "street_address_label": "Street Address",
+        "ward_label": "Ward Number",
+        "municipality_label" : "Municipality/District",
+        "contact_number_label" : "Contact Number",
+        "carpool_dropoff_start_time_label" : "Carpool Dropoff Start Time", 
+        "carpool_dropoff_end_time_label" : "Carpool Dropoff End Time", 
+        "carpool_pickup_start_time_label" : "Carpool Pickup Start Time", 
+        "carpool_pickup_end_time_label" : "Carpool Pickup End Time", 
+        "carpool_dropoff_location_label" : "Carpool Dropoff Location",
+        "carpool_pickup_location_label" : "Carpool Pickup Location",
+        "require_school_name_error" : "School name is required", 
+        "invalid_school_name_error" : "School name must be at least 5 characters",
+        "require_contact_number_error" : "School contact number required",
+        "invalid_contact_number_error" : "Invalid phone number format. Must be 10 digits without spaces or characters", 
+        "require_street_address_error": "School address is required", 
+        "invalid_street_address_error" : "Street address must have at least 5 characters",
+        "require_ward_error" : "Ward number the school is located in must be provided",
+        "invalid_ward_error" : "Ward number must be between 1 - 32",
+        "require_municipality_error" : "Municipality of the school must be provided",
+        "invalid_municipality_error" : "Municipality must be at least 5 characters", 
+        "require_dropoff_start_time_error" : "Must provide the carpool start time for drop-off period",
+        "invalid_time_error": "Time must be of format HH:MM",
+        "require_pickup_start_time_error" : "Must provide the carpool start time for pickup period",
+        "require_dropoff_end_time_error" : "Must provide the carpool end time for drop-off period",
+        "require_pickup_end_time_error" : "Must provide the carpool end time for pickup period",
+        "require_dropoff_location_error" : "Must provide a description of the carpool drop-off location",
+        "require_pickup_location_error" : "Must provide a description of the carpool pickup location",
+        "end_after_start_error": "The end time must come after the start time"
+    },
+
+    "school_server_errors":{
+        "username_unknown": "The username $username} was not found",
+        "school_unknown": "There was no school found",
+        "server_error_get": "An error occurred when fetching this data. Please try again later",
+        "admin_unknown": "The admin user $username} was not found",
+        "user_not_admin": "The user making this request is not an administrator. Request denied",
+        "server_error_put": "An error occurred when trying to update the school data. Please try again later",
+        "generic_error": "An error occurred. Please try again later"
     }
 }
