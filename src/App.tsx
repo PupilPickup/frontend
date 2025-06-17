@@ -24,6 +24,9 @@ function App() {
   const { changeLanguage } = useLanguage();
   const token = sessionStorage.getItem("token");
  
+  // Test is github connection is working
+  console.log("GitHub connection is working!");
+
   useEffect(() => {
     if(!!token){
       setIsLoggedIn(true);

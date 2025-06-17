@@ -8,6 +8,7 @@ import axios from "axios";
 import Button from "../../components/common/Button";
 import CardLabel from "../../components/common/CardLabel";
 import ProfileInput from "../../components/common/ProfileInput";
+import DeleteWarningModal from "../../components/common/DeleteWarningModal";
 
 // Define the possible error keys
 type ProfileServerErrors = 'empty_fields' | 'username_not_existent' | 'invalid_credentials' | 'server_error_get' |'server_error_put' |'server_error_delete' | 'generic_error' | 'firstname_length' | 'lastname_length' | 'email_length' | 'phone_length' | 'street_address_length' | 'ward_number_invalid' | 'municipality_district_length' | 'username_unknown' | 'email_exists';
@@ -50,6 +51,7 @@ export default function UserProfile ( { isLoggedIn, setIsLoggedIn }: UserProfile
     const [streetAddressError, setStreetAddressError] = useState<string>("");
     const [wardNumberError, setWardNumberError] = useState<string>("");
     const [municipalityDistrictError, setMunicipalityDistrictError] = useState<string>("");
+    const [showDeleteWarning, setShowDeleteWarning] = useState<boolean>(false);
 
 
     const { language } = useLanguage();
@@ -283,15 +285,22 @@ export default function UserProfile ( { isLoggedIn, setIsLoggedIn }: UserProfile
         navigate("/profile/change-password", { state: { userId } });
     };
 
-    // Function for handling the user wanting to delete their account
-    const handleDeleteAccount = () => {
-        // TODO Show a confirmation dialog before deleting the account
+    // Function to display a confirmation dialog before deleting the account
+    const confirmDelete = () => {
+        setShowDeleteWarning(true);
+    }
 
+    // Function to handle the user cancelling their decision to delete their account
+    const cancelDelete = () => {
+        setShowDeleteWarning(false);
+    }
+
+    // Function for handling the user wanting to delete their account
+    const handleDeleteAccount = async () => {
         // Call the deleteUser function to delete the account
+        setShowDeleteWarning(false);
         deleteUser(token!, username!, userId!);
         console.log("Account deleted");
-
-        // TODO deal with issLoggedIn state still being true after deleting user
     };
 
     // Function for handling the user saving their profile changes
@@ -461,7 +470,7 @@ export default function UserProfile ( { isLoggedIn, setIsLoggedIn }: UserProfile
                 {isViewState ? (
                     <div className="flex flex-row w-full max-w-md justify-between space-x-4">
                         <Button
-                            onClick={handleDeleteAccount}
+                            onClick={confirmDelete}
                             variant="secondary"
                             label={translations.profile.delete_button}
                         />
@@ -491,6 +500,7 @@ export default function UserProfile ( { isLoggedIn, setIsLoggedIn }: UserProfile
                     </div>
                 )}
             </div>
+            {showDeleteWarning &&  <DeleteWarningModal prompt={translations.profile.delete_confirmation_message} abortLabel={translations.profile.cancel_button} confirmLabel={translations.profile.delete_button} onAbort={cancelDelete} onConfirm={handleDeleteAccount} />}
         </div>
     );
 }
