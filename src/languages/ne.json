@@ -71,7 +71,20 @@
     },
 
     "dashboard": {
-        "welcome_message": "WeShare मा स्वागत छ!"
+        "welcome_message": "WeShare मा स्वागत छ!",
+        "username_unknown": "प्रयोगकर्ता नाम $username} फेला परेन।",
+        "school_unknown": "विद्यालय फेला परेन।",
+        "server_error_get": "विद्यालयको डाटा प्राप्त गर्दा त्रुटि भयो। कृपया केही समयपछि फेरि प्रयास गर्नुहोस्।",
+        "generic_error": "त्रुटि भयो। कृपया केही समयपछि फेरि प्रयास गर्नुहोस्।",
+        "school_name": "विद्यालयको नाम",
+        "school_address": "विद्यालयको ठेगाना",
+        "school_number": "सम्पर्क नम्बर",
+        "carpool_dropoff": "कारपूल ओराल्ने जानकारी",
+        "carpool_pickup": "कारपूल चढाउने जानकारी",
+        "location": "स्थान",
+        "start_time": "सुरु समय",
+        "end_time": "अन्त्य समय", 
+        "ward_number": "वार्ड नम्बर"
     },
 
     "signup_server_errors": {
@@ -121,7 +134,8 @@
         "children": "मेरो बच्चाहरू",
         "vehicles": "मेरो सवारी साधन",
         "logout": "लगआउट",
-        "manage": "व्यवस्थापन गर्नुहोस्"
+        "manage": "व्यवस्थापन गर्नुहोस्",
+        "carpool": "विद्यालय सम्बन्धी जानकारी"
     }, 
 
     "universal":{
@@ -291,7 +305,47 @@
         "generic_error": "पासवर्ड रिसेट गर्दा त्रुटि भयो। कृपया पछि पुन: प्रयास गर्नुहोस्।",
         "empty_fields": "कुनै पनि क्षेत्र खाली राख्न सकिँदैन।",
         "email_sent_failed": "इमेल पठाउन असफल भयो"
+    },
+
+    "school": {
+        "school_name_label": "विद्यालयको नाम",
+        "street_address_label": "सडकको ठेगाना",
+        "ward_label": "वडा नम्बर",
+        "municipality_label": "नगरपालिका/जिल्ला",
+        "contact_number_label": "सम्पर्क नम्बर",
+        "carpool_dropoff_start_time_label": "कारपूल ओराल्ने सुरुवात समय",
+        "carpool_dropoff_end_time_label": "कारपूल ओराल्ने अन्त्य समय",
+        "carpool_pickup_start_time_label": "कारपूल चढाउने सुरुवात समय",
+        "carpool_pickup_end_time_label": "कारपूल चढाउने अन्त्य समय",
+        "carpool_dropoff_location_label": "कारपूल ओराल्ने स्थान",
+        "carpool_pickup_location_label": "कारपूल चढाउने स्थान",
+        "require_school_name_error": "विद्यालयको नाम आवश्यक छ",
+        "invalid_school_name_error": "विद्यालयको नाम कम्तीमा ५ अक्षरको हुनुपर्छ",
+        "require_contact_number_error": "विद्यालयको सम्पर्क नम्बर आवश्यक छ",
+        "invalid_contact_number_error": "फोन नम्बरको ढाँचा मिलेन। यो १० अंकको हुनुपर्छ, खाली स्थान वा विशेष क्यारेक्टर बिना",
+        "require_street_address_error": "विद्यालयको ठेगाना आवश्यक छ",
+        "invalid_street_address_error": "सडकको ठेगानामा कम्तीमा ५ अक्षर हुनुपर्छ",
+        "require_ward_error": "विद्यालय रहेको वडा नम्बर आवश्यक छ",
+        "invalid_ward_error": "वडा नम्बर १ देखि ३२ को बीचमा हुनुपर्छ",
+        "require_municipality_error": "विद्यालय रहेको नगरपालिका आवश्यक छ",
+        "invalid_municipality_error": "नगरपालिका कम्तीमा ५ अक्षरको हुनुपर्छ",
+        "require_dropoff_start_time_error": "ओराल्ने समयको सुरुवात दिनु आवश्यक छ",
+        "invalid_time_error": "समय HH:MM ढाँचामा हुनुपर्छ",
+        "require_pickup_start_time_error": "चढाउने समयको सुरुवात दिनु आवश्यक छ",
+        "require_dropoff_end_time_error": "ओराल्ने समयको अन्त्य दिनु आवश्यक छ",
+        "require_pickup_end_time_error": "चढाउने समयको अन्त्य दिनु आवश्यक छ",
+        "require_dropoff_location_error": "कारपूल ओराल्ने स्थानको वर्णन दिनु आवश्यक छ",
+        "require_pickup_location_error": "कारपूल चढाउने स्थानको वर्णन दिनु आवश्यक छ",
+        "end_after_start_error": "अन्त्य समय सुरु समय पछि हुनुपर्छ"
+    },
+
+    "school_server_errors": {
+        "username_unknown": "प्रयोगकर्ता नाम $username फेला परेन",
+        "school_unknown": "कुनै विद्यालय फेला परेन",
+        "server_error_get": "डाटा ल्याउँदा त्रुटि भयो। कृपया केही समयपछि प्रयास गर्नुहोस्",
+        "admin_unknown": "प्रशासन प्रयोगकर्ता $username फेला परेन",
+        "user_not_admin": "अनुरोध गर्ने प्रयोगकर्ता प्रशासक होइन। अनुरोध अस्वीकृत",
+        "server_error_put": "विद्यालयको डाटा अद्यावधिक गर्दा त्रुटि भयो। कृपया पछि प्रयास गर्नुहोस्",
+        "generic_error": "त्रुटि भयो। कृपया केही समयपछि फेरि प्रयास गर्नुहोस्"
     }
-
-
 }
