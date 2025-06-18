@@ -17,10 +17,13 @@ import AddChildData from './pages/children_management/AddChildData';
 import EditChildData from './pages/children_management/EditChildData';
 import AddVehicleData from './pages/vehicle_management/AddVehicleData';
 import EditVehicleData from './pages/vehicle_management/EditVehicleData';
+import SchoolManagement from './pages/admin/SchoolManagement';
+// import { UserProvider } from './context/UserContext';
 
 function App() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const { changeLanguage } = useLanguage();
   const token = sessionStorage.getItem("token");
  
@@ -43,11 +46,11 @@ function App() {
             <LanguageSelect changeLanguage={changeLanguage} />
           </div>
         ):(
-          <Header changeLanguage={changeLanguage} setIsLoggedIn={setIsLoggedIn} />
+          <Header changeLanguage={changeLanguage} setIsLoggedIn={setIsLoggedIn} isAdmin={isAdmin} setIsAdmin={setIsAdmin} />
         )}
         <Routes>
           <Route path="/" element={<AuthPage isLoggedIn={isLoggedIn} />} />
-          <Route path="/login" element={<LoginPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>} />
+          <Route path="/login" element={<LoginPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} setIsAdmin={setIsAdmin}/>} />
           <Route path="/signup/*" element={<SignUpPage isLoggedIn={isLoggedIn}/>} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/my-children/edit-child-data/:id" element={<EditChildData isLoggedIn={isLoggedIn} />} /> 
@@ -58,6 +61,7 @@ function App() {
           <Route path="/my-vehicles" element={<VehicleManagement isLoggedIn={isLoggedIn} />} />
           <Route path="/profile/change-password" element={<ChangePassword isLoggedIn={isLoggedIn} />} />
           <Route path="/profile" element={<UserProfile isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
+          <Route path="/school-carpool" element={<SchoolManagement isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} isAdmin={isAdmin} setIsAdmin={setIsAdmin} />} />
         </Routes>
       </Router>
     </main>
@@ -67,7 +71,7 @@ function App() {
 export default function LanguageWrappedApp() {
   return(
     <LanguageProvider>
-      <App />
+        <App />
     </LanguageProvider>
   )
 };
