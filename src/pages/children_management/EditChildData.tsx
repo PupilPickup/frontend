@@ -8,6 +8,7 @@ import ChildForm from "../../components/ChildForm";
 import { isFieldEmpty, isNameValid, isTimeValid, isPickupAfterDropoff } from "../../utils/childValidation";
 import axios from "axios";
 import Button from "../../components/common/Button";
+import HelpTip from "../../components/common/HelpTip";
 
 type EditChildDataProps = {
     isLoggedIn: boolean;
@@ -196,6 +197,9 @@ const EditChildData: React.FC<EditChildDataProps> = ({
 
     return (
         <div className="px-4 pb-4 flex flex-col w-full items-center">
+            <div className="flex justify-start w-full mt-2 p-1 pl-0">
+                <HelpTip content={translations.help.edit_child} altText={translations.universal.help_icon}/>
+            </div>
             <div className="flex flex-col border rounded-lg shadow-md p-4 my-4 bg-white w-full sm:max-w-[52rem]">
                 <h2 className="text-lg font-bold mb-2 sm:text-center">
                     {translations.children.edit_child_prompt}

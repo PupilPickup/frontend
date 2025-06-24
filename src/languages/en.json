@@ -139,7 +139,8 @@
 
     "universal":{
         "loading": "Loading...",
-        "redirecting": "Redirecting..."
+        "redirecting": "Redirecting...",
+        "help_icon": "Help Icon"
     },
 
     "profile":{
@@ -307,6 +308,8 @@
     },
 
     "school" :{
+        "school_header": "School Carpool Information",
+        "school_prompt": "Manage your school's carpool information",
         "school_name_label" : "School Name",
         "street_address_label": "Street Address",
         "ward_label": "Ward Number",
@@ -346,5 +349,23 @@
         "user_not_admin": "The user making this request is not an administrator. Request denied",
         "server_error_put": "An error occurred when trying to update the school data. Please try again later",
         "generic_error": "An error occurred. Please try again later"
+    }, 
+
+    "help":{
+        "auth": "Choose Sign Up to create a new account or Login to access your existing account.",
+        "login": "Enter your username or email and password to log in. If you forgot your password, click the 'Forgot your password?' link and a recovery email will be sent to you.",
+        "sign_up_step_1": "Enter your first name, last name, and phone number. A phone number is 10 digits without symbols or spaces. Click 'Continue' to proceed to the next step.",
+        "sign_up_step_2": "Please enter your address. This includes your street address, ward number, and municipality or district. Click 'Continue' to proceed to the next step.",
+        "sign_up_step_3": "Please enter your email, username, and password. Usernames and emails must be unique so if an account exists with this data the sign up will fail. Usernames must be at least 6 characters and may contain alphanumeric characters, periods, dashes, and underscores. The password must be at least 8 characters long, contain a number, an uppercase letter, and a special character. Click 'Create Account' to finish signing up.",
+        "dashboard": "The dashboard displays your school's carpool information. Use the navigation bar to access other information as needed.",
+        "profile": "You may view and edit your profile information here. You can also change your password or delete your account. Deleting your account is permanent and cannot be undone.",
+        "view_children": "You can view your children's information here. You can add, edit, or delete children. Deleting a child is permanent and cannot be undone.",
+        "add_child": "For safety we only ask for minimal information about your child. You must provide their first name, last name, when they must be dropped off at school, and when they must be picked up from school. Time is in the format HH:MM in 24-hour format.",
+        "edit_child": "For safety we only ask for minimal information about your child. You must provide their first name, last name, when they must be dropped off at school, and when they must be picked up from school. Time is in the format HH:MM in 24-hour format.",
+        "view_vehicles": "You may view your vehicles here. You can add, edit, or delete vehicles. Deleting a vehicle is permanent and cannot be undone.",
+        "add_vehicle": "All vehicles must have a license plate, the number of seats offered(capacity), the number of available seats, and the driver's start time for pickups and driver's end time for drop-offs, and the days you are available to drive. The license plate must be in the proper format. The number of available seats must be less than or equal to the seat capacity. Time is in the format HH:MM in 24-hour format.",
+        "edit_vehicle": "All vehicles must have a license plate, the number of seats offered(capacity), the number of available seats, and the driver's start time for pickups and driver's end time for drop-offs, and the days you are available to drive. The license plate must be in the proper format. The number of available seats must be less than or equal to the seat capacity. Time is in the format HH:MM in 24-hour format.",
+        "change_password": "A password must be at least 8 characters long, contain a number, an uppercase letter, and a special character. You must enter your current password, new password, and confirm your new password. If the current password is incorrect, the change will fail.",
+        "school": "Here you can view and edit your school's carpool display information on the Dashboard. All fields must be filled. An address includes a street address, a ward number, and a municipality or district. A phone number is 10 digits without symbols or spaces. Time is in the format HH:MM in 24-hour format."
     }
 }

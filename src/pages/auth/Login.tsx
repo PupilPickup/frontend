@@ -3,12 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { validatePassword } from "../../schema/loginSchema";
 import Button from "../../components/common/Button";
 import WeShare from "../../assets/icons/Weshare.svg";
+// import Help from "../../assets/icons/info.svg";
 import enTranslations from "../../languages/en.json";
 import neTranslations from "../../languages/ne.json";
 import { useLanguage } from "../../context/LanguageContext";
 import axios from "axios";
 import FormInput from "../../components/common/FormInput";
 import { isFieldEmpty } from "../../utils/profileValidation";
+// import Tooltip from "../../components/common/Tooltip";
+import HelpTip from "../../components/common/HelpTip";
 // import { useUser } from "../../context/UserContext";
 
 // Define the possible error keys
@@ -236,6 +239,9 @@ const LoginPage: React.FC<LoginPageProps> = ( { isLoggedIn, setIsLoggedIn, setIs
 
   return (
     <div className="px-4 pb-4 flex flex-col w-full items-center">
+      <div className="flex justify-start w-full">
+        <HelpTip content={translations.help.login} altText={translations.universal.help_icon}/>
+      </div>
       <div className="w-full sm:max-w-[52rem]">
         <div className="flex justify-center">
           <img src={WeShare} alt={translations.login.alt_logo_text} />
