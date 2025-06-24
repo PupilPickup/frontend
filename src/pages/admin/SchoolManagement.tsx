@@ -8,6 +8,7 @@ import axios from "axios";
 import Button from "../../components/common/Button";
 import CardLabel from "../../components/common/CardLabel";
 import ProfileInput from "../../components/common/ProfileInput";
+import HelpTip from "../../components/common/HelpTip";
 
 // Define the possible error keys
 type SchoolServerErrors = 'server_error_get' |'server_error_put' | 'generic_error' | "username_unknown" | "school_unknown" | "admin_unknown" | "user_not_admin";
@@ -367,8 +368,11 @@ export default function SchoolManagement ( { isLoggedIn, isAdmin, setIsLoggedIn,
 
     return (
         <div className="min-h-screen flex flex-col items-center p-6">
-            <h1 className="text-4xl font-bold mb-4">{translations.profile.profile_header}</h1>
-            <h2 className="text-xl text-gray-600 mb-8">{translations.profile.profile_prompt}</h2>
+            <div className="flex justify-start w-full">
+                <HelpTip content={translations.help.school} altText={translations.universal.help_icon}/>
+            </div>
+            <h1 className="text-4xl font-bold mb-4">{translations.school.school_header}</h1>
+            <h2 className="text-xl text-gray-600 mb-8">{translations.school.school_prompt}</h2>
             {serverError && (
                 <div className="text-red-500 text-sm mb-4">{serverError}</div>
             )}

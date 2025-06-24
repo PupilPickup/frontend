@@ -7,6 +7,7 @@ import { validatePassword } from "../../utils/profileValidation";
 import axios from "axios";
 import Button from "../../components/common/Button";
 import FormInput from "../../components/common/FormInput";
+import HelpTip from "../../components/common/HelpTip";
 
 // Define the possible error keys
 type PasswordServerErrors = 'empty_fields' | 'invalid_password' | 'server_error_put' | 'generic_error';
@@ -97,6 +98,9 @@ export default function ChangePassword ( { isLoggedIn }: ChangePasswordProps) {
 
     return (
         <div className="min-h-screen flex flex-col items-center p-6">
+            <div className="flex justify-start w-full">
+                <HelpTip content={translations.help.change_password} altText={translations.universal.help_icon}/>
+            </div>
             <h1 className="text-2xl font-bold mb-6">{translations.profile.change_password_button}</h1>
             <div className="w-full max-w-md bg-white shadow-md rounded-lg p-6">
                 {errorMessage && (

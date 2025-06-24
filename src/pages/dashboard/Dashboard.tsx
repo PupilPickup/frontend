@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import CardLabel from "../../components/common/CardLabel";
+import HelpTip from "../../components/common/HelpTip";
 // import { useUser } from "../../context/UserContext";
 
 // Define the possible error keys
@@ -108,6 +109,9 @@ export default function Dashboard () {
 
 	return (
 		<div className="flex flex-col items-center min-h-[90vh] text-base sm:text-lg text-black">
+			<div className="flex justify-start w-full mt-2 ml-2 p-1 sm:ml-4 sm:p-2 sm:mt-4">
+                <HelpTip content={translations.help.dashboard} altText={translations.universal.help_icon}/>
+            </div>
 			<h1 className="text-3xl my-4 p-4">{translations.dashboard.welcome_message}</h1>
 			{serverError ? 
 			(

@@ -6,12 +6,13 @@ import { Link } from 'react-router-dom';
 interface NavHeaderLinkProps {
   btnText: string;
   navTo: string;
+  className?: string; // Optional className for additional styling
 }
 
-const NavHeaderLink: React.FC<NavHeaderLinkProps> = ( {btnText, navTo} ) => {
+const NavHeaderLink: React.FC<NavHeaderLinkProps> = ( {btnText, navTo, className} ) => {
   return (
-    <Link className="" to={navTo}>
-        <button className="">{btnText}</button>
+    <Link className={className} to={navTo}>
+        <button className={className}>{btnText}</button>
     </Link>
   );
 }

@@ -9,6 +9,7 @@ import Button from "../../components/common/Button";
 import CardLabel from "../../components/common/CardLabel";
 import ProfileInput from "../../components/common/ProfileInput";
 import DeleteWarningModal from "../../components/common/DeleteWarningModal";
+import HelpTip from "../../components/common/HelpTip";
 
 // Define the possible error keys
 type ProfileServerErrors = 'empty_fields' | 'username_not_existent' | 'invalid_credentials' | 'server_error_get' |'server_error_put' |'server_error_delete' | 'generic_error' | 'firstname_length' | 'lastname_length' | 'email_length' | 'phone_length' | 'street_address_length' | 'ward_number_invalid' | 'municipality_district_length' | 'username_unknown' | 'email_exists';
@@ -341,6 +342,9 @@ export default function UserProfile ( { isLoggedIn, setIsLoggedIn }: UserProfile
 
     return (
         <div className="min-h-screen flex flex-col items-center p-6">
+            <div className="flex justify-start w-full">
+                <HelpTip content={translations.help.profile} altText={translations.universal.help_icon}/>
+            </div>
             <h1 className="text-4xl font-bold mb-4">{translations.profile.profile_header}</h1>
             <h2 className="text-xl text-gray-600 mb-8">{translations.profile.profile_prompt}</h2>
             {serverError && (
