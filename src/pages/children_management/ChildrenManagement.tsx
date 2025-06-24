@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import ChildCard from "../../components/ChildCard";
 import axios from "axios";
 import Button from "../../components/common/Button";
+import HelpTip from "../../components/common/HelpTip";
 
 type ChildrenManagementProps = {
     isLoggedIn: boolean;
@@ -120,6 +121,9 @@ export default function ChildrenManagement ( { isLoggedIn }: ChildrenManagementP
     }
     return (
         <div className="flex flex-col items-center min-h-[90vh] w-full my-4 px-4">
+            <div className="flex justify-start w-full">
+                <HelpTip content={translations.help.view_children} altText={translations.universal.help_icon}/>
+            </div>
             <h1 className="text-3xl font-bold mb-4">{translations.children.children_header}</h1>
             <h2>{translations.children.children_prompt}</h2>
             {serverError && <div className="text-red-500 mb-4">{serverError}</div>}

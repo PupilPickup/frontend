@@ -120,7 +120,8 @@ const Header: React.FC<HeaderProps> = ( { changeLanguage, setIsLoggedIn, isAdmin
                          <li onClick={closeDropdown} className="w-full p-4 hover:bg-[#2C3E50] active:bg-[#2C3E50]">
                           <NavHeaderLink 
                             btnText={translations.header.carpool} 
-                            navTo={"/school-carpool"} 
+                            navTo={"/school-carpool"}
+                            className="text-left"
                           />
                         </li>
                       )}

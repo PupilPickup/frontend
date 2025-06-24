@@ -8,6 +8,7 @@ import { useLanguage } from "../../../context/LanguageContext";
 import { useEffect, useState } from "react";
 import { isFieldEmpty, isMunicipalityOrDistrictValid, isStreetAddressValid, isWardValid } from "../../../schema/signupSchema";
 import ProfileInput from "../../../components/common/ProfileInput";
+import HelpTip from "../../../components/common/HelpTip";
 
 
 export default function SignupStep2() {
@@ -79,6 +80,9 @@ export default function SignupStep2() {
 
   return (
     <div className="px-4 pb-4 flex flex-col w-full items-center">
+      <div className="flex justify-start w-full">
+        <HelpTip content={translations.help.sign_up_step_2} altText={translations.universal.help_icon}/>
+      </div>
       <div className="w-full sm:max-w-[52rem]">
         <div className="flex justify-center">
           <img src={WeShare} alt={translations.sign_up.alt_logo_text} />

@@ -9,6 +9,7 @@ import neTranslations from "../../../languages/ne.json";
 import { useLanguage } from "../../../context/LanguageContext";
 import ProfileInput from "../../../components/common/ProfileInput";
 import FormInput from "../../../components/common/FormInput";
+import HelpTip from "../../../components/common/HelpTip";
 
 // Define the possible error keys
 type SignupServerErrors = 'empty_fields' | 'firstname_length' | 'lastname_length' |'username_length' |'email_length' |'phone_length' |'username_exists' |  'email_exists' | 'server_error' | 'generic_error';
@@ -152,6 +153,9 @@ export default function SignupStep3 () {
 
   return (
     <div className="px-4 pb-4 flex flex-col w-full items-center">
+      <div className="flex justify-start w-full">
+        <HelpTip content={translations.help.sign_up_step_3} altText={translations.universal.help_icon}/>
+      </div>
       <div className="w-full sm:max-w-[52rem]">
         <header className="flex flex-col text-center mb-6">
           <h1 className="text-3xl font-bold">{translations.sign_up.header3}</h1>
