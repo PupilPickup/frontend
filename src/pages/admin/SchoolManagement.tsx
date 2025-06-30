@@ -66,6 +66,7 @@ export default function SchoolManagement ( { isLoggedIn, isAdmin, setIsLoggedIn,
     const translations = language === 'ne' ? neTranslations : enTranslations;
 
     const apiUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
+    // const adminRole = process.env.ROLE_ADMIN || "1";
 
     const navigate = useNavigate();
     const token = sessionStorage.getItem("token");

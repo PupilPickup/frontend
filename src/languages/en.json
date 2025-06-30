@@ -140,7 +140,9 @@
     "universal":{
         "loading": "Loading...",
         "redirecting": "Redirecting...",
-        "help_icon": "Help Icon"
+        "help_icon": "Help Icon",
+        "approve": "Approve",
+        "reject": "Reject"
     },
 
     "profile":{
