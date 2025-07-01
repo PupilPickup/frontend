@@ -16,7 +16,7 @@ type ProfileServerErrors = 'empty_fields' | 'username_not_existent' | 'invalid_c
 
 type UserProfileProps = {
     isLoggedIn: boolean;
-    setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+    setIsLoggedIn: (isLoggedIn: boolean) => void;
 };
 
 export default function UserProfile ( { isLoggedIn, setIsLoggedIn }: UserProfileProps) {
