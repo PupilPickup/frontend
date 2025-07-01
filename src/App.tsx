@@ -18,17 +18,15 @@ import EditChildData from './pages/children_management/EditChildData';
 import AddVehicleData from './pages/vehicle_management/AddVehicleData';
 import EditVehicleData from './pages/vehicle_management/EditVehicleData';
 import SchoolManagement from './pages/admin/SchoolManagement';
-// import { UserProvider } from './context/UserContext';
+import { useUser, UserProvider } from './context/UserContext';
 
 function App() {
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const [isAdmin, setIsAdmin] = useState(false);
   const { changeLanguage } = useLanguage();
+  const { setUser, isLoggedIn, setIsLoggedIn, typeOfParent, typeOfDriver, isAdmin } = useUser();
   const token = sessionStorage.getItem("token");
- 
-  // Test is github connection is working
-  console.log("GitHub connection is working!");
 
   useEffect(() => {
     if(!!token){
@@ -46,11 +44,11 @@ function App() {
             <LanguageSelect changeLanguage={changeLanguage} />
           </div>
         ):(
-          <Header changeLanguage={changeLanguage} setIsLoggedIn={setIsLoggedIn} isAdmin={isAdmin} setIsAdmin={setIsAdmin} />
+          <Header changeLanguage={changeLanguage} setIsLoggedIn={setIsLoggedIn} isAdmin={isAdmin} />
         )}
         <Routes>
           <Route path="/" element={<AuthPage isLoggedIn={isLoggedIn} />} />
-          <Route path="/login" element={<LoginPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} setIsAdmin={setIsAdmin}/>} />
+          <Route path="/login" element={<LoginPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} setIsAdmin={setIsAdmin} setUser={setUser}/>} />
           <Route path="/signup/*" element={<SignUpPage isLoggedIn={isLoggedIn}/>} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/my-children/edit-child-data/:id" element={<EditChildData isLoggedIn={isLoggedIn} />} /> 
@@ -71,7 +69,9 @@ function App() {
 export default function LanguageWrappedApp() {
   return(
     <LanguageProvider>
+      <UserProvider>
         <App />
+      </UserProvider>
     </LanguageProvider>
   )
 };

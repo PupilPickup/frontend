@@ -5,11 +5,8 @@ import { useNavigate } from "react-router-dom";
 interface UserData {
   username: string;
   userId: string;
-  isAdmin: boolean;
-  isParent: boolean;
-  isDriver: boolean;
-  isPendingParent: boolean;
-  isPendingDriver: boolean;
+  email: string;
+  roles: string[];
 }
 
 // Define the context type
@@ -19,6 +16,9 @@ interface UserContextType {
   logout: () => void;
   isLoggedIn: boolean;
   setIsLoggedIn: (isLoggedIn: boolean) => void;
+  isAdmin: () => boolean;
+  typeOfParent: () => string;
+  typeOfDriver: () => string;
 }
 
 // Create the context with an undefined default value
@@ -26,6 +26,13 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 
 // Provider component
 export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+
+  const adminRole = process.env.ROLE_ADMIN || "1";
+  const parentRole = process.env.ROLE_PARENT || "2";
+  const pendingParentRole = process.env.ROLE_PENDING_PARENT || "4";
+  const driverRole = process.env.ROLE_DRIVER || "3";
+  const pendingDriverRole = process.env.ROLE_PENDING_DRIVER || "5";
+
   const [user, setUser] = useState<UserData | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -37,12 +44,41 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     navigate("/login");
   };
 
+  // Function to check if the user is an admin
+  const isAdmin = () => {
+    return user?.roles.includes(adminRole) || false;
+  }
+
+  const typeOfParent = () => {
+    if (user?.roles.includes(parentRole)) {
+      return parentRole; // Parent
+    }else if (user?.roles.includes(pendingParentRole)) {
+      return pendingParentRole; // Pending Parent
+    }else if( user?.roles.includes(adminRole)) {
+      return adminRole; // Admin so automatically allowed as Parent
+    }else{
+      return "-1"; // Not a Parent
+    }
+  }
+
+  const typeOfDriver = () => {
+    if (user?.roles.includes(driverRole)) {
+      return driverRole; // Driver
+    }else if (user?.roles.includes(pendingDriverRole)) {
+      return pendingDriverRole; // Pending Driver
+    }else if( user?.roles.includes(adminRole)) {
+      return adminRole; // Admin so automatically allowed as Driver
+    }else{
+      return "-1"; // Not a Driver
+    }
+  }
+
   React.useEffect(() => {
     console.log("User state updated:", user);
   }, [user, isLoggedIn]);
 
   return (
-    <UserContext.Provider value={{ user, setUser, isLoggedIn, setIsLoggedIn, logout }}>
+    <UserContext.Provider value={{ user, setUser, isLoggedIn, setIsLoggedIn, isAdmin, logout, typeOfParent, typeOfDriver }}>
       {children}
     </UserContext.Provider>
   );

@@ -9,11 +9,11 @@ import NavHeaderLink from "../common/NavLink";
 interface HeaderProps {
     changeLanguage: (language: string) => void;
     setIsLoggedIn:(isLoggedIn: boolean) => void;
-    isAdmin: boolean;
-    setIsAdmin: (isAdmin: boolean) => void;
+    isAdmin: () => boolean;
+    // setIsAdmin: (isAdmin: boolean) => void;
 }
 
-const Header: React.FC<HeaderProps> = ( { changeLanguage, setIsLoggedIn, isAdmin, setIsAdmin } ) => {
+const Header: React.FC<HeaderProps> = ( { changeLanguage, setIsLoggedIn, isAdmin } ) => {
   const navigate = useNavigate();
   const { language } = useLanguage();
   const translations = language === 'ne' ? neTranslations : enTranslations;
@@ -27,7 +27,7 @@ const Header: React.FC<HeaderProps> = ( { changeLanguage, setIsLoggedIn, isAdmin
     sessionStorage.removeItem("user_id");
     sessionStorage.removeItem("user_name");
     setIsLoggedIn(false); // Update the logged-in state in context or parent component
-    setIsAdmin(false); // Reset admin state if applicable
+    // setIsAdmin(false); // Reset admin state if applicable
     console.log("User logged out");
     navigate("/login"); // Redirect to login page
   };
@@ -76,7 +76,7 @@ const Header: React.FC<HeaderProps> = ( { changeLanguage, setIsLoggedIn, isAdmin
             <li>
               <NavHeaderLink btnText={translations.header.vehicles} navTo={"/my-vehicles"}/>
             </li>
-            {isAdmin && (
+            {isAdmin() && (
               <li>
                 <NavHeaderLink btnText={translations.header.carpool} navTo={"/school-carpool"} />
               </li>
@@ -116,7 +116,7 @@ const Header: React.FC<HeaderProps> = ( { changeLanguage, setIsLoggedIn, isAdmin
                             navTo={"/my-vehicles"} 
                           />
                       </li>
-                      {isAdmin && (
+                      {isAdmin() && (
                          <li onClick={closeDropdown} className="w-full p-4 hover:bg-[#2C3E50] active:bg-[#2C3E50]">
                           <NavHeaderLink 
                             btnText={translations.header.carpool} 
