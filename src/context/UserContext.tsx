@@ -1,21 +1,13 @@
 import React, { createContext, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-// Define the structure of the user data
-interface UserData {
-  username: string;
-  userId: string;
-  email: string;
-  roles: string[];
-}
+import { UserData } from "../schema/types";
 
 // Define the context type
 interface UserContextType {
   user: UserData | null;
-  setUser: (user: UserData | null) => void;
+  login: (user: UserData | null) => void;
   logout: () => void;
   isLoggedIn: boolean;
-  setIsLoggedIn: (isLoggedIn: boolean) => void;
   isAdmin: () => boolean;
   typeOfParent: () => string;
   typeOfDriver: () => string;
@@ -37,19 +29,32 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const navigate = useNavigate();
 
+  // Function to login a user
+  function login(user: UserData | null):void {
+    setUser(user);
+    if(user === null){
+      setIsLoggedIn(false);
+      // navigate("/");
+    }else{
+      setIsLoggedIn(true);
+      navigate("/dashboard");
+    }
+  }
+
   // Function to log out the user
-  const logout = () => {
+  function logout():void {
+    setIsLoggedIn(false);
     setUser(null);
     sessionStorage.removeItem("token");
     navigate("/login");
-  };
+  }
 
   // Function to check if the user is an admin
-  const isAdmin = () => {
+  function isAdmin():boolean {
     return user?.roles.includes(adminRole) || false;
   }
 
-  const typeOfParent = () => {
+  function typeOfParent():string {
     if (user?.roles.includes(parentRole)) {
       return parentRole; // Parent
     }else if (user?.roles.includes(pendingParentRole)) {
@@ -61,7 +66,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }
 
-  const typeOfDriver = () => {
+  function typeOfDriver(): string {
     if (user?.roles.includes(driverRole)) {
       return driverRole; // Driver
     }else if (user?.roles.includes(pendingDriverRole)) {
@@ -78,7 +83,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [user, isLoggedIn]);
 
   return (
-    <UserContext.Provider value={{ user, setUser, isLoggedIn, setIsLoggedIn, isAdmin, logout, typeOfParent, typeOfDriver }}>
+    <UserContext.Provider value={{ user, isLoggedIn, isAdmin, login, logout, typeOfParent, typeOfDriver }}>
       {children}
     </UserContext.Provider>
   );

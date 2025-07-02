@@ -16,10 +16,10 @@ type ProfileServerErrors = 'empty_fields' | 'username_not_existent' | 'invalid_c
 
 type UserProfileProps = {
     isLoggedIn: boolean;
-    setIsLoggedIn: (isLoggedIn: boolean) => void;
+    logout: () => void;
 };
 
-export default function UserProfile ( { isLoggedIn, setIsLoggedIn }: UserProfileProps) {
+export default function UserProfile ( { isLoggedIn, logout }: UserProfileProps) {
     const [isLoading, setIsLoading] = useState(true);
     const[isViewState, setIsViewState] = useState(true);
     const [profileData, setProfileData] = useState({
@@ -206,7 +206,7 @@ export default function UserProfile ( { isLoggedIn, setIsLoggedIn }: UserProfile
             sessionStorage.removeItem("token");
             sessionStorage.removeItem("user_name");
             sessionStorage.removeItem("user_id");
-            setIsLoggedIn(false);
+            logout();
             navigate("/");
 
         } catch (error) {
@@ -224,7 +224,7 @@ export default function UserProfile ( { isLoggedIn, setIsLoggedIn }: UserProfile
             sessionStorage.removeItem("token");
             sessionStorage.removeItem("user_name");
             sessionStorage.removeItem("user_id");
-            setIsLoggedIn(false);
+            logout();
             navigate("/"); 
         }
 
@@ -273,7 +273,7 @@ export default function UserProfile ( { isLoggedIn, setIsLoggedIn }: UserProfile
             console.error(error);
         }
         setIsLoading(false);
-    }, [language, token, userId, username, navigate, isLoggedIn, setIsLoggedIn, apiUrl, translations.profile_server_errors]);
+    }, [language, token, userId, username, navigate, isLoggedIn, logout, apiUrl, translations.profile_server_errors]);
 
     // Function for handling the user wanting to edit their profile
     const handleEditProfile = () => {

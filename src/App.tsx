@@ -25,16 +25,14 @@ function App() {
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
   // const [isAdmin, setIsAdmin] = useState(false);
   const { changeLanguage } = useLanguage();
-  const { setUser, isLoggedIn, setIsLoggedIn, typeOfParent, typeOfDriver, isAdmin } = useUser();
+  const { isLoggedIn, typeOfParent, typeOfDriver, isAdmin, login, logout } = useUser();
   const token = sessionStorage.getItem("token");
 
   useEffect(() => {
-    if(!!token){
-      setIsLoggedIn(true);
-    }else{
-      setIsLoggedIn(false);
+    if(!token){
+      logout();
     }
-  }, [token]);
+  }, [token, logout]);
 
   return (
     <main>
@@ -44,11 +42,11 @@ function App() {
             <LanguageSelect changeLanguage={changeLanguage} />
           </div>
         ):(
-          <Header changeLanguage={changeLanguage} setIsLoggedIn={setIsLoggedIn} isAdmin={isAdmin} />
+          <Header changeLanguage={changeLanguage} logout={logout} isAdmin={isAdmin} />
         )}
         <Routes>
           <Route path="/" element={<AuthPage isLoggedIn={isLoggedIn} />} />
-          <Route path="/login" element={<LoginPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} setIsAdmin={setIsAdmin} setUser={setUser}/>} />
+          <Route path="/login" element={<LoginPage isLoggedIn={isLoggedIn} login={login} />} />
           <Route path="/signup/*" element={<SignUpPage isLoggedIn={isLoggedIn}/>} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/my-children/edit-child-data/:id" element={<EditChildData isLoggedIn={isLoggedIn} />} /> 
@@ -58,8 +56,8 @@ function App() {
           <Route path="/my-vehicles/add-vehicle-data" element={<AddVehicleData isLoggedIn={isLoggedIn} />} />
           <Route path="/my-vehicles" element={<VehicleManagement isLoggedIn={isLoggedIn} />} />
           <Route path="/profile/change-password" element={<ChangePassword isLoggedIn={isLoggedIn} />} />
-          <Route path="/profile" element={<UserProfile isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
-          <Route path="/school-carpool" element={<SchoolManagement isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} isAdmin={isAdmin} setIsAdmin={setIsAdmin} />} />
+          <Route path="/profile" element={<UserProfile isLoggedIn={isLoggedIn} logout={logout} />} />
+          <Route path="/school-carpool" element={<SchoolManagement isLoggedIn={isLoggedIn} logout={logout} isAdmin={isAdmin} />} />
         </Routes>
       </Router>
     </main>

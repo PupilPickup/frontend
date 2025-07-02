@@ -3,14 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { validatePassword } from "../../schema/loginSchema";
 import Button from "../../components/common/Button";
 import WeShare from "../../assets/icons/Weshare.svg";
-// import Help from "../../assets/icons/info.svg";
 import enTranslations from "../../languages/en.json";
 import neTranslations from "../../languages/ne.json";
 import { useLanguage } from "../../context/LanguageContext";
 import axios from "axios";
 import FormInput from "../../components/common/FormInput";
 import { isFieldEmpty } from "../../utils/profileValidation";
-// import Tooltip from "../../components/common/Tooltip";
+import { UserData } from "../../schema/types";
 import HelpTip from "../../components/common/HelpTip";
 // import { useUser } from "../../context/UserContext";
 
@@ -21,11 +20,10 @@ type ResetPasswordServerErrors = 'empty_fields' | 'username_email_mismatch' | 'u
 
 interface LoginPageProps {
 	isLoggedIn: boolean, 
-	setIsLoggedIn:(isLoggedIn: boolean) => void,
-  setIsAdmin:(isLoggedIn: boolean) => void
+	login: (user: UserData | null) => void;
 }
 
-const LoginPage: React.FC<LoginPageProps> = ( { isLoggedIn, setIsLoggedIn, setIsAdmin } ) => {
+const LoginPage: React.FC<LoginPageProps> = ( { isLoggedIn, login } ) => {
 
   const navigate = useNavigate();
   const [loginInput, setLoginInput] = useState("");
@@ -159,9 +157,14 @@ const LoginPage: React.FC<LoginPageProps> = ( { isLoggedIn, setIsLoggedIn, setIs
       sessionStorage.setItem("user_id", response.data.user_id);
       sessionStorage.setItem("user_name", response.data.user_name);
       clearFieldsOnLogin();
-      setIsLoggedIn(true);
-      setIsAdmin(isAdmin);
-      navigate("/dashboard");
+      const userData: UserData = {
+        userId: response.data.user_id,
+        username: response.data.user_name,
+        email: response.data.email,
+        roles: response.data.roles
+      }
+      login(userData);
+      // navigate("/dashboard");
 
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {

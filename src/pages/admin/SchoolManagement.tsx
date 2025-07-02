@@ -15,12 +15,11 @@ type SchoolServerErrors = 'server_error_get' |'server_error_put' | 'generic_erro
 
 type SchoolManagementProps = {
     isLoggedIn: boolean;
-    isAdmin: boolean;
-    setIsLoggedIn: (isLoggedIn: boolean) => void;
-    setIsAdmin: (isAdmin: boolean) => void;
+    logout: () => void;
+    isAdmin: () => boolean;
 };
 
-export default function SchoolManagement ( { isLoggedIn, isAdmin, setIsLoggedIn, setIsAdmin }: SchoolManagementProps) {
+export default function SchoolManagement ( { isLoggedIn, logout, isAdmin }: SchoolManagementProps) {
     const [isLoading, setIsLoading] = useState(true);
     const[isViewState, setIsViewState] = useState(true);
     const [schoolData, setSchoolData] = useState({
@@ -66,7 +65,6 @@ export default function SchoolManagement ( { isLoggedIn, isAdmin, setIsLoggedIn,
     const translations = language === 'ne' ? neTranslations : enTranslations;
 
     const apiUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
-    // const adminRole = process.env.ROLE_ADMIN || "1";
 
     const navigate = useNavigate();
     const token = sessionStorage.getItem("token");
@@ -259,13 +257,12 @@ export default function SchoolManagement ( { isLoggedIn, isAdmin, setIsLoggedIn,
             sessionStorage.removeItem("token");
             sessionStorage.removeItem("user_name");
             sessionStorage.removeItem("user_id");
-            setIsLoggedIn(false);
-            setIsAdmin(false);
+            logout();
             navigate("/"); 
         }
 
         // Check if the user is an admin and if not redirect them to the dashboard
-        if(!isAdmin){
+        if(!isAdmin()){
             navigate("/dashboard");
             return;
         }
@@ -319,7 +316,7 @@ export default function SchoolManagement ( { isLoggedIn, isAdmin, setIsLoggedIn,
         }
 
         setIsLoading(false);
-    }, [language, token, userId, username, navigate, isLoggedIn, setIsLoggedIn, isAdmin, setIsAdmin, apiUrl, translations.school_server_errors]);
+    }, [language, token, userId, username, navigate, isLoggedIn, logout, isAdmin, apiUrl, translations.school_server_errors]);
 
     // Function for handling the admin wanting to edit the school's profile
     const handleEditProfile = () => {
