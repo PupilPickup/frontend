@@ -18,6 +18,7 @@ import EditChildData from './pages/children_management/EditChildData';
 import AddVehicleData from './pages/vehicle_management/AddVehicleData';
 import EditVehicleData from './pages/vehicle_management/EditVehicleData';
 import SchoolManagement from './pages/admin/SchoolManagement';
+import UserManagement from './pages/admin/UserManagement'
 import { useUser, UserProvider } from './context/UserContext';
 
 function App() {
@@ -57,7 +58,8 @@ function App() {
           <Route path="/my-vehicles" element={<VehicleManagement isLoggedIn={isLoggedIn} />} />
           <Route path="/profile/change-password" element={<ChangePassword isLoggedIn={isLoggedIn} />} />
           <Route path="/profile" element={<UserProfile isLoggedIn={isLoggedIn} logout={logout} />} />
-          <Route path="/school-carpool" element={<SchoolManagement isLoggedIn={isLoggedIn} logout={logout} isAdmin={isAdmin} />} />
+          <Route path="/school-carpool" element={<SchoolManagement />} />
+          <Route path="user-management" element={<UserManagement />} />
         </Routes>
       </Router>
     </main>

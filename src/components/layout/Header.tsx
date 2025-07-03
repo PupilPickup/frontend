@@ -10,7 +10,6 @@ interface HeaderProps {
     changeLanguage: (language: string) => void;
     logout:() => void;
     isAdmin: () => boolean;
-    // setIsAdmin: (isAdmin: boolean) => void;
 }
 
 const Header: React.FC<HeaderProps> = ( { changeLanguage, logout, isAdmin } ) => {
@@ -24,11 +23,7 @@ const Header: React.FC<HeaderProps> = ( { changeLanguage, logout, isAdmin } ) =>
   const handleLogout = () => {
     // Perform logout logic here (e.g., clearing tokens, resetting state)
     sessionStorage.removeItem("token");
-    sessionStorage.removeItem("user_id");
-    sessionStorage.removeItem("user_name");
     logout(); // Update the logged-in state in context or parent component
-    // setIsAdmin(false); // Reset admin state if applicable
-    // console.log("User logged out");
     // navigate("/login"); // Redirect to login page
   };
 

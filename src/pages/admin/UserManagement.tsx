@@ -7,16 +7,12 @@ import axios from "axios";
 import Button from "../../components/common/Button";
 import HelpTip from "../../components/common/HelpTip";
 import UserTable from "../../components/UserTable";
-
-type PendingManagementProps = {
-    isLoggedIn: boolean;
-    isAdmin: boolean;
-};
+import { useUser } from "../../context/UserContext";
 
 // Define the possible error keys
 type PendingServerErrors = 'empty_fields' | 'server_error_post' | 'server_error_put' | 'server_error_delete' | 'generic_error';
 
-export default function PendingManagement ( { isLoggedIn, isAdmin }: PendingManagementProps) {
+export default function UserManagement () {
     const [isLoading, setIsLoading] = useState(true);
     const [pendingUserList, setPendingUserList] = useState([]);
     const [serverError, setServerError] = useState<string>("");
@@ -26,16 +22,19 @@ export default function PendingManagement ( { isLoggedIn, isAdmin }: PendingMana
 
     const navigate = useNavigate();
     const token = sessionStorage.getItem("token");
-    const username = sessionStorage.getItem("user_name");
-	const userId = sessionStorage.getItem("user_id");
     const apiUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
 
+    const { user, logout, isAdmin, isLoggedIn } = useUser();
+
     useEffect(() => {
-        if(!token || !userId || !username || !isLoggedIn){
+        if(!token || !isLoggedIn || user === null || user === undefined){
             sessionStorage.removeItem("token");
-            sessionStorage.removeItem("user_name");
-            sessionStorage.removeItem("user_id");
+            logout();
             navigate("/"); 
+        }
+
+        if(!isAdmin()){
+            navigate("/dashboard");
         }
 
         async function populatePendingList(token:string, userName:string, userId:string){
@@ -62,51 +61,9 @@ export default function PendingManagement ( { isLoggedIn, isAdmin }: PendingMana
             }
         }
 
-        populatePendingList(token!, username!, userId!);
+        populatePendingList(token!, user!.username, user!.userId);
         setIsLoading(false);
-    }, [token, userId, username, isLoggedIn, navigate, apiUrl, translations.children_server_errors]);
-
-    // async function deleteChildData(token:string, userName:string, userId:string, childId:string) {
-    //     try {
-    //         await axios.delete(`${apiUrl}/children/${childId}`, {
-    //             headers: {
-    //                 Authorization: "Bearer " + token,
-    //                 user_name: userName,
-    //                 user_id: userId,
-    //             },
-    //         });
-    //         // Filter out the deleted child from the childrenList
-    //         setChildrenList((prevChildrenList) =>
-    //             prevChildrenList.filter((child: any) => child.childId !== childId)
-    //         );
-    //         setServerError("");
-
-    //     }catch (error) {
-    //         if (axios.isAxiosError(error) && error.response) {
-    //             const errorKey = error.response.data.error as PendingServerErrors;
-    //             let errorMessage: string = "TODO";
-    //             setServerError(errorMessage);
-    //         }
-    //     }
-    // }
-
-    // function editChild(childId: string) {
-    //     // Handle edit action here
-    //     navigate(`/my-children/edit-child-data/${childId}`);
-    // }
-
-    // function deleteChild(childId: string) {
-    //     // TODO make user verify choice
-    //     // Handle delete action here
-    //     if(token && username && userId){
-    //         deleteChildData(token, username, userId, childId);
-    //     }
-    //     // TODO success message
-    // }
-
-    // function handleAddClick(){
-    //     navigate("/my-children/add-child-data")
-    // }
+    }, [token, user, isLoggedIn, logout, navigate, apiUrl, translations.children_server_errors]);
 
 
     if(isLoading){

@@ -9,17 +9,12 @@ import Button from "../../components/common/Button";
 import CardLabel from "../../components/common/CardLabel";
 import ProfileInput from "../../components/common/ProfileInput";
 import HelpTip from "../../components/common/HelpTip";
+import { useUser } from "../../context/UserContext";
 
 // Define the possible error keys
 type SchoolServerErrors = 'server_error_get' |'server_error_put' | 'generic_error' | "username_unknown" | "school_unknown" | "admin_unknown" | "user_not_admin";
 
-type SchoolManagementProps = {
-    isLoggedIn: boolean;
-    logout: () => void;
-    isAdmin: () => boolean;
-};
-
-export default function SchoolManagement ( { isLoggedIn, logout, isAdmin }: SchoolManagementProps) {
+export default function SchoolManagement () {
     const [isLoading, setIsLoading] = useState(true);
     const[isViewState, setIsViewState] = useState(true);
     const [schoolData, setSchoolData] = useState({
@@ -68,8 +63,8 @@ export default function SchoolManagement ( { isLoggedIn, logout, isAdmin }: Scho
 
     const navigate = useNavigate();
     const token = sessionStorage.getItem("token");
-    const username = sessionStorage.getItem("user_name");
-	const userId = sessionStorage.getItem("user_id");
+
+    const { user, isAdmin, isLoggedIn, logout } = useUser();
     
     /**
      * updateSchool is an asynchronous function that takes a validated School data and PUTs it to the server to update the school's profile in the database.
@@ -248,15 +243,13 @@ export default function SchoolManagement ( { isLoggedIn, logout, isAdmin }: Scho
             }
 
             // Post updated user data to the server
-            updateSchool(profileData, token!, username!, userId!);
+            updateSchool(profileData, token!, user!.username, user!.userId);
         }
     }
 
     useEffect(() => {
-        if(!token || !userId || !username || !isLoggedIn){
+        if(!token || !isLoggedIn || user === null || user === undefined){
             sessionStorage.removeItem("token");
-            sessionStorage.removeItem("user_name");
-            sessionStorage.removeItem("user_id");
             logout();
             navigate("/"); 
         }
@@ -307,8 +300,8 @@ export default function SchoolManagement ( { isLoggedIn, logout, isAdmin }: Scho
 
         // Fetch school data from the API using the token
         try {
-            if(!!token && !!userId && !!username){
-                populateSchoolData(token!, username!, userId!);
+            if(!!token && !!user){
+                populateSchoolData(token!, user.username, user.userId);
                 resetErrors();
             }
         } catch (error) {
@@ -316,7 +309,7 @@ export default function SchoolManagement ( { isLoggedIn, logout, isAdmin }: Scho
         }
 
         setIsLoading(false);
-    }, [language, token, userId, username, navigate, isLoggedIn, logout, isAdmin, apiUrl, translations.school_server_errors]);
+    }, [language, token, user, navigate, isLoggedIn, logout, isAdmin, apiUrl, translations.school_server_errors]);
 
     // Function for handling the admin wanting to edit the school's profile
     const handleEditProfile = () => {
