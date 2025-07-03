@@ -56,8 +56,8 @@ function App() {
           <Route path="/my-vehicles/edit-vehicle-data/:id" element={<EditVehicleData isLoggedIn={isLoggedIn} />} /> 
           <Route path="/my-vehicles/add-vehicle-data" element={<AddVehicleData isLoggedIn={isLoggedIn} />} />
           <Route path="/my-vehicles" element={<VehicleManagement isLoggedIn={isLoggedIn} />} />
-          <Route path="/profile/change-password" element={<ChangePassword isLoggedIn={isLoggedIn} />} />
-          <Route path="/profile" element={<UserProfile isLoggedIn={isLoggedIn} logout={logout} />} />
+          <Route path="/profile/change-password" element={<ChangePassword />} />
+          <Route path="/profile" element={<UserProfile />} />
           <Route path="/school-carpool" element={<SchoolManagement />} />
           <Route path="user-management" element={<UserManagement />} />
         </Routes>

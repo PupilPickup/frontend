@@ -10,16 +10,12 @@ import CardLabel from "../../components/common/CardLabel";
 import ProfileInput from "../../components/common/ProfileInput";
 import DeleteWarningModal from "../../components/common/DeleteWarningModal";
 import HelpTip from "../../components/common/HelpTip";
+import { useUser } from "../../context/UserContext";
 
 // Define the possible error keys
 type ProfileServerErrors = 'empty_fields' | 'username_not_existent' | 'invalid_credentials' | 'server_error_get' |'server_error_put' |'server_error_delete' | 'generic_error' | 'firstname_length' | 'lastname_length' | 'email_length' | 'phone_length' | 'street_address_length' | 'ward_number_invalid' | 'municipality_district_length' | 'username_unknown' | 'email_exists';
 
-type UserProfileProps = {
-    isLoggedIn: boolean;
-    logout: () => void;
-};
-
-export default function UserProfile ( { isLoggedIn, logout }: UserProfileProps) {
+export default function UserProfile () {
     const [isLoading, setIsLoading] = useState(true);
     const[isViewState, setIsViewState] = useState(true);
     const [profileData, setProfileData] = useState({
@@ -61,9 +57,8 @@ export default function UserProfile ( { isLoggedIn, logout }: UserProfileProps) 
     const apiUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
 
     const navigate = useNavigate();
-    const token = sessionStorage.getItem("token");
-    const username = sessionStorage.getItem("user_name");
-	const userId = sessionStorage.getItem("user_id");
+    const token: string | null = sessionStorage.getItem("token");
+    const { user, isLoggedIn, logout } = useUser();
     
     /**
      * updateUser is an asynchronous function that takes a validated User data and PUTs it to the server to update the user's profile in the database.
@@ -204,8 +199,6 @@ export default function UserProfile ( { isLoggedIn, logout }: UserProfileProps) 
             // TODO show a success message
             // Logout the user and redirect to the login page
             sessionStorage.removeItem("token");
-            sessionStorage.removeItem("user_name");
-            sessionStorage.removeItem("user_id");
             logout();
             navigate("/");
 
@@ -220,10 +213,8 @@ export default function UserProfile ( { isLoggedIn, logout }: UserProfileProps) 
     } 
 
     useEffect(() => {
-        if(!token || !userId || !username || !isLoggedIn){
+        if(!token || user === null || user === undefined || !isLoggedIn){
             sessionStorage.removeItem("token");
-            sessionStorage.removeItem("user_name");
-            sessionStorage.removeItem("user_id");
             logout();
             navigate("/"); 
         }
@@ -265,15 +256,15 @@ export default function UserProfile ( { isLoggedIn, logout }: UserProfileProps) 
 
         // Fetch user profile data from the API using the token
         try {
-            if(!!token && !!userId && !!username){
-                populateUserData(token!, username!, userId!);
+            if(!!token && !!user){
+                populateUserData(token, user.username, user.userId);
                 resetErrors();
             }
         } catch (error) {
             console.error(error);
         }
         setIsLoading(false);
-    }, [language, token, userId, username, navigate, isLoggedIn, logout, apiUrl, translations.profile_server_errors]);
+    }, [language, token, user, navigate, isLoggedIn, logout, apiUrl, translations.profile_server_errors]);
 
     // Function for handling the user wanting to edit their profile
     const handleEditProfile = () => {
@@ -283,7 +274,7 @@ export default function UserProfile ( { isLoggedIn, logout }: UserProfileProps) 
 
     // Function for handling the user wanting to change their password
     const handleChangePassword = () => {
-        navigate("/profile/change-password", { state: { userId } });
+        navigate("/profile/change-password");
     };
 
     // Function to display a confirmation dialog before deleting the account
@@ -300,7 +291,7 @@ export default function UserProfile ( { isLoggedIn, logout }: UserProfileProps) 
     const handleDeleteAccount = async () => {
         // Call the deleteUser function to delete the account
         setShowDeleteWarning(false);
-        deleteUser(token!, username!, userId!);
+        deleteUser(token!, user!.username, user!.userId);
         console.log("Account deleted");
     };
 

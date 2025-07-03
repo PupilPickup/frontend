@@ -8,15 +8,13 @@ import axios from "axios";
 import Button from "../../components/common/Button";
 import FormInput from "../../components/common/FormInput";
 import HelpTip from "../../components/common/HelpTip";
+import { useUser } from "../../context/UserContext";
 
 // Define the possible error keys
 type PasswordServerErrors = 'empty_fields' | 'invalid_password' | 'server_error_put' | 'generic_error';
 
-type ChangePasswordProps = {
-    isLoggedIn: boolean;
-};
 
-export default function ChangePassword ( { isLoggedIn }: ChangePasswordProps) {
+export default function ChangePassword () {
     
     const [currentPassword, setcurrentPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
@@ -24,10 +22,8 @@ export default function ChangePassword ( { isLoggedIn }: ChangePasswordProps) {
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     
     const navigate = useNavigate();
-    const token = sessionStorage.getItem("token");
-    const username = sessionStorage.getItem("user_name");
-	const userId = sessionStorage.getItem("user_id");
-    
+    const token: string | null = sessionStorage.getItem("token");
+    const {isLoggedIn, user, logout } = useUser();
 
     const { language } = useLanguage();
     const translations = language === 'ne' ? neTranslations : enTranslations;
@@ -35,14 +31,13 @@ export default function ChangePassword ( { isLoggedIn }: ChangePasswordProps) {
     const apiUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
 
     useEffect(() => {
-        if(!token || !userId || !username || !isLoggedIn){
+        if(!token || user === null || user === undefined || !isLoggedIn){
             sessionStorage.removeItem("token");
-            sessionStorage.removeItem("user_name");
-            sessionStorage.removeItem("user_id");
+            logout();
             navigate("/"); 
         }
         setErrorMessage("");
-    }, [language, token, userId, username, navigate, isLoggedIn]);
+    }, [language, token, user, logout, navigate, isLoggedIn]);
 
 
     const handleSave = async () => {
@@ -65,7 +60,7 @@ export default function ChangePassword ( { isLoggedIn }: ChangePasswordProps) {
 
         try {
             const requestBody = {
-                username: username,
+                username: user!.username,
                 oldPassword: currentPassword,
                 newPassword: newPassword
             };
@@ -78,7 +73,6 @@ export default function ChangePassword ( { isLoggedIn }: ChangePasswordProps) {
             // Clear any previous error message
             setErrorMessage(""); 
             // TODO Give success message to user
-            // alert(`${translations.profile.password_change_success_message}`);
             // Return to the profile page
             navigate("/profile");
 
