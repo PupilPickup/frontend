@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import CardLabel from "../../components/common/CardLabel";
 import HelpTip from "../../components/common/HelpTip";
-// import { useUser } from "../../context/UserContext";
+import { useUser } from "../../context/UserContext";
 
 // Define the possible error keys
 type DashboardServerErrors = "username_unknown" | "school_unknown" | "server_error_get" | "generic_error";
@@ -29,7 +29,7 @@ export default function Dashboard () {
     	carpoolPickupLocation: ""
     });
 
-	// const { user } = useUser();
+	const { user, isLoggedIn, logout } = useUser();
 
 	const { language } = useLanguage();
 	const translations = language === 'ne' ? neTranslations : enTranslations;
@@ -38,14 +38,11 @@ export default function Dashboard () {
 
 	const navigate = useNavigate();
 	const token = sessionStorage.getItem("token");
-	const username = sessionStorage.getItem("user_name");
-	const userId = sessionStorage.getItem("user_id");
 	
 	useEffect(() => {
-		if(!token || !username || !userId){
+		if(!token || !isLoggedIn || user === null || user === undefined){
 			sessionStorage.removeItem("token");
-			sessionStorage.removeItem("user_name");
-			sessionStorage.removeItem("user_id");
+			logout();
 			navigate("/");
 			return;
 		}
@@ -90,8 +87,8 @@ export default function Dashboard () {
 			}
 		}
 
-		populateSchoolCarpoolData(token, username, userId);
-	}, [navigate, token, userId, username, apiUrl, translations.dashboard]);
+		populateSchoolCarpoolData(token, user!.username, user!.userId);
+	}, [navigate, token, user, apiUrl, translations.dashboard]);
 
 
 	function prettyAddress(streetAddress: string, municipalityDistrict: string, wardLabel: string, wardNumber: string): string {

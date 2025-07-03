@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { UserData } from "../schema/types";
 
 // Define the context type
@@ -27,17 +26,14 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const [user, setUser] = useState<UserData | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const navigate = useNavigate();
 
   // Function to login a user
   function login(user: UserData | null):void {
     setUser(user);
     if(user === null){
       setIsLoggedIn(false);
-      // navigate("/");
     }else{
       setIsLoggedIn(true);
-      navigate("/dashboard");
     }
   }
 
@@ -46,7 +42,6 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setIsLoggedIn(false);
     setUser(null);
     sessionStorage.removeItem("token");
-    navigate("/login");
   }
 
   // Function to check if the user is an admin

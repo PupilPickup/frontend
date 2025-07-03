@@ -8,7 +8,7 @@ import Dashboard from './pages/dashboard/Dashboard';
 import { LanguageProvider, useLanguage } from './context/LanguageContext';
 import LanguageSelect from './components/common/LanguageSelect';
 import Header from './components/layout/Header';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import UserProfile from './pages/profile_management/UserProfile';
 import ChildrenManagement from './pages/children_management/ChildrenManagement';
 import VehicleManagement from './pages/vehicle_management/VehicleManagement';
@@ -25,7 +25,7 @@ function App() {
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
   // const [isAdmin, setIsAdmin] = useState(false);
   const { changeLanguage } = useLanguage();
-  const { isLoggedIn, typeOfParent, typeOfDriver, isAdmin, login, logout } = useUser();
+  const { isLoggedIn, isAdmin, logout } = useUser();
   const token = sessionStorage.getItem("token");
 
   useEffect(() => {
@@ -46,7 +46,7 @@ function App() {
         )}
         <Routes>
           <Route path="/" element={<AuthPage isLoggedIn={isLoggedIn} />} />
-          <Route path="/login" element={<LoginPage isLoggedIn={isLoggedIn} login={login} />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route path="/signup/*" element={<SignUpPage isLoggedIn={isLoggedIn}/>} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/my-children/edit-child-data/:id" element={<EditChildData isLoggedIn={isLoggedIn} />} /> 
