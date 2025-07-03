@@ -17,7 +17,7 @@ export default function SignUpPage(){
   const [isLoading, setIsLoading] = useState(true);
   const { language } = useLanguage();
   const translations = language === 'ne' ? neTranslations : enTranslations;
-  const token = sessionStorage.getItem("token");
+  const token: string | null = sessionStorage.getItem("token");
   const { user, isLoggedIn } = useUser();
 
   const navigate = useNavigate();

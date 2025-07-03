@@ -62,7 +62,7 @@ export default function SchoolManagement () {
     const apiUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
 
     const navigate = useNavigate();
-    const token = sessionStorage.getItem("token");
+    const token: string | null = sessionStorage.getItem("token");
 
     const { user, isAdmin, isLoggedIn, logout } = useUser();
     

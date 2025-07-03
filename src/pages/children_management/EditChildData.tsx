@@ -29,7 +29,7 @@ export default function EditChildData(){
     const [pickupTimeError, setPickupTimeError] = useState<string>("");
     const [dropoffTimeError, setDropoffTimeError] = useState<string>("");
 
-    const token = sessionStorage.getItem("token");
+    const token: string | null = sessionStorage.getItem("token");
     const apiUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
     const navigate = useNavigate();
     const { user, isLoggedIn, logout } = useUser()

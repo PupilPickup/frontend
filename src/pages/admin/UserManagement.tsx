@@ -21,7 +21,7 @@ export default function UserManagement () {
     const translations = language === 'ne' ? neTranslations : enTranslations;
 
     const navigate = useNavigate();
-    const token = sessionStorage.getItem("token");
+    const token: string | null = sessionStorage.getItem("token");
     const apiUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
 
     const { user, logout, isAdmin, isLoggedIn } = useUser();

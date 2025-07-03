@@ -24,7 +24,7 @@ function App() {
 
   const { changeLanguage } = useLanguage();
   const { isAdmin, logout } = useUser();
-  const token = sessionStorage.getItem("token");
+  const token: string | null = sessionStorage.getItem("token");
 
   useEffect(() => {
     if(!token){

@@ -20,8 +20,8 @@ export default function VehicleManagement() {
     const { language } = useLanguage();
     const translations = language === 'ne' ? neTranslations : enTranslations;
 
-    const navigate = useNavigate();
-    const token = sessionStorage.getItem("token");
+    const navigate = useNavigate();  
+    const token: string | null = sessionStorage.getItem("token");
     const { user, logout, isLoggedIn } = useUser();
     const apiUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
 

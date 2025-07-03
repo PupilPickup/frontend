@@ -34,7 +34,7 @@ export default function EditVehicleData(){
     const [driverStartTimeError, setDriverStartTimeError] = useState<string>("");
     const [driverEndTimeError, setDriverEndTimeError] = useState<string>("");
 
-    const token = sessionStorage.getItem("token");
+    const token: string | null = sessionStorage.getItem("token");
     const { user, logout, isLoggedIn } = useUser()
     const apiUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
     const navigate = useNavigate();

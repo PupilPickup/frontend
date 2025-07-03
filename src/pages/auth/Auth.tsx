@@ -17,7 +17,7 @@ export default function AuthPage() {
 	const { language } = useLanguage();
 	const translations = language === 'ne' ? neTranslations : enTranslations;
 	const { user, isLoggedIn } = useUser();
-	const token = sessionStorage.getItem("token");
+  	const token: string | null = sessionStorage.getItem("token");
 
 	const handleSignUpClick = () => {
 		navigate("/signup/1");
