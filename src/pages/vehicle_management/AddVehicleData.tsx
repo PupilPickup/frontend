@@ -1,4 +1,3 @@
-import React from "react";
 import enTranslations from "../../languages/en.json";
 import neTranslations from "../../languages/ne.json";
 import { useLanguage } from "../../context/LanguageContext";
@@ -9,15 +8,13 @@ import VehicleForm from "../../components/VehicleForm";
 import axios from "axios";
 import Button from "../../components/common/Button";
 import HelpTip from "../../components/common/HelpTip";
+import { useUser } from "../../context/UserContext";
 
-type AddVehicleDataProps = {
-    isLoggedIn: boolean;
-};
 
 // Define the possible error keys
 type VehiclesServerErrors = 'empty_fields' | 'seat_capacity_invalid' | 'available_seats_invalid' | 'seat_mismatch_error' | 'license_plate_invalid' | 'driver_start_time_invalid' | 'driver_end_time_invalid' | 'server_error_get' | 'server_error_post' | 'server_error_put' | 'server_error_delete' | 'generic_error';
 
-const AddVehicleData: React.FC<AddVehicleDataProps> = ({ isLoggedIn }) => {
+export default function AddVehicleData(){
 
     const { language } = useLanguage();
     const translations = language === 'ne' ? neTranslations : enTranslations;
@@ -37,22 +34,21 @@ const AddVehicleData: React.FC<AddVehicleDataProps> = ({ isLoggedIn }) => {
     const [driverEndTimeError, setDriverEndTimeError] = useState<string>("");
 
     const token = sessionStorage.getItem("token");
-    const username = sessionStorage.getItem("user_name");
-    const userId = sessionStorage.getItem("user_id");
+    const { user, logout, isLoggedIn } = useUser();
     const apiUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
     const navigate = useNavigate();
 
     useEffect(() => {
-        if(!token || !userId || !username || !isLoggedIn){
+        if(!token || user === null || user === undefined || !isLoggedIn){
             sessionStorage.removeItem("token");
-            sessionStorage.removeItem("user_name");
-            sessionStorage.removeItem("user_id");
+            logout();
             navigate("/"); 
         }
         setIsLoading(false);
         // This effect runs when the component mounts or when the language changes
-    }, [language, token, userId, username, isLoggedIn, navigate]);
+    }, [language, token, user, logout, isLoggedIn, navigate]);
 
+    // Function to handle cancelling the deletion of a vehicle
     function handleCancel() {
         navigate("/my-vehicles");
     }
@@ -62,8 +58,8 @@ const AddVehicleData: React.FC<AddVehicleDataProps> = ({ isLoggedIn }) => {
             return;
         }else{
             const vehicleData = {
-                userName: username,
-                userId: userId,
+                userName: user!.username,
+                userId: user!.userId,
                 licensePlate: licensePlate,
                 seatCapacity: seatCapacity,
                 availableSeats: seatsAvailable,
@@ -224,5 +220,3 @@ const AddVehicleData: React.FC<AddVehicleDataProps> = ({ isLoggedIn }) => {
         </div>
     );
 };
-
-export default AddVehicleData;

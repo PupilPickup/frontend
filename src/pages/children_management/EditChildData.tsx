@@ -1,4 +1,3 @@
-import React from "react";
 import enTranslations from "../../languages/en.json";
 import neTranslations from "../../languages/ne.json";
 import { useLanguage } from "../../context/LanguageContext";
@@ -74,7 +73,7 @@ export default function EditChildData(){
         setIsLoading(false);
         // This effect runs when the component mounts or when the language changes
         // You can add any side effects here if needed
-    }, [language, childId, isLoggedIn, navigate, token, user, isLoggedIn, logout, apiUrl, translations.children_server_errors]);
+    }, [language, childId, isLoggedIn, navigate, token, user, logout, apiUrl, translations.children_server_errors]);
 
     async function updateChildData(token:string, childId:string, childData: any) {
         try {

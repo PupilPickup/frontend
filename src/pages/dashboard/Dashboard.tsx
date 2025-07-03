@@ -88,7 +88,7 @@ export default function Dashboard () {
 		}
 
 		populateSchoolCarpoolData(token, user!.username, user!.userId);
-	}, [navigate, token, user, apiUrl, translations.dashboard]);
+	}, [navigate, token, user, logout, isLoggedIn, apiUrl, translations.dashboard]);
 
 
 	function prettyAddress(streetAddress: string, municipalityDistrict: string, wardLabel: string, wardNumber: string): string {

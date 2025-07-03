@@ -23,7 +23,7 @@ import { useUser, UserProvider } from './context/UserContext';
 function App() {
 
   const { changeLanguage } = useLanguage();
-  const { isLoggedIn, isAdmin, logout } = useUser();
+  const { isAdmin, logout } = useUser();
   const token = sessionStorage.getItem("token");
 
   useEffect(() => {
@@ -50,9 +50,9 @@ function App() {
           <Route path="/my-children/edit-child-data/:id" element={<EditChildData />} /> 
           <Route path="/my-children/add-child-data" element={<AddChildData />} />
           <Route path="/my-children" element={<ChildrenManagement />} />
-          <Route path="/my-vehicles/edit-vehicle-data/:id" element={<EditVehicleData isLoggedIn={isLoggedIn} />} /> 
-          <Route path="/my-vehicles/add-vehicle-data" element={<AddVehicleData isLoggedIn={isLoggedIn} />} />
-          <Route path="/my-vehicles" element={<VehicleManagement isLoggedIn={isLoggedIn} />} />
+          <Route path="/my-vehicles/edit-vehicle-data/:id" element={<EditVehicleData />} /> 
+          <Route path="/my-vehicles/add-vehicle-data" element={<AddVehicleData />} />
+          <Route path="/my-vehicles" element={<VehicleManagement />} />
           <Route path="/profile/change-password" element={<ChangePassword />} />
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/school-carpool" element={<SchoolManagement />} />

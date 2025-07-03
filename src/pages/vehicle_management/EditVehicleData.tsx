@@ -9,18 +9,13 @@ import { isFieldEmpty, isNumberFieldPresent, isTimeValid, isValidLicensePlate, i
 import axios from "axios";
 import Button from "../../components/common/Button";
 import HelpTip from "../../components/common/HelpTip";
-
-type EditVehicleDataProps = {
-    isLoggedIn: boolean;
-};
+import { useUser } from "../../context/UserContext";
 
 // Define the possible error keys
 type VehiclesServerErrors = 'empty_fields' | 'seat_capacity_invalid' | 'available_seats_invalid' | 'seat_mismatch_error' | 'license_plate_invalid' | 'driver_start_time_invalid' | 'driver_end_time_invalid' | 'server_error_get' | 'server_error_post' | 'server_error_put' | 'server_error_delete' | 'generic_error';
 
 
-const EditVehicleData: React.FC<EditVehicleDataProps> = ({
-    isLoggedIn
-}) => {
+export default function EditVehicleData(){
 
     const { language } = useLanguage();
     const translations = language === 'ne' ? neTranslations : enTranslations;
@@ -40,8 +35,7 @@ const EditVehicleData: React.FC<EditVehicleDataProps> = ({
     const [driverEndTimeError, setDriverEndTimeError] = useState<string>("");
 
     const token = sessionStorage.getItem("token");
-    const username = sessionStorage.getItem("user_name");
-    const userId = sessionStorage.getItem("user_id");
+    const { user, logout, isLoggedIn } = useUser()
     const apiUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
     const navigate = useNavigate();
 
@@ -74,21 +68,20 @@ const EditVehicleData: React.FC<EditVehicleDataProps> = ({
             }
         }
 
-        if(!token || !userId || !username || !isLoggedIn){
+        if(!token || user === null || user === undefined || !isLoggedIn){
             sessionStorage.removeItem("token");
-            sessionStorage.removeItem("user_name");
-            sessionStorage.removeItem("user_id");
+            logout();
             navigate("/"); 
         }else if(!vehicleId){
             navigate("/my-vehicles");
         }else{
             // Fetch vehicle data here and set the state variables
-            fetchVehicleData(token, username, userId, vehicleId);
+            fetchVehicleData(token, user.username, user.userId, vehicleId);
         }
         setIsLoading(false);
         // This effect runs when the component mounts or when the language changes
         // You can add any side effects here if needed
-    }, [language, token, userId, username, isLoggedIn, navigate, vehicleId, apiUrl, translations.vehicles_server_error]);
+    }, [language, token, user, logout, isLoggedIn, navigate, vehicleId, apiUrl, translations.vehicles_server_error]);
 
     async function updateVehicleData(token:string, vehicleId:string, vehicleData: any) {
         try {
@@ -125,8 +118,8 @@ const EditVehicleData: React.FC<EditVehicleDataProps> = ({
             return;
         }else{
             const vehicleData = {
-                userName: username,
-                userId: userId,
+                userName: user!.username,
+                userId: user!.userId,
                 licensePlate: licensePlate,
                 seatCapacity: seatCapacity,
                 availableSeats: seatsAvailable,
@@ -269,5 +262,3 @@ const EditVehicleData: React.FC<EditVehicleDataProps> = ({
         </div>
     );
 };
-
-export default EditVehicleData;
