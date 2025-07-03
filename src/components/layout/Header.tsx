@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+// import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import LanguageSelect from "../common/LanguageSelect";
 import enTranslations from "../../languages/en.json";
 import neTranslations from "../../languages/ne.json";
@@ -13,7 +14,7 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ( { changeLanguage, logout, isAdmin } ) => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { language } = useLanguage();
   const translations = language === 'ne' ? neTranslations : enTranslations;
 

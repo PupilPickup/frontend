@@ -46,9 +46,9 @@ function App() {
           <Header changeLanguage={changeLanguage} logout={logout} isAdmin={isAdmin} />
         )}
         <Routes>
-          <Route path="/" element={<AuthPage isLoggedIn={isLoggedIn} />} />
+          <Route path="/" element={<AuthPage />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup/*" element={<SignUpPage isLoggedIn={isLoggedIn}/>} />
+          <Route path="/signup/*" element={<SignUpPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/my-children/edit-child-data/:id" element={<EditChildData isLoggedIn={isLoggedIn} />} /> 
           <Route path="/my-children/add-child-data" element={<AddChildData isLoggedIn={isLoggedIn} />} />
