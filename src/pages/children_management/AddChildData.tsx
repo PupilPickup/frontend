@@ -9,15 +9,13 @@ import { isFieldEmpty, isNameValid, isTimeValid, isPickupAfterDropoff } from "..
 import axios from "axios";
 import Button from "../../components/common/Button";
 import HelpTip from "../../components/common/HelpTip";
+import { useUser } from "../../context/UserContext";
 
-type AddChildDataProps = {
-    isLoggedIn: boolean;
-};
 
 // Define the possible error keys
 type ChildrenServerErrors = 'empty_fields'| 'firstname_length' | 'lastname_length' | 'school_arrival_time_invalid' | 'school_departure_time_invalid' | 'server_error_get' | 'server_error_post' | 'server_error_put' | 'server_error_delete' | 'generic_error';
 
-const AddChildData: React.FC<AddChildDataProps> = ({ isLoggedIn }) => {
+export default function AddChildData(){
 
     const { language } = useLanguage();
     const translations = language === 'ne' ? neTranslations : enTranslations;
@@ -34,21 +32,19 @@ const AddChildData: React.FC<AddChildDataProps> = ({ isLoggedIn }) => {
     const [dropoffTimeError, setDropoffTimeError] = useState<string>("");
 
     const token = sessionStorage.getItem("token");
-    const username = sessionStorage.getItem("user_name");
-    const userId = sessionStorage.getItem("user_id");
     const apiUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
     const navigate = useNavigate();
+    const { user, isLoggedIn, logout } = useUser();
 
     useEffect(() => {
-        if(!token || !userId || !username || !isLoggedIn){
+        if(!token || user === null || user === undefined || !isLoggedIn){
             sessionStorage.removeItem("token");
-            sessionStorage.removeItem("user_name");
-            sessionStorage.removeItem("user_id");
+            logout();
             navigate("/"); 
         }
         setIsLoading(false);
         // This effect runs when the component mounts or when the language changes
-    }, [language, token, userId, username, isLoggedIn, navigate]);
+    }, [language, token, user, isLoggedIn, logout, navigate]);
 
     function handleCancel() {
         navigate("/my-children");
@@ -59,8 +55,8 @@ const AddChildData: React.FC<AddChildDataProps> = ({ isLoggedIn }) => {
             return;
         }else{
             const childData = {
-                userName: username,
-                userId: userId,
+                userName: user!.username,
+                userId: user!.userId,
                 firstName: firstName,
                 lastName: lastName,
                 schoolPickupTime: pickupTime,
@@ -196,5 +192,3 @@ const AddChildData: React.FC<AddChildDataProps> = ({ isLoggedIn }) => {
         </div>
     );
 };
-
-export default AddChildData;

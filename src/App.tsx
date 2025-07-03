@@ -1,5 +1,4 @@
 import './App.css';
-// import ParentProfile from './pages/ParentProfile'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AuthPage from './pages/auth/Auth';
 import SignUpPage from './pages/auth/Signup';
@@ -23,8 +22,6 @@ import { useUser, UserProvider } from './context/UserContext';
 
 function App() {
 
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
-  // const [isAdmin, setIsAdmin] = useState(false);
   const { changeLanguage } = useLanguage();
   const { isLoggedIn, isAdmin, logout } = useUser();
   const token = sessionStorage.getItem("token");
@@ -50,9 +47,9 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup/*" element={<SignUpPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/my-children/edit-child-data/:id" element={<EditChildData isLoggedIn={isLoggedIn} />} /> 
-          <Route path="/my-children/add-child-data" element={<AddChildData isLoggedIn={isLoggedIn} />} />
-          <Route path="/my-children" element={<ChildrenManagement isLoggedIn={isLoggedIn} />} />
+          <Route path="/my-children/edit-child-data/:id" element={<EditChildData />} /> 
+          <Route path="/my-children/add-child-data" element={<AddChildData />} />
+          <Route path="/my-children" element={<ChildrenManagement />} />
           <Route path="/my-vehicles/edit-vehicle-data/:id" element={<EditVehicleData isLoggedIn={isLoggedIn} />} /> 
           <Route path="/my-vehicles/add-vehicle-data" element={<AddVehicleData isLoggedIn={isLoggedIn} />} />
           <Route path="/my-vehicles" element={<VehicleManagement isLoggedIn={isLoggedIn} />} />

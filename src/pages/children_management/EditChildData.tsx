@@ -9,18 +9,12 @@ import { isFieldEmpty, isNameValid, isTimeValid, isPickupAfterDropoff } from "..
 import axios from "axios";
 import Button from "../../components/common/Button";
 import HelpTip from "../../components/common/HelpTip";
-
-type EditChildDataProps = {
-    isLoggedIn: boolean;
-};
+import { useUser } from "../../context/UserContext";
 
 // Define the possible error keys
 type ChildrenServerErrors = 'empty_fields'| 'firstname_length' | 'lastname_length' | 'school_arrival_time_invalid' | 'school_departure_time_invalid' | 'server_error_get' | 'server_error_post' | 'server_error_put' | 'server_error_delete' | 'generic_error';
 
-
-const EditChildData: React.FC<EditChildDataProps> = ({
-    isLoggedIn
-}) => {
+export default function EditChildData(){
 
     const { language } = useLanguage();
     const translations = language === 'ne' ? neTranslations : enTranslations;
@@ -37,10 +31,9 @@ const EditChildData: React.FC<EditChildDataProps> = ({
     const [dropoffTimeError, setDropoffTimeError] = useState<string>("");
 
     const token = sessionStorage.getItem("token");
-    const username = sessionStorage.getItem("user_name");
-    const userId = sessionStorage.getItem("user_id");
     const apiUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
     const navigate = useNavigate();
+    const { user, isLoggedIn, logout } = useUser()
 
     // Get the character id
     const { id: childId } = useParams();
@@ -68,21 +61,20 @@ const EditChildData: React.FC<EditChildDataProps> = ({
                 }
             }
         }
-        if(!token || !userId || !username || !isLoggedIn){
+        if(!token || user === null || user === undefined || !isLoggedIn){
             sessionStorage.removeItem("token");
-            sessionStorage.removeItem("user_name");
-            sessionStorage.removeItem("user_id");
-            navigate("/"); 
+            logout();
+            navigate("/");
         }else if(!childId){
             navigate("/my-children");
         }else{
             // Fetch child data here and set the state variables
-            fetchChildData(token, username, userId, childId);
+            fetchChildData(token, user.username, user.userId, childId);
         }
         setIsLoading(false);
         // This effect runs when the component mounts or when the language changes
         // You can add any side effects here if needed
-    }, [language, childId, isLoggedIn, navigate, token, userId, username, apiUrl, translations.children_server_errors]);
+    }, [language, childId, isLoggedIn, navigate, token, user, isLoggedIn, logout, apiUrl, translations.children_server_errors]);
 
     async function updateChildData(token:string, childId:string, childData: any) {
         try {
@@ -117,13 +109,13 @@ const EditChildData: React.FC<EditChildDataProps> = ({
             return;
         }else{
             const childData = {
-                userName: username,
-                userId: userId,
+                userName: user!.username,
+                userId: user!.userId,
                 firstName: firstName,
                 lastName: lastName,
                 schoolPickupTime: pickupTime,
                 schoolDropoffTime: dropoffTime
-            }
+            };
 
             updateChildData(token!, childId!, childData);
         }
@@ -237,5 +229,3 @@ const EditChildData: React.FC<EditChildDataProps> = ({
         </div>
     );
 };
-
-export default EditChildData;
