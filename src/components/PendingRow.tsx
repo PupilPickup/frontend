@@ -1,4 +1,3 @@
-import React from 'react'
 import Button from './common/Button';
 import enTranslations from "../languages/en.json";
 import neTranslations from "../languages/ne.json";
