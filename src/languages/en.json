@@ -368,6 +368,17 @@
         "add_vehicle": "All vehicles must have a license plate, the number of seats offered(capacity), the number of available seats, and the driver's start time for pickups and driver's end time for drop-offs, and the days you are available to drive. The license plate must be in the proper format. The number of available seats must be less than or equal to the seat capacity. Time is in the format HH:MM in 24-hour format.",
         "edit_vehicle": "All vehicles must have a license plate, the number of seats offered(capacity), the number of available seats, and the driver's start time for pickups and driver's end time for drop-offs, and the days you are available to drive. The license plate must be in the proper format. The number of available seats must be less than or equal to the seat capacity. Time is in the format HH:MM in 24-hour format.",
         "change_password": "A password must be at least 8 characters long, contain a number, an uppercase letter, and a special character. You must enter your current password, new password, and confirm your new password. If the current password is incorrect, the change will fail.",
-        "school": "Here you can view and edit your school's carpool display information on the Dashboard. All fields must be filled. An address includes a street address, a ward number, and a municipality or district. A phone number is 10 digits without symbols or spaces. Time is in the format HH:MM in 24-hour format."
+        "school": "Here you can view and edit your school's carpool display information on the Dashboard. All fields must be filled. An address includes a street address, a ward number, and a municipality or district. A phone number is 10 digits without symbols or spaces. Time is in the format HH:MM in 24-hour format.",
+        "user_search": "Use the check boxes to filter the list of users by their role type. Click on a user to view their profile and manage their information."
+    }, 
+
+    "users":{
+        "username": "Username",
+        "email": "Email",
+        "name": "Name",
+        "contact_number": "Contact Number", 
+        "no_users": "No users match your search criteria",
+        "header": "User Management",
+        "users_prompt": "Filter users by their role. Click on a user to view their profile."
     }
 }

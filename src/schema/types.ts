@@ -5,3 +5,18 @@ export interface UserData {
   email: string;
   roles: string[];
 }
+
+// Define the structure of the user data to be used throughout the app
+export interface FullProfileData {
+  username: string;
+  userId: string;
+  email: string;
+  contactNumber: string;
+  firstName: string;
+  lastName: string;
+  streetAddress: string;
+  wardNumber: number;
+  municipalityDistrict: string;
+  roles: string[];
+  accountCreatedAt: Date;
+}
