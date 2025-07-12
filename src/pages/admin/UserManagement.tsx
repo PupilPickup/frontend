@@ -8,6 +8,7 @@ import HelpTip from "../../components/common/HelpTip";
 import UserTable from "../../components/UserTable";
 import { useUser } from "../../context/UserContext";
 import { PartialProfileData } from "../../schema/types";
+import { UserServerErrors } from "../../schema/serverErrorTypes";
 
 export default function UserManagement () {
     const [isLoading, setIsLoading] = useState(true);
@@ -21,8 +22,8 @@ export default function UserManagement () {
     const navigate = useNavigate();
     const token: string | null = sessionStorage.getItem("token");
     const apiUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
-    const pendingParentId = process.env.ROLE_PENDING_PARENT_ID || "4";
-    const pendingDriverId = process.env.ROLE_PENDING_DRIVER_ID || "5"; 
+    const pendingParentId: number = Number(process.env.ROLE_PENDING_PARENT_ID) || 4;
+    const pendingDriverId: number = Number(process.env.ROLE_PENDING_DRIVER_ID) || 5; 
 
     const { user, logout, isAdmin, isLoggedIn } = useUser();
 

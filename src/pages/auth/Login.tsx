@@ -125,7 +125,7 @@ export default function LoginPage() {
 
     try {
       const response = await axios.post(`${apiUrl}/users/login`, loginData);
-      const roles: string[] = response.data.roles || [];
+      const roles: number[] = response.data.roles || [];
       sessionStorage.setItem("token", response.data.token);
       clearFieldsOnLogin();
       const userData: UserData = {

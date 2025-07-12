@@ -8,8 +8,8 @@ interface UserContextType {
   logout: () => void;
   isLoggedIn: boolean;
   isAdmin: () => boolean;
-  typeOfParent: () => string;
-  typeOfDriver: () => string;
+  typeOfParent: () => number;
+  typeOfDriver: () => number;
 }
 
 // Create the context with an undefined default value
@@ -18,11 +18,11 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 // Provider component
 export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
-  const adminRole = process.env.ROLE_ADMIN || "1";
-  const parentRole = process.env.ROLE_PARENT || "2";
-  const pendingParentRole = process.env.ROLE_PENDING_PARENT || "4";
-  const driverRole = process.env.ROLE_DRIVER || "3";
-  const pendingDriverRole = process.env.ROLE_PENDING_DRIVER || "5";
+  const adminRole:number  = Number(process.env.ROLE_ADMIN) || 1;
+  const parentRole:number  = Number(process.env.ROLE_PARENT) || 2;
+  const pendingParentRole: number = Number(process.env.ROLE_PENDING_PARENT) || 4;
+  const driverRole: number = Number(process.env.ROLE_DRIVER) || 3;
+  const pendingDriverRole: number = Number(process.env.ROLE_PENDING_DRIVER) || 5;
 
   const [user, setUser] = useState<UserData | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
@@ -49,7 +49,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return user?.roles.includes(adminRole) || false;
   }
 
-  function typeOfParent():string {
+  function typeOfParent():number {
     if (user?.roles.includes(parentRole)) {
       return parentRole; // Parent
     }else if (user?.roles.includes(pendingParentRole)) {
@@ -57,19 +57,19 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }else if( user?.roles.includes(adminRole)) {
       return adminRole; // Admin so automatically allowed as Parent
     }else{
-      return "-1"; // Not a Parent
+      return -1; // Not a Parent
     }
   }
 
-  function typeOfDriver(): string {
+  function typeOfDriver(): number {
     if (user?.roles.includes(driverRole)) {
       return driverRole; // Driver
     }else if (user?.roles.includes(pendingDriverRole)) {
       return pendingDriverRole; // Pending Driver
-    }else if( user?.roles.includes(adminRole)) {
+    }else if( user?.roles.includes(1)) {
       return adminRole; // Admin so automatically allowed as Driver
     }else{
-      return "-1"; // Not a Driver
+      return -1; // Not a Driver
     }
   }
 
