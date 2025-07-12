@@ -56,7 +56,7 @@ function App() {
           <Route path="/profile/change-password" element={<ChangePassword />} />
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/school-carpool" element={<SchoolManagement />} />
-          <Route path="user-management" element={<UserManagement />} />
+          <Route path="/user-management" element={<UserManagement />} />
         </Routes>
       </Router>
     </main>

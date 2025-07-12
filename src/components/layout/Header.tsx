@@ -77,6 +77,11 @@ const Header: React.FC<HeaderProps> = ( { changeLanguage, logout, isAdmin } ) =>
                 <NavHeaderLink btnText={translations.header.carpool} navTo={"/school-carpool"} />
               </li>
             )}
+            {isAdmin() && (
+              <li>
+                <NavHeaderLink btnText={translations.header.users} navTo={"/user-management"} />
+              </li>
+            )}
           </ul>
 
           {/* Mobile Menu Button */}
@@ -117,6 +122,15 @@ const Header: React.FC<HeaderProps> = ( { changeLanguage, logout, isAdmin } ) =>
                           <NavHeaderLink 
                             btnText={translations.header.carpool} 
                             navTo={"/school-carpool"}
+                            className="text-left"
+                          />
+                        </li>
+                      )}
+                      {isAdmin() && (
+                         <li onClick={closeDropdown} className="w-full p-4 hover:bg-[#2C3E50] active:bg-[#2C3E50]">
+                          <NavHeaderLink 
+                            btnText={translations.header.users} 
+                            navTo={"/user-management"}
                             className="text-left"
                           />
                         </li>
