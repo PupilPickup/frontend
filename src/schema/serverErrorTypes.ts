@@ -1,0 +1,1 @@
+type UserServerErrors = 'empty_fields' | 'server_error_post' | 'server_error_put' | 'server_error_delete' | 'generic_error';

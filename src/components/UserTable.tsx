@@ -3,11 +3,11 @@ import enTranslations from "../languages/en.json";
 import neTranslations from "../languages/ne.json";
 import { useLanguage } from "../context/LanguageContext";
 import UserRow from './UserRow';
-import { FullProfileData } from '../schema/types';
+import { PartialProfileData } from '../schema/types';
 import { useNavigate } from "react-router-dom";
 
 type UserTableProps = {
-    userList: FullProfileData[];
+    userList: PartialProfileData[];
 };
 
 const UserTable: React.FC<UserTableProps> = ({ userList }) => {
@@ -37,7 +37,7 @@ const UserTable: React.FC<UserTableProps> = ({ userList }) => {
                         <p className="font-bold">{translations.users.contact_number}</p>
                     </div>
                     <div>
-                        {userList.map((user: FullProfileData) => (
+                        {userList.map((user: PartialProfileData) => (
                             <UserRow
                                 key={user.userId}
                                 user={user}

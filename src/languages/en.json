@@ -379,6 +379,9 @@
         "contact_number": "Contact Number", 
         "no_users": "No users match your search criteria",
         "header": "User Management",
-        "users_prompt": "Filter users by their role. Click on a user to view their profile."
+        "users_prompt": "Filter users by their role. Click on a user to view their profile.",
+        "filter": "Filter By:",
+        "pending_parents": "Pending Parents",
+        "pending_drivers": "Pending Drivers"
     }
 }

@@ -1,7 +1,7 @@
-import { FullProfileData } from '../schema/types';
+import { PartialProfileData } from '../schema/types';
 
 type UserRowProps = {
-    user: FullProfileData
+    user: PartialProfileData
     onClick?: () => void
 };
 

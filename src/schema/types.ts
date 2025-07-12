@@ -20,3 +20,14 @@ export interface FullProfileData {
   roles: string[];
   accountCreatedAt: Date;
 }
+
+// Define the structure of the user data to be used throughout the app
+export interface PartialProfileData {
+  username: string;
+  userId: string;
+  email: string;
+  contactNumber: string;
+  firstName: string;
+  lastName: string;
+  roles: string[];
+}

@@ -7,13 +7,12 @@ import axios from "axios";
 import HelpTip from "../../components/common/HelpTip";
 import UserTable from "../../components/UserTable";
 import { useUser } from "../../context/UserContext";
-
-// Define the possible error keys
-// type UserServerErrors = 'empty_fields' | 'server_error_post' | 'server_error_put' | 'server_error_delete' | 'generic_error';
+import { PartialProfileData } from "../../schema/types";
 
 export default function UserManagement () {
     const [isLoading, setIsLoading] = useState(true);
-    const [userList, setPendingUserList] = useState([]);
+    const [userList, setUserList] = useState<PartialProfileData[]>([]);
+    const [displayUserList, setDisplayUserList] = useState<PartialProfileData[]>([]);
     const [serverError, setServerError] = useState<string>("");
 
     const { language } = useLanguage();
@@ -22,6 +21,8 @@ export default function UserManagement () {
     const navigate = useNavigate();
     const token: string | null = sessionStorage.getItem("token");
     const apiUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
+    const pendingParentId = process.env.ROLE_PENDING_PARENT_ID || "4";
+    const pendingDriverId = process.env.ROLE_PENDING_DRIVER_ID || "5"; 
 
     const { user, logout, isAdmin, isLoggedIn } = useUser();
 
@@ -38,7 +39,7 @@ export default function UserManagement () {
 
         async function populateUserList(token:string, userName:string, userId:string){
             try {
-                const response = await axios.get(`${apiUrl}/TODO`, {
+                const response = await axios.get(`${apiUrl}/users`, {
                     headers: {
                         Authorization: "Bearer " + token,
                         user_name: userName,
@@ -46,13 +47,13 @@ export default function UserManagement () {
                     },
                 });
                 const retrievedUsers = response.data;
-                setPendingUserList(retrievedUsers);
+                setUserList(retrievedUsers);
                 setIsLoading(false);
                 setServerError("");
 
             } catch (error) {
                 if (axios.isAxiosError(error) && error.response) {
-                    // const errorKey = error.response.data.error as UserServerErrors;
+                    const errorKey = error.response.data.error as UserServerErrors;
                     let errorMessage: string = "TODO";
                     setServerError(errorMessage);
                 }
@@ -61,9 +62,32 @@ export default function UserManagement () {
         }
 
         populateUserList(token!, user!.username, user!.userId);
+        setDisplayUserList(userList);
         setIsLoading(false);
-    }, [token, user, isLoggedIn, logout, navigate, isAdmin, apiUrl, translations.children_server_errors]);
+    }, [token, user, isLoggedIn, logout, navigate, isAdmin, apiUrl, userList, displayUserList, translations.children_server_errors]);
 
+
+    function filterPendingParents(event: React.ChangeEvent<HTMLInputElement>) {
+        event.preventDefault();
+        const isChecked = event.target.checked;
+        if (isChecked) {
+            const filteredUsers = userList.filter(user => user.roles.includes(pendingParentId));
+            setDisplayUserList(filteredUsers);
+        } else {
+            setDisplayUserList(userList);
+        }
+    }
+
+    function filterPendingDrivers(event: React.ChangeEvent<HTMLInputElement>) {
+        event.preventDefault();
+        const isChecked = event.target.checked;
+        if (isChecked) {
+            const filteredUsers = userList.filter(user => user.roles.includes(pendingDriverId));
+            setDisplayUserList(filteredUsers);
+        } else {
+            setDisplayUserList(userList);
+        }
+    }
 
     if(isLoading){
         return <div className="flex justify-center items-center min-h-[90vh]">{translations.universal.loading}</div>
@@ -81,7 +105,32 @@ export default function UserManagement () {
             <h1 className="text-3xl font-bold mb-4">{translations.users.header}</h1>
             <h2>{translations.users.users_prompt}</h2>
             {serverError && <div className="text-red-500 mb-4">{serverError}</div>}
-            <UserTable userList={userList} />
+            <div className="">
+                <div className="flex flex-row mb-2 sm:w-[50%]">
+                    <p className="">{translations.users.filter}</p>
+                </div>
+                <div className="flex flex-row mb-2 sm:w-[50%]">
+                    <input
+                        type="checkbox"
+                        id="pendingParentInput"
+                        onChange={filterPendingParents}
+                    />
+                    <label htmlFor="pendingParentInput" className="ml-1">
+                        {translations.users.pending_parents}
+                    </label>
+                </div>
+                <div className="flex flex-row mb-2 sm:w-[50%]">
+                    <input
+                        type="checkbox"
+                        id="pendingDriverInput"
+                        onChange={filterPendingDrivers}
+                    />
+                    <label htmlFor="pendingDriverInput" className="ml-1">
+                        {translations.users.pending_drivers}
+                    </label>
+                </div>
+            </div>
+            <UserTable userList={displayUserList} />
         </div>
     );
 }
