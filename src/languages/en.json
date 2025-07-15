@@ -189,6 +189,7 @@
         "save_button": "Save",
         "cancel_button": "Cancel",
         "delete_button": "Delete",
+        "reset_password_button":"Reset Password",
         "approve_parent_button": "Approve Parent",
         "reject_parent_button": "Reject Parent",
         "approve_driver_button": "Approve Driver",
@@ -199,6 +200,7 @@
         "password_change_success_message": "Password changed successfully!",
         "delete_confirmation_message": "Are you sure you want to delete your account? This action cannot be undone.",
         "delete_success_message": "Account deleted successfully!",
+        "reset_password_message": "Are you sure you want to reset this user's password? An email will be sent to the email provided below with the user's new password, so please be sure this is the user's preffered email.",
         
         "require_first_name_error": "Please enter your first name",
         "require_last_name_error": "Please enter your last name",

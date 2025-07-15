@@ -22,7 +22,7 @@ const ProfileInput: React.FC<ProfileInputProps> = ( { label, elementId, changeHa
                         name={elementId}
                         id={elementId}
                         value={value}
-                        onChange={changeHandler}
+                        onChange={(e) => changeHandler(e)}
                         className="border rounded-lg shadow-md p-2 sm:w-[72%] min-h-[100px]"
                         placeholder={placeholder}
                     />

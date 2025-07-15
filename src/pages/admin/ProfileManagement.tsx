@@ -11,6 +11,7 @@ import ProfileInput from "../../components/common/ProfileInput";
 import DeleteWarningModal from "../../components/common/DeleteWarningModal";
 import HelpTip from "../../components/common/HelpTip";
 import { useUser } from "../../context/UserContext";
+import AdminPasswordReset from "../../components/common/AdminPasswordResetModal";
 
 // Define the possible error keys
 type ProfileServerErrors = 'empty_fields' | 'username_not_existent' | 'invalid_credentials' | 'server_error_get' |'server_error_put' |'server_error_delete' | 'generic_error' | 'firstname_length' | 'lastname_length' | 'email_length' | 'phone_length' | 'street_address_length' | 'ward_number_invalid' | 'municipality_district_length' | 'username_unknown' | 'email_exists';
@@ -56,6 +57,7 @@ export default function ProfileManagement () {
     const [parentNoteError, setParentNoteError] = useState<string>("");
     const [driverNoteError, setDriverNoteError] = useState<string>("");
     const [showDeleteWarning, setShowDeleteWarning] = useState<boolean>(false);
+    const [showPasswordModal, setShowPasswordModal] = useState<boolean>(false);
 
     // Get the userId from the URL parameters
     const { id: userId } = useParams();
@@ -231,7 +233,35 @@ export default function ProfileManagement () {
                 setServerError(errorMessage);
             }
         }
-    } 
+    }
+
+    const resetUserPassword = async(token:string, adminName:string, adminId:string, userName:string, userId:string, userEmail:string) => {
+        const requestData = {
+            userId: userId,
+            username: userName,
+            email: userEmail,
+            subject: translations.forgot_password.email_subject,
+            body: translations.forgot_password.email_body
+        }
+      try{
+        await axios.put(`${apiUrl}/admin/users/password-reset`, requestData, {
+            headers: {
+                Authorization: "Bearer " + token,
+                admin_name: adminName,
+                admin_id: adminId,
+
+            },
+        });
+        console.log("no errors in sending");
+        
+      }catch(error){
+        if (axios.isAxiosError(error) && error.response) {
+        //   const errorKey = error.response.data.error as ResetPasswordServerErrors;
+        //   let errorMessage: string = translations.forgot_password_server_error[errorKey] || translations.forgot_password_server_error.generic_error;
+          setServerError("TODO");
+        }
+      }
+    }
 
     useEffect(() => {
         if(!token || user === null || user === undefined || !isLoggedIn){
@@ -247,7 +277,7 @@ export default function ProfileManagement () {
         }
 
         if(!userId || userId === undefined){
-            navigate("user-management");
+            navigate("/user-management");
             return;
         }
 
@@ -308,8 +338,8 @@ export default function ProfileManagement () {
     };
 
     // Function for handling the user wanting to change their password
-    const handleChangePassword = () => {
-        navigate(`/admin/change-password/${userId}`);
+    const confirmChangePassword = () => {
+       setShowPasswordModal(true);
     };
 
     // Function to display a confirmation dialog before deleting the account
@@ -322,13 +352,24 @@ export default function ProfileManagement () {
         setShowDeleteWarning(false);
     }
 
+    // Function to handle the user cancelling their decision to reset the users password
+    const cancelPasswordChange = () => {
+        setShowPasswordModal(false);
+    }
+
     // Function for handling the user wanting to delete their account
     const handleDeleteAccount = async () => {
         // Call the deleteUser function to delete the account
         setShowDeleteWarning(false);
         deleteUserAsAdmin(token!, user!.username, user!.userId);
-        console.log("Account deleted");
+        console.log("Account deleted by admin");
     };
+
+    // function for handling changing the user's password
+    const handleChangePassword = async(email: string) => {
+        setShowPasswordModal(false);
+        resetUserPassword(token!, user!.username, user!.userId, profileData.userName, profileData.userId, email);
+    }
 
     // Function for handling the user saving their profile changes
     const handleSaveProfileChanges = () => {
@@ -742,7 +783,7 @@ export default function ProfileManagement () {
                                 />
                             )}
                             <Button
-                                onClick={handleChangePassword}
+                                onClick={confirmChangePassword}
                                 variant="primary"
                                 label={translations.profile.change_password_button}
                             />
@@ -775,7 +816,27 @@ export default function ProfileManagement () {
                     )}
                 </div>
             </div>
-            {showDeleteWarning &&  <DeleteWarningModal prompt={translations.profile.delete_confirmation_message} abortLabel={translations.profile.cancel_button} confirmLabel={translations.profile.delete_button} onAbort={cancelDelete} onConfirm={handleDeleteAccount} />}
+            {showDeleteWarning &&  
+                <DeleteWarningModal 
+                    prompt={translations.profile.delete_confirmation_message} 
+                    abortLabel={translations.profile.cancel_button} 
+                    confirmLabel={translations.profile.delete_button} 
+                    onAbort={cancelDelete} 
+                    onConfirm={handleDeleteAccount} 
+                />
+            }
+            {showPasswordModal &&  
+                <AdminPasswordReset 
+                    prompt={translations.profile.reset_password_message} 
+                    abortLabel={translations.profile.cancel_button} 
+                    confirmLabel={translations.profile.reset_password_button} 
+                    email={profileData.email} 
+                    emailError={translations.profile.invalid_email_error} 
+                    emailLabel={translations.profile.email_label}
+                    onAbort={cancelPasswordChange}
+                    onConfirm={handleChangePassword}
+                 />
+            }
         </div>
     );
 }
