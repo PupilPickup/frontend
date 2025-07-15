@@ -580,7 +580,7 @@ export default function ProfileManagement () {
                 <div className="text-red-500 text-sm mb-4">{serverError}</div>
             )}
             <div className="w-full flex flex-col sm:flex-row">
-                <div className="w-full sm:w-[75%] max-w-md bg-white shadow-md rounded-lg p-6">
+                <div className="w-full sm:max-w-[67%] max-w-md bg-white shadow-md rounded-lg p-6">
                     {isViewState ? (
                         <div className="mb-4">
                             <CardLabel
@@ -698,11 +698,11 @@ export default function ProfileManagement () {
                             error={municipalityDistrictError}
                         />
                     )}
-                    <div>
+                    <div className="flex flex-row text-sm sm:text-base text-black m-1 mb-4 p-2 space-x-2 mb-4 ">
                         <p className="font-bold">{translations.profile.admin_status_label}</p>
                         <p>{getAdminStatusMsg(roles)}</p>
                     </div>
-                    <div>
+                    <div className="flex flex-row text-sm sm:text-base text-black m-1 mb-4 p-2 space-x-2 mb-4 ">
                         <p className="font-bold">{translations.profile.parent_status_label}</p>
                         <p>{getParentStatusMsg(roles)}</p>
                     </div>
@@ -723,7 +723,7 @@ export default function ProfileManagement () {
                             isTextarea={true}
                         />
                     )}
-                    <div>
+                    <div className="flex flex-row text-sm sm:text-base text-black m-1 mb-4 p-2 space-x-2 mb-4 ">
                         <p className="font-bold">{translations.profile.driver_status_label}</p>
                         <p>{getDriverStatusMsg(roles)}</p>
                     </div>
@@ -746,9 +746,9 @@ export default function ProfileManagement () {
                     )}
                 </div>
 
-                <div className="mt-8 w-full max-w-md flex flex-row justify-center">
+                <div className="mt-8 sm:mt-4 w-full sm:w-[25%] sm:ml-4 max-w-md flex flex-row justify-center">
                     {isViewState ? (
-                        <div className="flex flex-col w-full max-w-md justify-between space-x-4">
+                        <div className="flex flex-col w-full max-w-md justify-between sm:justify-start gap-y-2 sm:gap-y-4">
                             <Button
                                 onClick={handleEditProfile}
                                 variant="primary"
