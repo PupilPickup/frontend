@@ -45,7 +45,7 @@ const ChildForm: React.FC<ChildFormProps> = ({
     }, [language]);
 
     return (
-        <div className="border rounded-lg shadow-md p-4 mb-4 bg-white">
+        <div className="border rounded-lg shadow-md p-4 mb-4 bg-white dark:bg-[#3498DB] text-black dark:text-white">
             <FormInput
                 label={translations.children.first_name_label}
                 elementId="firstName"

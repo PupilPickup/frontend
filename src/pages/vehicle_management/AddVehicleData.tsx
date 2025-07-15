@@ -179,7 +179,7 @@ export default function AddVehicleData(){
             <div className="flex justify-start w-full mt-2 p-1 pl-0">
                 <HelpTip content={translations.help.add_vehicle} altText={translations.universal.help_icon}/>
             </div>
-            <div className="flex flex-col border rounded-lg shadow-md p-4 my-4 bg-white w-full sm:max-w-[52rem]">
+            <div className="flex flex-col border rounded-lg shadow-md p-4 my-4 bg-white dark:bg-[#3498DB] text-black dark:text-white w-full sm:max-w-[52rem]">
                 <h2 className="text-lg font-bold mb-2 sm:text-center">
                     {translations.vehicles.add_vehicle_prompt}
                 </h2>
@@ -215,6 +215,7 @@ export default function AddVehicleData(){
                         onClick={handleAdd}
                         variant="primary"
                         label={translations.vehicles.add_vehicle_button}
+                        className="dark:bg-[#2C3E50]"
                     />
                 </div>
             </div>

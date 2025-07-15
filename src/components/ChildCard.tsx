@@ -50,7 +50,7 @@ const ChildCard: React.FC<ChildCardProps> = ({
 
 
     return (
-        <div className="border rounded-lg shadow-md p-4 my-4 bg-white w-full max-w-[20rem]">
+        <div className="border rounded-lg shadow-md p-4 my-4 bg-white dark:bg-[#3498DB] text-black dark:text-white w-full max-w-[20rem]">
             <h2 className="text-lg font-bold mb-2 text-center">
                 {firstName} {lastName}
             </h2>
@@ -70,6 +70,7 @@ const ChildCard: React.FC<ChildCardProps> = ({
                     onClick={() => onEdit(childId)}
                     variant="primary"
                     label={translations.children.edit_child_button}
+                    className="dark:bg-[#2C3E50]"
                 />  
             </div>
             {showDeleteWarning && <DeleteWarningModal prompt={translations.children.delete_confirmation_message} abortLabel={translations.children.cancel_button} confirmLabel={translations.children.delete_child_button} onAbort={cancelDelete} onConfirm={handleDelete} />} 
