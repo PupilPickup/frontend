@@ -53,7 +53,7 @@ const Header: React.FC<HeaderProps> = ( { changeLanguage, logout, isAdmin } ) =>
 
   return (
     <header>
-      <nav className="bg-[#3498DB] text-white dark:bg-[#2C3E50] p-4 shadow-md">
+      <nav className="bg-[#3498DB] text-white p-4 shadow-md">
         <div className="container mx-auto flex justify-between items-center">
           {/* Logo or Dashboard Title */}
           <div className="text-xl font-bold">

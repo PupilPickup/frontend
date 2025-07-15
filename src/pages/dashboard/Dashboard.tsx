@@ -105,7 +105,7 @@ export default function Dashboard () {
 	}
 
 	return (
-		<div className="flex flex-col items-center min-h-[90vh] text-base sm:text-lg text-black">
+		<div className="flex flex-col items-center min-h-[90vh] text-base sm:text-lg text-black dark:text-white">
 			<div className="flex justify-start w-full mt-2 ml-2 p-1 sm:ml-4 sm:p-2 sm:mt-4">
                 <HelpTip content={translations.help.dashboard} altText={translations.universal.help_icon}/>
             </div>
@@ -115,7 +115,7 @@ export default function Dashboard () {
             	<span className="text-red-500 text-sm mt-1">{serverError}</span>
             ):
 			(
-				<div className="flex flex-col items-center w-[90%] md:w-[60%] lg:w-[40%] xl:w-[30%] bg-white shadow-md rounded-lg p-6">
+				<div className="flex flex-col items-center w-[90%] md:w-[60%] lg:w-[40%] xl:w-[30%] bg-white dark:bg-[#3498DB] text-black dark:text-white shadow-md rounded-lg p-6">
 					<h3>{carpoolData.schoolName}</h3>
 					<div className="flex flex-col items-start w-full mb-2">
 						<CardLabel label={translations.dashboard.school_address} data={prettyAddress(carpoolData.streetAddress, carpoolData.municipalityDistrict, translations.dashboard.ward_number, carpoolData.wardNumber )} className={"py -0 my-0"} />
