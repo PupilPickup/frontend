@@ -46,10 +46,10 @@ export default function AuthPage() {
 	}
 
 	return (
-		<div className='flex flex-col min-h-[67vh] mx-2'>
+		<div className='flex flex-col min-h-[67vh] mx-2 dark:bg-[#2C3E50] bg-white text-black dark:text-white'>
 			{/* Logo */}
 			<div className="flex-grow flex justify-center items-center">
-				<img src={WeShare} alt={translations.auth.alt_logo_text} />
+				<img src={WeShare} alt={translations.auth.alt_logo_text} className="bg-white" />
 			</div>
 
 			{/* Buttons */}

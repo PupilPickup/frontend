@@ -2,6 +2,7 @@ const { text } = require('stream/consumers')
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: 'class', // Enable dark mode support
   content: [
     "./index.html",
     "./src/**/*.{ts,tsx}",

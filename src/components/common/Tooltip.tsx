@@ -25,7 +25,7 @@ const Tooltip: React.FC<TooltipProps> = ({ content, children, position = "top" }
       {children}
       {visible && (
         <span
-          className={`absolute z-50 px-2 py-1 w-80 sm:w-96 md:w-112 bg-[#2C3E50] text-white text-sm sm:text-base rounded shadow-lg whitespace-pre-line pointer-events-none ${positionClasses}`}
+          className={`absolute z-50 px-2 py-1 w-80 sm:w-96 md:w-112 bg-[#2C3E50] dark:bg-white text-white dark:text-black text-sm sm:text-base rounded shadow-lg whitespace-pre-line pointer-events-none ${positionClasses}`}
         >
           {content}
         </span>

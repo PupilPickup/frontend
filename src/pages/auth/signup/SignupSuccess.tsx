@@ -19,7 +19,7 @@ export default function SignupSuccess () {
 	return (
 		<div className="p-4 flex flex-col items-center">
 			<div className="flex justify-center">
-				<img src={WeShare} alt={translations.sign_up.alt_logo_text} />
+				<img src={WeShare} alt={translations.sign_up.alt_logo_text} className="bg-white" />
 			</div>
 			<header className="flex flex-col text-center mb-6 gap-4">
 				<h1 className="text-3xl font-bold">{translations.sign_up.success_header}</h1>

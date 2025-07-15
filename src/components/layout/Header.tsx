@@ -6,6 +6,7 @@ import enTranslations from "../../languages/en.json";
 import neTranslations from "../../languages/ne.json";
 import { useLanguage } from "../../context/LanguageContext";
 import NavHeaderLink from "../common/NavLink";
+import DarkModeToggle from "../common/DarkModeToggle";
 
 interface HeaderProps {
     changeLanguage: (language: string) => void;
@@ -52,7 +53,7 @@ const Header: React.FC<HeaderProps> = ( { changeLanguage, logout, isAdmin } ) =>
 
   return (
     <header>
-      <nav className="bg-[#3498DB] text-white p-4 shadow-md">
+      <nav className="bg-[#3498DB] text-white dark:bg-[#2C3E50] p-4 shadow-md">
         <div className="container mx-auto flex justify-between items-center">
           {/* Logo or Dashboard Title */}
           <div className="text-xl font-bold">
@@ -138,9 +139,14 @@ const Header: React.FC<HeaderProps> = ( { changeLanguage, logout, isAdmin } ) =>
                   </ul>
               </div>
           )}
+          
+          
 
           {/* Language Selector */}
           <LanguageSelect changeLanguage={changeLanguage} />
+
+          {/* Dark Mode Toggle */}
+          <DarkModeToggle />
 
           {/* Logout Button */}
           <button
