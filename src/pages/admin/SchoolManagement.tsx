@@ -252,6 +252,7 @@ export default function SchoolManagement () {
             sessionStorage.removeItem("token");
             logout();
             navigate("/"); 
+            return;
         }
 
         // Check if the user is an admin and if not redirect them to the dashboard

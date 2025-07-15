@@ -21,15 +21,18 @@ export default function AuthPage() {
 
 	const handleSignUpClick = () => {
 		navigate("/signup/1");
+		return;
 	};
 
 	const handleLoginClick = () => {
-		navigate("/login")
+		navigate("/login");
+		return;
 	};
 
 	useEffect(() => {
 		if(!!token && !!user && isLoggedIn) {
 			navigate("/dashboard");
+			return;
 		}
 		setIsLoading(false);
 	}, [isLoggedIn, navigate, token, user]);

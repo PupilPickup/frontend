@@ -42,7 +42,8 @@ export default function AddVehicleData(){
         if(!token || user === null || user === undefined || !isLoggedIn){
             sessionStorage.removeItem("token");
             logout();
-            navigate("/"); 
+            navigate("/");
+            return;
         }
         setIsLoading(false);
         // This effect runs when the component mounts or when the language changes

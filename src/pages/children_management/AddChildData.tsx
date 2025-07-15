@@ -41,6 +41,7 @@ export default function AddChildData(){
             sessionStorage.removeItem("token");
             logout();
             navigate("/"); 
+            return;
         }
         setIsLoading(false);
         // This effect runs when the component mounts or when the language changes

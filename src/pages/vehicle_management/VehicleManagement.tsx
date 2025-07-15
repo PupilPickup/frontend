@@ -30,6 +30,7 @@ export default function VehicleManagement() {
             sessionStorage.removeItem("token");
             logout();
             navigate("/"); 
+            return;
         }
 
         async function populateVehicles(token:string, userName:string, userId:string){

@@ -24,6 +24,7 @@ export default function SignUpPage(){
   useEffect(() => {
     if (!!token && isLoggedIn && !!user) {
       navigate("/dashboard");
+      return;
     }
     setIsLoading(false);
   }, [isLoggedIn, navigate, user, token]);

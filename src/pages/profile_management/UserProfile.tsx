@@ -217,6 +217,7 @@ export default function UserProfile () {
             sessionStorage.removeItem("token");
             logout();
             navigate("/"); 
+            return;
         }
 
         async function populateUserData(token:string, userName:string, userId:string) {

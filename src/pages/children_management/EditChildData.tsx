@@ -64,6 +64,7 @@ export default function EditChildData(){
             sessionStorage.removeItem("token");
             logout();
             navigate("/");
+            return;
         }else if(!childId){
             navigate("/my-children");
         }else{

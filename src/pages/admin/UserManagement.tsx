@@ -33,7 +33,8 @@ export default function UserManagement () {
         if(!token || !isLoggedIn || user === null || user === undefined){
             sessionStorage.removeItem("token");
             logout();
-            navigate("/"); 
+            navigate("/");
+            return;
         }
 
         if(!isAdmin()){

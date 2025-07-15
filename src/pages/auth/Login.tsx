@@ -48,7 +48,7 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const { language } = useLanguage();
   const translations = language === 'ne' ? neTranslations : enTranslations;
-  const { login, isLoggedIn } = useUser();
+  const { login, isLoggedIn, user } = useUser();
   const apiUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
   const token: string | null  = sessionStorage.getItem("token")
 
@@ -62,11 +62,11 @@ export default function LoginPage() {
   }, [language]);
 
   useEffect(() => {
-		if (!!token || isLoggedIn) {
+		if (!!token || isLoggedIn || !!user) {
 			navigate("/dashboard");
 		}
     setIsLoading(false);
-	}, [isLoggedIn, token, navigate]);
+	}, [isLoggedIn, token, user, navigate]);
   
   function clearFieldsOnLogin(){
     setLoginInput("");

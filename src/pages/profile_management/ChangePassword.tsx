@@ -34,7 +34,8 @@ export default function ChangePassword () {
         if(!token || user === null || user === undefined || !isLoggedIn){
             sessionStorage.removeItem("token");
             logout();
-            navigate("/"); 
+            navigate("/");
+            return;
         }
         setErrorMessage("");
     }, [language, token, user, logout, navigate, isLoggedIn]);

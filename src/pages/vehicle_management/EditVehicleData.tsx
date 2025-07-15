@@ -72,6 +72,7 @@ export default function EditVehicleData(){
             sessionStorage.removeItem("token");
             logout();
             navigate("/"); 
+            return;
         }else if(!vehicleId){
             navigate("/my-vehicles");
         }else{

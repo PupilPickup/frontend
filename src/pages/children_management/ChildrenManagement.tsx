@@ -30,6 +30,7 @@ export default function ChildrenManagement() {
             sessionStorage.removeItem("token");
             logout();
             navigate("/"); 
+            return;
         }
 
         async function populateChildren(token:string, userName:string, userId:string){
