@@ -109,8 +109,8 @@ export default function ProfileManagement () {
                     streetAddress: response.data.streetAddress,
                     wardNumber: response.data.wardNumber,
                     municipalityDistrict: response.data.municipalityDistrict,
-                    adminParentNote: response.data.adminParentNote,
-                    adminDriverNote: response.data.adminDriverNote,
+                    adminParentNote: response.data.adminParentNote ?? "",
+                    adminDriverNote: response.data.adminDriverNote ?? "",
                 });
                 // TODO success message?
                 // Return to view state
@@ -301,8 +301,8 @@ export default function ProfileManagement () {
                     streetAddress: userDetails.streetAddress,
                     wardNumber: userDetails.wardNumber,
                     municipalityDistrict: userDetails.municipalityDistrict,
-                    adminParentNote: userDetails.adminParentNote,
-                    adminDriverNote: userDetails.adminDriverNote,
+                    adminParentNote: userDetails.adminParentNote ?? "",
+                    adminDriverNote: userDetails.adminDriverNote ?? "",
                 });
                 setRoles(userDetails.roles);
                 setServerError("");
