@@ -64,6 +64,7 @@ export default function LoginPage() {
   useEffect(() => {
 		if (!!token || isLoggedIn || !!user) {
 			navigate("/dashboard");
+      return;
 		}
     setIsLoading(false);
 	}, [isLoggedIn, token, user, navigate]);

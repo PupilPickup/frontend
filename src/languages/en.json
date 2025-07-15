@@ -146,9 +146,28 @@
         "reject": "Reject"
     },
 
+    "roles_and_statuses":{
+        "approved": "Approved",
+        "rejected": "Rejected",
+        "pending": "Pending",
+        "not_applicable": "N/A",
+        "accepted_parent": "Parent",
+        "pending_parent": "Pending Parent",
+        "rejected_parent": "Rejected Parent",
+        "accepted_driver": "Driver",
+        "pending_driver": "Pending Driver",
+        "rejected_driver": "Rejected Driver",
+        "admin": "Admin",
+        "no_roles": "No assigned roles",
+        "confirm_positive": "Yes",
+        "confirm_negative": "No"
+    },
+
     "profile":{
         "profile_header": "My Profile",
         "profile_prompt": "Manage your profile information",
+        "admin_profile_header": "Profile of",
+        "admin_profile_prompt": "Review and manage this users information and roles",
 
         "first_name_label": "First Name",
         "last_name_label": "Last Name",
@@ -160,12 +179,21 @@
         "current_password_label": "Current Password",
         "new_password_label": "New Password",
         "confirm_new_password_label": "Confirm New Password",
-
+        "admin_parent_note_label": "Administrator Notes on Parent",
+        "admin_driver_note_label": "Administrator Notes on Driver",
+        "admin_status_label": "Is user an Administrator",
+        "parent_status_label": "Parent Status",
+        "driver_status_label": "Driver Status",
         "edit_button": "Edit",
         "change_password_button": "Change Password",
         "save_button": "Save",
         "cancel_button": "Cancel",
         "delete_button": "Delete",
+        "approve_parent_button": "Approve Parent",
+        "reject_parent_button": "Reject Parent",
+        "approve_driver_button": "Approve Driver",
+        "reject_driver_button": "Reject Driver",
+        "admin_access_button": "Make Administrator",
         
         "update_success_message": "Profile updated successfully!",
         "password_change_success_message": "Password changed successfully!",
@@ -370,7 +398,8 @@
         "edit_vehicle": "All vehicles must have a license plate, the number of seats offered(capacity), the number of available seats, and the driver's start time for pickups and driver's end time for drop-offs, and the days you are available to drive. The license plate must be in the proper format. The number of available seats must be less than or equal to the seat capacity. Time is in the format HH:MM in 24-hour format.",
         "change_password": "A password must be at least 8 characters long, contain a number, an uppercase letter, and a special character. You must enter your current password, new password, and confirm your new password. If the current password is incorrect, the change will fail.",
         "school": "Here you can view and edit your school's carpool display information on the Dashboard. All fields must be filled. An address includes a street address, a ward number, and a municipality or district. A phone number is 10 digits without symbols or spaces. Time is in the format HH:MM in 24-hour format.",
-        "user_search": "Use the check boxes to filter the list of users by their role type. Click on a user to view their profile and manage their information."
+        "user_search": "Use the check boxes to filter the list of users by their role type. Click on a user to view their profile and manage their information.",
+        "admin_profile": "Choose from the buttons for the type of actions you would like to take in managing this user. You can edit their data, add notes, change their role statuses, make them an administrator, change their password and email, and delete the user."
     }, 
 
     "users":{

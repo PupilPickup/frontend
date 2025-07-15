@@ -19,6 +19,8 @@ import EditVehicleData from './pages/vehicle_management/EditVehicleData';
 import SchoolManagement from './pages/admin/SchoolManagement';
 import UserManagement from './pages/admin/UserManagement'
 import { useUser, UserProvider } from './context/UserContext';
+import ProfileManagement from './pages/admin/ProfileManagement';
+// import PasswordManagement from './pages/admin/PasswordManagement';
 
 function App() {
 
@@ -57,6 +59,8 @@ function App() {
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/school-carpool" element={<SchoolManagement />} />
           <Route path="/user-management" element={<UserManagement />} />
+          <Route path="/user/:id" element={<ProfileManagement />} />
+          {/* <Route path="/user/change-password/:id" element={<PasswordManagement />} /> */}
         </Routes>
       </Router>
     </main>

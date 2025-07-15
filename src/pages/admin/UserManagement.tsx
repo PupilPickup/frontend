@@ -70,7 +70,7 @@ export default function UserManagement () {
             } catch (error) {
                 if (axios.isAxiosError(error) && error.response) {
                     const errorKey = error.response.data.error as UserServerErrors;
-                    let errorMessage: string = "TODO";
+                    let errorMessage: string = "TODO" + errorKey;
                     setServerError(errorMessage);
                     console.error(error);
                 }
@@ -93,6 +93,7 @@ export default function UserManagement () {
             const filteredUsers = userList.filter(user => user.roles.includes(pendingParentId));
             setDisplayUserList(filteredUsers);
             setPendingParentChecked(true);
+            setPendingDriverChecked(false); // Uncheck pending driver filter if pending parent is checked
         } else {
             setDisplayUserList(userList);
             setPendingParentChecked(false);
@@ -106,6 +107,7 @@ export default function UserManagement () {
             const filteredUsers = userList.filter(user => user.roles.includes(pendingDriverId));
             setDisplayUserList(filteredUsers);
             setPendingDriverChecked(true);
+            setPendingParentChecked(false); // Uncheck pending parent filter if pending driver is checked
         } else {
             setDisplayUserList(userList);
             setPendingDriverChecked(false);
