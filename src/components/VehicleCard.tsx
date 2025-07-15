@@ -89,7 +89,7 @@ const VehicleCard: React.FC<VehicleCardProps> = ({
     }
 
     return (
-        <div className="flex flex-col border rounded-lg shadow-md p-4 my-4 bg-white w-full max-w-[20rem] justify-between">
+        <div className="flex flex-col border rounded-lg shadow-md p-4 my-4 bg-white dark:bg-[#3498DB] text-black dark:text-white w-full max-w-[20rem] justify-between">
             <div className="flex flex-col">
                 <CardLabel 
                     label={translations.vehicles.license_plate_label}
@@ -127,6 +127,7 @@ const VehicleCard: React.FC<VehicleCardProps> = ({
                     onClick={() => onEdit(vehicleId)}
                     variant="primary"
                     label={translations.vehicles.edit_vehicle_button}
+                    className="dark:bg-[#2C3E50]"
                 />  
             </div>
             {showDeleteWarning && <DeleteWarningModal prompt={translations.vehicles.delete_confirmation_message} abortLabel={translations.vehicles.cancel_button} confirmLabel={translations.vehicles.delete_vehicle_button} onAbort={cancelDelete} onConfirm={handleDelete} />} 

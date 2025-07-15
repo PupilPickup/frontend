@@ -97,7 +97,7 @@ export default function ChangePassword () {
                 <HelpTip content={translations.help.change_password} altText={translations.universal.help_icon}/>
             </div>
             <h1 className="text-2xl font-bold mb-6">{translations.profile.change_password_button}</h1>
-            <div className="w-full max-w-md bg-white shadow-md rounded-lg p-6">
+            <div className="w-full max-w-md bg-white dark:bg-[#3498DB] text-black dark:text-white shadow-md rounded-lg p-6">
                 {errorMessage && (
                     <div className="text-red-500 text-sm mb-4">{errorMessage}</div>
                 )}
@@ -135,6 +135,7 @@ export default function ChangePassword () {
                         onClick={handleSave}
                         variant="primary"
                         label={translations.profile.save_button}
+                        className="dark:bg-[#2C3E50]"
                     />
                 </div>
             </div>

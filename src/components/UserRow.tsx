@@ -8,7 +8,7 @@ type UserRowProps = {
 const UserRow = ( {user, onClick}: UserRowProps) => {
 
     return (
-        <div onClick={onClick} className='flex flex-row w-full max-w-6xl pb-1'>
+        <div onClick={onClick} className='flex flex-row w-full max-w-6xl pb-1 hover:bg-[#2C3E50] dark:hover:bg-[#3498DB] hover:text-white cursor-pointer'>
             <div className='w-[20%] px-4 py-1'>
                 <p className="text-left whitespace-nowrap"> {user.username}</p>
             </div>

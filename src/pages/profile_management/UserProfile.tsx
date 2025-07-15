@@ -338,11 +338,11 @@ export default function UserProfile () {
                 <HelpTip content={translations.help.profile} altText={translations.universal.help_icon}/>
             </div>
             <h1 className="text-4xl font-bold mb-4">{translations.profile.profile_header}</h1>
-            <h2 className="text-xl text-gray-600 mb-8">{translations.profile.profile_prompt}</h2>
+            <h2 className="text-xl text-gray-600 dark:text-white mb-8">{translations.profile.profile_prompt}</h2>
             {serverError && (
                 <div className="text-red-500 text-sm mb-4">{serverError}</div>
             )}
-            <div className="w-full max-w-md bg-white shadow-md rounded-lg p-6">
+            <div className="w-full max-w-md bg-white dark:bg-[#3498DB] text-black dark:text-white shadow-md rounded-lg p-6">
                 {isViewState ? (
                     <div className="mb-4">
                         <CardLabel

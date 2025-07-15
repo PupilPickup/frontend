@@ -20,7 +20,8 @@ import SchoolManagement from './pages/admin/SchoolManagement';
 import UserManagement from './pages/admin/UserManagement'
 import { useUser, UserProvider } from './context/UserContext';
 import ProfileManagement from './pages/admin/ProfileManagement';
-// import PasswordManagement from './pages/admin/PasswordManagement';
+import { DarkModeProvider } from './context/DarkModeContext';
+import DarkModeToggle from './components/common/DarkModeToggle';
 
 function App() {
 
@@ -35,11 +36,12 @@ function App() {
   }, [token, logout]);
 
   return (
-    <main>
+    <main className="min-h-screen bg-white dark:bg-[#2C3E50] text-black dark:text-white">
       <Router>
         {!token ? ( 
           <div className="flex justify-end p-4">
             <LanguageSelect changeLanguage={changeLanguage} />
+            <DarkModeToggle />
           </div>
         ):(
           <Header changeLanguage={changeLanguage} logout={logout} isAdmin={isAdmin} />
@@ -60,7 +62,6 @@ function App() {
           <Route path="/school-carpool" element={<SchoolManagement />} />
           <Route path="/user-management" element={<UserManagement />} />
           <Route path="/user/:id" element={<ProfileManagement />} />
-          {/* <Route path="/user/change-password/:id" element={<PasswordManagement />} /> */}
         </Routes>
       </Router>
     </main>
@@ -71,7 +72,9 @@ export default function LanguageWrappedApp() {
   return(
     <LanguageProvider>
       <UserProvider>
-        <App />
+        <DarkModeProvider>
+          <App />
+        </DarkModeProvider>
       </UserProvider>
     </LanguageProvider>
   )

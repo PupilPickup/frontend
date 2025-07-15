@@ -9,10 +9,10 @@ export default function AuthNavbar () {
 	// const [language, setLanguage] = useState("en");
 
 	return (
-		<nav className="flex justify-between items-center px-4 pt-4">
+		<nav className="flex justify-between items-center px-4 pt-4 mb-2">
 			<button 
 				onClick={() => navigate(-1)}>
-				<img src={arrowleft} alt="back"/>
+				<img src={arrowleft} alt="back" className="bg-white rounded"/>
 			</button>
 		</nav>
 	);

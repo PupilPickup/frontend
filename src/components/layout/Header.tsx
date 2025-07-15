@@ -6,6 +6,7 @@ import enTranslations from "../../languages/en.json";
 import neTranslations from "../../languages/ne.json";
 import { useLanguage } from "../../context/LanguageContext";
 import NavHeaderLink from "../common/NavLink";
+import DarkModeToggle from "../common/DarkModeToggle";
 
 interface HeaderProps {
     changeLanguage: (language: string) => void;
@@ -138,9 +139,14 @@ const Header: React.FC<HeaderProps> = ( { changeLanguage, logout, isAdmin } ) =>
                   </ul>
               </div>
           )}
+          
+          
 
           {/* Language Selector */}
           <LanguageSelect changeLanguage={changeLanguage} />
+
+          {/* Dark Mode Toggle */}
+          <DarkModeToggle />
 
           {/* Logout Button */}
           <button
