@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import enTranslations from "../../languages/en.json";
 import neTranslations from "../../languages/ne.json";
 import { useLanguage } from "../../context/LanguageContext";
@@ -23,7 +23,10 @@ export default function ChangePassword () {
     
     const navigate = useNavigate();
     const token: string | null = sessionStorage.getItem("token");
-    const {isLoggedIn, user, logout } = useUser();
+    const {isLoggedIn, user, logout, isAdmin } = useUser();
+    
+    // Get the userId from the URL parameters
+    const { id: userId } = useParams();
 
     const { language } = useLanguage();
     const translations = language === 'ne' ? neTranslations : enTranslations;
@@ -37,8 +40,20 @@ export default function ChangePassword () {
             navigate("/");
             return;
         }
+
+        if(!isAdmin()){
+            navigate("/dashboard");
+            return;
+        }
+
+        if(!userId || userId === undefined){
+            navigate("/user-management");
+            return;
+        }
+
+
         setErrorMessage("");
-    }, [language, token, user, logout, navigate, isLoggedIn]);
+    }, [language, token, user, logout, navigate, isLoggedIn, isAdmin, userId]);
 
 
     const handleSave = async () => {

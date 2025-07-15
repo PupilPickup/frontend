@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+// import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import LanguageSelect from "../common/LanguageSelect";
 import enTranslations from "../../languages/en.json";
 import neTranslations from "../../languages/ne.json";
@@ -8,13 +9,12 @@ import NavHeaderLink from "../common/NavLink";
 
 interface HeaderProps {
     changeLanguage: (language: string) => void;
-    setIsLoggedIn:(isLoggedIn: boolean) => void;
-    isAdmin: boolean;
-    setIsAdmin: (isAdmin: boolean) => void;
+    logout:() => void;
+    isAdmin: () => boolean;
 }
 
-const Header: React.FC<HeaderProps> = ( { changeLanguage, setIsLoggedIn, isAdmin, setIsAdmin } ) => {
-  const navigate = useNavigate();
+const Header: React.FC<HeaderProps> = ( { changeLanguage, logout, isAdmin } ) => {
+  // const navigate = useNavigate();
   const { language } = useLanguage();
   const translations = language === 'ne' ? neTranslations : enTranslations;
 
@@ -24,12 +24,8 @@ const Header: React.FC<HeaderProps> = ( { changeLanguage, setIsLoggedIn, isAdmin
   const handleLogout = () => {
     // Perform logout logic here (e.g., clearing tokens, resetting state)
     sessionStorage.removeItem("token");
-    sessionStorage.removeItem("user_id");
-    sessionStorage.removeItem("user_name");
-    setIsLoggedIn(false); // Update the logged-in state in context or parent component
-    setIsAdmin(false); // Reset admin state if applicable
-    console.log("User logged out");
-    navigate("/login"); // Redirect to login page
+    logout(); // Update the logged-in state in context or parent component
+    // navigate("/login"); // Redirect to login page
   };
 
   const toggleDropdown = () => {
@@ -76,9 +72,14 @@ const Header: React.FC<HeaderProps> = ( { changeLanguage, setIsLoggedIn, isAdmin
             <li>
               <NavHeaderLink btnText={translations.header.vehicles} navTo={"/my-vehicles"}/>
             </li>
-            {isAdmin && (
+            {isAdmin() && (
               <li>
                 <NavHeaderLink btnText={translations.header.carpool} navTo={"/school-carpool"} />
+              </li>
+            )}
+            {isAdmin() && (
+              <li>
+                <NavHeaderLink btnText={translations.header.users} navTo={"/user-management"} />
               </li>
             )}
           </ul>
@@ -116,11 +117,20 @@ const Header: React.FC<HeaderProps> = ( { changeLanguage, setIsLoggedIn, isAdmin
                             navTo={"/my-vehicles"} 
                           />
                       </li>
-                      {isAdmin && (
+                      {isAdmin() && (
                          <li onClick={closeDropdown} className="w-full p-4 hover:bg-[#2C3E50] active:bg-[#2C3E50]">
                           <NavHeaderLink 
                             btnText={translations.header.carpool} 
                             navTo={"/school-carpool"}
+                            className="text-left"
+                          />
+                        </li>
+                      )}
+                      {isAdmin() && (
+                         <li onClick={closeDropdown} className="w-full p-4 hover:bg-[#2C3E50] active:bg-[#2C3E50]">
+                          <NavHeaderLink 
+                            btnText={translations.header.users} 
+                            navTo={"/user-management"}
                             className="text-left"
                           />
                         </li>

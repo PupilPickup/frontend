@@ -1,5 +1,4 @@
 import './App.css';
-// import ParentProfile from './pages/ParentProfile'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AuthPage from './pages/auth/Auth';
 import SignUpPage from './pages/auth/Signup';
@@ -8,7 +7,7 @@ import Dashboard from './pages/dashboard/Dashboard';
 import { LanguageProvider, useLanguage } from './context/LanguageContext';
 import LanguageSelect from './components/common/LanguageSelect';
 import Header from './components/layout/Header';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import UserProfile from './pages/profile_management/UserProfile';
 import ChildrenManagement from './pages/children_management/ChildrenManagement';
 import VehicleManagement from './pages/vehicle_management/VehicleManagement';
@@ -18,25 +17,22 @@ import EditChildData from './pages/children_management/EditChildData';
 import AddVehicleData from './pages/vehicle_management/AddVehicleData';
 import EditVehicleData from './pages/vehicle_management/EditVehicleData';
 import SchoolManagement from './pages/admin/SchoolManagement';
-// import { UserProvider } from './context/UserContext';
+import UserManagement from './pages/admin/UserManagement'
+import { useUser, UserProvider } from './context/UserContext';
+import ProfileManagement from './pages/admin/ProfileManagement';
+// import PasswordManagement from './pages/admin/PasswordManagement';
 
 function App() {
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
   const { changeLanguage } = useLanguage();
-  const token = sessionStorage.getItem("token");
- 
-  // Test is github connection is working
-  console.log("GitHub connection is working!");
+  const { isAdmin, logout } = useUser();
+  const token: string | null = sessionStorage.getItem("token");
 
   useEffect(() => {
-    if(!!token){
-      setIsLoggedIn(true);
-    }else{
-      setIsLoggedIn(false);
+    if(!token){
+      logout();
     }
-  }, [token]);
+  }, [token, logout]);
 
   return (
     <main>
@@ -46,22 +42,25 @@ function App() {
             <LanguageSelect changeLanguage={changeLanguage} />
           </div>
         ):(
-          <Header changeLanguage={changeLanguage} setIsLoggedIn={setIsLoggedIn} isAdmin={isAdmin} setIsAdmin={setIsAdmin} />
+          <Header changeLanguage={changeLanguage} logout={logout} isAdmin={isAdmin} />
         )}
         <Routes>
-          <Route path="/" element={<AuthPage isLoggedIn={isLoggedIn} />} />
-          <Route path="/login" element={<LoginPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} setIsAdmin={setIsAdmin}/>} />
-          <Route path="/signup/*" element={<SignUpPage isLoggedIn={isLoggedIn}/>} />
+          <Route path="/" element={<AuthPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup/*" element={<SignUpPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/my-children/edit-child-data/:id" element={<EditChildData isLoggedIn={isLoggedIn} />} /> 
-          <Route path="/my-children/add-child-data" element={<AddChildData isLoggedIn={isLoggedIn} />} />
-          <Route path="/my-children" element={<ChildrenManagement isLoggedIn={isLoggedIn} />} />
-          <Route path="/my-vehicles/edit-vehicle-data/:id" element={<EditVehicleData isLoggedIn={isLoggedIn} />} /> 
-          <Route path="/my-vehicles/add-vehicle-data" element={<AddVehicleData isLoggedIn={isLoggedIn} />} />
-          <Route path="/my-vehicles" element={<VehicleManagement isLoggedIn={isLoggedIn} />} />
-          <Route path="/profile/change-password" element={<ChangePassword isLoggedIn={isLoggedIn} />} />
-          <Route path="/profile" element={<UserProfile isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
-          <Route path="/school-carpool" element={<SchoolManagement isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} isAdmin={isAdmin} setIsAdmin={setIsAdmin} />} />
+          <Route path="/my-children/edit-child-data/:id" element={<EditChildData />} /> 
+          <Route path="/my-children/add-child-data" element={<AddChildData />} />
+          <Route path="/my-children" element={<ChildrenManagement />} />
+          <Route path="/my-vehicles/edit-vehicle-data/:id" element={<EditVehicleData />} /> 
+          <Route path="/my-vehicles/add-vehicle-data" element={<AddVehicleData />} />
+          <Route path="/my-vehicles" element={<VehicleManagement />} />
+          <Route path="/profile/change-password" element={<ChangePassword />} />
+          <Route path="/profile" element={<UserProfile />} />
+          <Route path="/school-carpool" element={<SchoolManagement />} />
+          <Route path="/user-management" element={<UserManagement />} />
+          <Route path="/user/:id" element={<ProfileManagement />} />
+          {/* <Route path="/user/change-password/:id" element={<PasswordManagement />} /> */}
         </Routes>
       </Router>
     </main>
@@ -71,7 +70,9 @@ function App() {
 export default function LanguageWrappedApp() {
   return(
     <LanguageProvider>
+      <UserProvider>
         <App />
+      </UserProvider>
     </LanguageProvider>
   )
 };
