@@ -9,18 +9,12 @@ import Button from "../../components/common/Button";
 import CardLabel from "../../components/common/CardLabel";
 import ProfileInput from "../../components/common/ProfileInput";
 import HelpTip from "../../components/common/HelpTip";
+import { useUser } from "../../context/UserContext";
 
 // Define the possible error keys
 type SchoolServerErrors = 'server_error_get' |'server_error_put' | 'generic_error' | "username_unknown" | "school_unknown" | "admin_unknown" | "user_not_admin";
 
-type SchoolManagementProps = {
-    isLoggedIn: boolean;
-    isAdmin: boolean;
-    setIsLoggedIn: (isLoggedIn: boolean) => void;
-    setIsAdmin: (isAdmin: boolean) => void;
-};
-
-export default function SchoolManagement ( { isLoggedIn, isAdmin, setIsLoggedIn, setIsAdmin }: SchoolManagementProps) {
+export default function SchoolManagement () {
     const [isLoading, setIsLoading] = useState(true);
     const[isViewState, setIsViewState] = useState(true);
     const [schoolData, setSchoolData] = useState({
@@ -68,9 +62,9 @@ export default function SchoolManagement ( { isLoggedIn, isAdmin, setIsLoggedIn,
     const apiUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
 
     const navigate = useNavigate();
-    const token = sessionStorage.getItem("token");
-    const username = sessionStorage.getItem("user_name");
-	const userId = sessionStorage.getItem("user_id");
+    const token: string | null = sessionStorage.getItem("token");
+
+    const { user, isAdmin, isLoggedIn, logout } = useUser();
     
     /**
      * updateSchool is an asynchronous function that takes a validated School data and PUTs it to the server to update the school's profile in the database.
@@ -249,22 +243,20 @@ export default function SchoolManagement ( { isLoggedIn, isAdmin, setIsLoggedIn,
             }
 
             // Post updated user data to the server
-            updateSchool(profileData, token!, username!, userId!);
+            updateSchool(profileData, token!, user!.username, user!.userId);
         }
     }
 
     useEffect(() => {
-        if(!token || !userId || !username || !isLoggedIn){
+        if(!token || !isLoggedIn || user === null || user === undefined){
             sessionStorage.removeItem("token");
-            sessionStorage.removeItem("user_name");
-            sessionStorage.removeItem("user_id");
-            setIsLoggedIn(false);
-            setIsAdmin(false);
+            logout();
             navigate("/"); 
+            return;
         }
 
         // Check if the user is an admin and if not redirect them to the dashboard
-        if(!isAdmin){
+        if(!isAdmin()){
             navigate("/dashboard");
             return;
         }
@@ -309,8 +301,8 @@ export default function SchoolManagement ( { isLoggedIn, isAdmin, setIsLoggedIn,
 
         // Fetch school data from the API using the token
         try {
-            if(!!token && !!userId && !!username){
-                populateSchoolData(token!, username!, userId!);
+            if(!!token && !!user){
+                populateSchoolData(token!, user.username, user.userId);
                 resetErrors();
             }
         } catch (error) {
@@ -318,7 +310,7 @@ export default function SchoolManagement ( { isLoggedIn, isAdmin, setIsLoggedIn,
         }
 
         setIsLoading(false);
-    }, [language, token, userId, username, navigate, isLoggedIn, setIsLoggedIn, isAdmin, setIsAdmin, apiUrl, translations.school_server_errors]);
+    }, [language, token, user, navigate, isLoggedIn, logout, isAdmin, apiUrl, translations.school_server_errors]);
 
     // Function for handling the admin wanting to edit the school's profile
     const handleEditProfile = () => {

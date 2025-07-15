@@ -3,52 +3,54 @@ import { useNavigate } from "react-router-dom";
 import { validatePassword } from "../../schema/loginSchema";
 import Button from "../../components/common/Button";
 import WeShare from "../../assets/icons/Weshare.svg";
-// import Help from "../../assets/icons/info.svg";
 import enTranslations from "../../languages/en.json";
 import neTranslations from "../../languages/ne.json";
 import { useLanguage } from "../../context/LanguageContext";
 import axios from "axios";
 import FormInput from "../../components/common/FormInput";
 import { isFieldEmpty } from "../../utils/profileValidation";
-// import Tooltip from "../../components/common/Tooltip";
+import { UserData } from "../../schema/types";
 import HelpTip from "../../components/common/HelpTip";
-// import { useUser } from "../../context/UserContext";
+import { useUser } from "../../context/UserContext";
 
 // Define the possible error keys
 type LoginServerErrors = 'empty_fields' | 'username_not_existent' | 'invalid_credentials' | 'server_error' | 'generic_error';
 
 type ResetPasswordServerErrors = 'empty_fields' | 'username_email_mismatch' | 'user_password_update_fail' | 'email_sent_failed'| 'generic_error';
 
-interface LoginPageProps {
-	isLoggedIn: boolean, 
-	setIsLoggedIn:(isLoggedIn: boolean) => void,
-  setIsAdmin:(isLoggedIn: boolean) => void
-}
+// interface LoginPageProps {
+// 	isLoggedIn: boolean, 
+// 	login: (user: UserData | null) => void;
+// }
 
-const LoginPage: React.FC<LoginPageProps> = ( { isLoggedIn, setIsLoggedIn, setIsAdmin } ) => {
+// const LoginPage: React.FC<LoginPageProps> = ( { isLoggedIn, login } ) => {
+export default function LoginPage() {
 
-  const navigate = useNavigate();
+  // Input states
   const [loginInput, setLoginInput] = useState("");
   const [password, setPassword] = useState("");
-  const [usernameEmailError, setUsernameEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
   const [forgotUsername, setForgotUsername] = useState("");
   const [forgotEmail, setForgotEmail] = useState("");
+
+  // Error States
+  const [usernameEmailError, setUsernameEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   const [forgotUsernameError, setForgotUsernameError] = useState("");
   const [forgotEmailError, setForgotEmailError] = useState("");
   const [serverError, setServerError] = useState("");
+
+  // Conditional States
   const [emailSuccess, setEmailSuccess] = useState(false);
-
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const [isLoading, setIsLoading] = useState(true);
 
+  // Get language and user info
+  const navigate = useNavigate();
   const { language } = useLanguage();
   const translations = language === 'ne' ? neTranslations : enTranslations;
-
-  // const { setUser } = useUser();
-
+  const { login, isLoggedIn, user } = useUser();
   const apiUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
+  const token: string | null  = sessionStorage.getItem("token")
 
   useEffect(() => {
     setUsernameEmailError("");
@@ -60,11 +62,12 @@ const LoginPage: React.FC<LoginPageProps> = ( { isLoggedIn, setIsLoggedIn, setIs
   }, [language]);
 
   useEffect(() => {
-		if ((!!sessionStorage.getItem("token") || (!!sessionStorage.getItem("user_id")) || (!!sessionStorage.getItem("user_name"))) || isLoggedIn) {
+		if (!!token || isLoggedIn || !!user) {
 			navigate("/dashboard");
+      return;
 		}
     setIsLoading(false);
-	}, [isLoggedIn, navigate]);
+	}, [isLoggedIn, token, user, navigate]);
   
   function clearFieldsOnLogin(){
     setLoginInput("");
@@ -123,45 +126,17 @@ const LoginPage: React.FC<LoginPageProps> = ( { isLoggedIn, setIsLoggedIn, setIs
 
     try {
       const response = await axios.post(`${apiUrl}/users/login`, loginData);
-      let isAdmin: boolean = false;
-      // let isParent: boolean = false;
-      // let isDriver: boolean = false;
-      // let isPendingParent: boolean = false;
-      // let isPendingDriver: boolean = false;
-
       const roles: number[] = response.data.roles || [];
-      if(roles.includes(1)){
-        isAdmin = true;
-      }
-      // if(roles.includes(2)){
-      //   isParent = true;
-      // }
-      // if(roles.includes(3)){
-      //   isDriver = true;
-      // }
-      // if(roles.includes(4)){
-      //   isPendingParent = true;
-      // }
-      // if(roles.includes(5)){
-      //   isPendingDriver = true;
-      // }
-      // const userData = {
-      //   username: response.data.user_name,
-      //   userId: response.data.user_id,
-      //   isAdmin: isAdmin,
-      //   isParent: isParent,
-      //   isDriver: isDriver,
-      //   isPendingParent: isPendingParent,
-      //   isPendingDriver: isPendingDriver
-      // }
-      // setUser(userData);
       sessionStorage.setItem("token", response.data.token);
-      sessionStorage.setItem("user_id", response.data.user_id);
-      sessionStorage.setItem("user_name", response.data.user_name);
       clearFieldsOnLogin();
-      setIsLoggedIn(true);
-      setIsAdmin(isAdmin);
-      navigate("/dashboard");
+      const userData: UserData = {
+        userId: response.data.user_id,
+        username: response.data.user_name,
+        email: response.data.email,
+        roles: roles
+      }
+      login(userData);
+      // navigate("/dashboard");
 
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
@@ -344,4 +319,3 @@ const LoginPage: React.FC<LoginPageProps> = ( { isLoggedIn, setIsLoggedIn, setIs
     </div>
   );
 }
-export default LoginPage;
