@@ -8,18 +8,18 @@ type UserRowProps = {
 const UserRow = ( {user, onClick}: UserRowProps) => {
 
     return (
-        <div onClick={onClick} className='flex flex-row items-start justify-between p-2 mb-2 w-full'>
-            <div className='flex flex-col items-center gap-2'>
-                <p>{user.username}</p>
+        <div onClick={onClick} className='flex flex-row w-full max-w-6xl pb-1'>
+            <div className='w-[20%] px-4 py-1'>
+                <p className="text-left whitespace-nowrap"> {user.username}</p>
             </div>
-            <div className='flex flex-col items-center gap-2'>
-                <p>{user.email}</p>
+            <div className='w-[30%] px-4 py-1'>
+                <p className="text-leftwhitespace-nowrap">{user.email}</p>
             </div>
-            <div className='flex flex-col items-center gap-2'>
-                <p>{user.firstName} {user.lastName}</p>
+            <div className='w-[30%] px-4 py-1'>
+                <p className="text-left whitespace-nowrap">{user.firstName} {user.lastName}</p>
             </div>
-            <div className='flex flex-col items-center gap-2'>
-                <p>{user.contactNumber}</p>
+            <div className='w-[20%] px-4 py-1'>
+                <p className="text-left whitespace-nowrap">{user.contactNumber}</p>
             </div>
         </div>
     )

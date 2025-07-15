@@ -15,6 +15,8 @@ export default function UserManagement () {
     const [userList, setUserList] = useState<PartialProfileData[]>([]);
     const [displayUserList, setDisplayUserList] = useState<PartialProfileData[]>([]);
     const [serverError, setServerError] = useState<string>("");
+    const [pendingParentChecked, setPendingParentChecked] = useState<boolean>(false);
+    const [pendingDriverChecked, setPendingDriverChecked] = useState<boolean>(false);
 
     const { language } = useLanguage();
     const translations = language === 'ne' ? neTranslations : enTranslations;
@@ -40,15 +42,27 @@ export default function UserManagement () {
 
         async function populateUserList(token:string, userName:string, userId:string){
             try {
-                const response = await axios.get(`${apiUrl}/users`, {
+                const response = await axios.get(`${apiUrl}/admin/users`, {
                     headers: {
                         Authorization: "Bearer " + token,
                         user_name: userName,
                         user_id: userId,
                     },
                 });
-                const retrievedUsers = response.data;
-                setUserList(retrievedUsers);
+                const retrievedUsers = response.data.users;
+                //Filter out the current user from the list
+                const allButMeUserList: PartialProfileData[] = retrievedUsers
+                    .filter((u: any) => u.user_id !== userId)
+                    .map((u: any) => ({
+                        userId: u.user_id,
+                        username: u.user_name,
+                        email: u.email,
+                        contactNumber: u.contact_number,
+                        firstName: u.first_name,
+                        lastName: u.last_name,
+                        roles: u.role_ids,
+                }));
+                setUserList(allButMeUserList);
                 setIsLoading(false);
                 setServerError("");
 
@@ -57,37 +71,45 @@ export default function UserManagement () {
                     const errorKey = error.response.data.error as UserServerErrors;
                     let errorMessage: string = "TODO";
                     setServerError(errorMessage);
+                    console.error(error);
                 }
                 setIsLoading(false);
             }
         }
 
         populateUserList(token!, user!.username, user!.userId);
-        setDisplayUserList(userList);
+        // Set the initial display user list to the full user list except for the current user
         setIsLoading(false);
-    }, [token, user, isLoggedIn, logout, navigate, isAdmin, apiUrl, userList, displayUserList, translations.children_server_errors]);
+    }, [token, user, isLoggedIn, logout, navigate, isAdmin, apiUrl, translations.children_server_errors]);
 
+    useEffect(() => {
+        setDisplayUserList(userList);
+    }, [userList]);
 
     function filterPendingParents(event: React.ChangeEvent<HTMLInputElement>) {
-        event.preventDefault();
         const isChecked = event.target.checked;
         if (isChecked) {
             const filteredUsers = userList.filter(user => user.roles.includes(pendingParentId));
             setDisplayUserList(filteredUsers);
+            setPendingParentChecked(true);
         } else {
             setDisplayUserList(userList);
+            setPendingParentChecked(false);
         }
+        
     }
 
     function filterPendingDrivers(event: React.ChangeEvent<HTMLInputElement>) {
-        event.preventDefault();
         const isChecked = event.target.checked;
         if (isChecked) {
             const filteredUsers = userList.filter(user => user.roles.includes(pendingDriverId));
             setDisplayUserList(filteredUsers);
+            setPendingDriverChecked(true);
         } else {
             setDisplayUserList(userList);
+            setPendingDriverChecked(false);
         }
+        
     }
 
     if(isLoading){
@@ -106,24 +128,26 @@ export default function UserManagement () {
             <h1 className="text-3xl font-bold mb-4">{translations.users.header}</h1>
             <h2>{translations.users.users_prompt}</h2>
             {serverError && <div className="text-red-500 mb-4">{serverError}</div>}
-            <div className="">
-                <div className="flex flex-row mb-2 sm:w-[50%]">
+            <div className="flex flex-row my-2 items-center">
+                <div className="flex flex-row mb-2 px-1">
                     <p className="">{translations.users.filter}</p>
                 </div>
-                <div className="flex flex-row mb-2 sm:w-[50%]">
+                <div className="flex flex-row mb-2 px-1">
                     <input
                         type="checkbox"
                         id="pendingParentInput"
+                        checked={pendingParentChecked}
                         onChange={filterPendingParents}
                     />
                     <label htmlFor="pendingParentInput" className="ml-1">
                         {translations.users.pending_parents}
                     </label>
                 </div>
-                <div className="flex flex-row mb-2 sm:w-[50%]">
+                <div className="flex flex-row mb-2 px-1">
                     <input
                         type="checkbox"
                         id="pendingDriverInput"
+                        checked={pendingDriverChecked}
                         onChange={filterPendingDrivers}
                     />
                     <label htmlFor="pendingDriverInput" className="ml-1">

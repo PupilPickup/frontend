@@ -27,16 +27,24 @@ const UserTable: React.FC<UserTableProps> = ({ userList }) => {
     }, [userList, translations]);
 
     return (
-        <div>
+        <div className="w-full max-w-6xl mx-auto p-4">
             {userList.length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 justify-center items-center">
-                    <div className="flex flex-row items-center justify-between p-2 mb-2 w-full bg-gray-200">
-                        <p className="font-bold">{translations.users.username}</p>
-                        <p className="font-bold">{translations.users.email}</p>
-                        <p className="font-bold">{translations.users.name}</p>
-                        <p className="font-bold">{translations.users.contact_number}</p>
+                <div className="flex flex-col justify-center items-center overflow-x-auto w-full min-w-full rounded shadow">
+                    <div className="flex flex-row w-full max-w-6xl mx-auto p-2 pt-0 min-w-[600px]">
+                        <div className="w-[20%] px-4 py-2 ">
+                            <p className="text-center font-bold">{translations.users.username}</p>
+                        </div>
+                        <div  className="w-[30%] px-4 py-2 ">
+                            <p className="text-center font-bold">{translations.users.email}</p>
+                        </div>
+                        <div  className="w-[30%] px-4 py-2 ">
+                            <p className="text-center font-bold">{translations.users.name}</p>
+                        </div>
+                        <div  className="w-[20%] px-4 py-2 ">
+                            <p className="text-center font-bold">{translations.users.contact_number}</p>
+                        </div>
                     </div>
-                    <div>
+                    <div className="w-full max-w-6xl mx-auto p-2 pt-0 min-w-[600px]">
                         {userList.map((user: PartialProfileData) => (
                             <UserRow
                                 key={user.userId}
