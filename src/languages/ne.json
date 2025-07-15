@@ -3,6 +3,14 @@
         "english_shorthand": "EN",
         "nepali_shorthand": "NE"
     },
+
+    "theme": {
+        "dark_mode": "डार्क मोड",
+        "light_mode": "लाइट मोड",
+        "dark": "डार्क",
+        "light": "लाइट",
+        "dark_mode_aria_text": "डार्क मोड टगल गर्नुहोस्"
+    },
     
     "auth": {
         "login": "लगइन",

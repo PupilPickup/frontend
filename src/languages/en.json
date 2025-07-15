@@ -3,6 +3,14 @@
         "english_shorthand": "EN",
         "nepali_shorthand": "NE"
     },
+
+    "theme": {
+        "dark_mode": "Dark Mode",
+        "light_mode": "Light Mode",
+        "dark": "Dark",
+        "light": "Light",
+        "dark_mode_aria_text": "Toggle for dark mode"
+    },
     
     "auth":{
         "login": "Login",

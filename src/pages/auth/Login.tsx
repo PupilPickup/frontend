@@ -219,7 +219,7 @@ export default function LoginPage() {
       </div>
       <div className="w-full sm:max-w-[52rem]">
         <div className="flex justify-center">
-          <img src={WeShare} alt={translations.login.alt_logo_text} />
+          <img src={WeShare} alt={translations.login.alt_logo_text} className="bg-white" />
         </div>
         <header className="flex flex-col text-center mb-6">
           <h1 className="text-3xl font-bold">{translations.login.welcome_back_message}</h1>
@@ -273,7 +273,7 @@ export default function LoginPage() {
 
         {isModalOpen && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-            <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+            <div className="bg-white dark:bg-[#2C3E50] p-6 rounded-lg shadow-lg w-full max-w-md">
               <h2 className="text-lg font-bold mb-4">{translations.forgot_password.modal_title}</h2>
               <p className="text-sm mb-4">{translations.forgot_password.modal_message}</p>
               <form className="flex flex-col space-y-4">

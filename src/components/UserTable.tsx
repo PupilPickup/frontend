@@ -29,8 +29,8 @@ const UserTable: React.FC<UserTableProps> = ({ userList }) => {
     return (
         <div className="w-full max-w-6xl mx-auto p-4">
             {userList.length > 0 ? (
-                <div className="flex flex-col justify-center items-center overflow-x-auto w-full min-w-full rounded shadow">
-                    <div className="flex flex-row w-full max-w-6xl mx-auto p-2 pt-0 min-w-[600px]">
+                <div className="flex flex-col justify-center items-center overflow-x-auto w-full min-w-full rounded shadow border border-black dark:border-white">
+                    <div className="flex flex-row w-full max-w-6xl mx-auto p-2 pt-0 min-w-[600px] border-b border-black dark:border-white">
                         <div className="w-[20%] px-4 py-2 ">
                             <p className="text-center font-bold">{translations.users.username}</p>
                         </div>

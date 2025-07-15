@@ -577,12 +577,12 @@ export default function ProfileManagement () {
                 <HelpTip content={translations.help.admin_profile} altText={translations.universal.help_icon}/>
             </div>
             <h1 className="text-4xl font-bold mb-4">{translations.profile.admin_profile_header} {profileData.userName}</h1>
-            <h2 className="text-xl text-gray-600 mb-8">{translations.profile.admin_profile_prompt}</h2>
+            <h2 className="text-xl text-gray-600 dark:text-white mb-8">{translations.profile.admin_profile_prompt}</h2>
             {serverError && (
                 <div className="text-red-500 text-sm mb-4">{serverError}</div>
             )}
             <div className="w-full flex flex-col sm:flex-row">
-                <div className="w-full sm:max-w-[67%] max-w-md bg-white shadow-md rounded-lg p-6">
+                <div className="w-full sm:max-w-[67%] max-w-md bg-white dark:bg-[#3498DB] shadow-md rounded-lg p-6">
                     {isViewState ? (
                         <div className="mb-4">
                             <CardLabel
@@ -700,11 +700,11 @@ export default function ProfileManagement () {
                             error={municipalityDistrictError}
                         />
                     )}
-                    <div className={`flex flex-row text-sm sm:text-base text-black mb-4 space-x-2 ${isViewState ? "m-1 p-2 mb-4" : "m-0 p-0"}`}>
+                    <div className={`flex flex-row text-sm sm:text-base text-black dark:text-white mb-4 space-x-2 ${isViewState ? "m-1 p-2 mb-4" : "m-0 p-0"}`}>
                         <p className="font-bold">{translations.profile.admin_status_label}</p>
                         <p>{getAdminStatusMsg(roles)}</p>
                     </div>
-                    <div className={`flex flex-row text-sm sm:text-base text-black mb-4 space-x-2 ${isViewState ? "m-1 p-2 mb-4" : "m-0 p-0"}`}>
+                    <div className={`flex flex-row text-sm sm:text-base text-black dark:text-white mb-4 space-x-2 ${isViewState ? "m-1 p-2 mb-4" : "m-0 p-0"}`}>
                         <p className="font-bold">{translations.profile.parent_status_label}</p>
                         <p>{getParentStatusMsg(roles)}</p>
                     </div>
@@ -726,7 +726,7 @@ export default function ProfileManagement () {
                             isTextarea={true}
                         />
                     )}
-                    <div className={`flex flex-row text-sm sm:text-base text-black mb-4 space-x-2 ${isViewState ? "m-1 p-2 mb-4" : "m-0 p-0"}`}>
+                    <div className={`flex flex-row text-sm sm:text-base text-black dark:text-white mb-4 space-x-2 ${isViewState ? "m-1 p-2 mb-4" : "m-0 p-0"}`}>
                         <p className="font-bold">{translations.profile.driver_status_label}</p>
                         <p>{getDriverStatusMsg(roles)}</p>
                     </div>

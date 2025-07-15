@@ -61,7 +61,7 @@ const VehicleForm: React.FC<VehicleFormProps> = ({
     }
 
     return (
-        <div className="border rounded-lg shadow-md p-4 mb-4 bg-white">
+        <div className="border rounded-lg shadow-md p-4 mb-4 bg-white dark:bg-[#3498DB] text-black dark:text-white">
             <FormInput
                 label={translations.vehicles.license_plate_label}
                 elementId="licensePlate"
@@ -98,7 +98,7 @@ const VehicleForm: React.FC<VehicleFormProps> = ({
                 error={driverEndTimeError}
             />
             <div>
-                <label className="text-sm sm:text-base text-black">{translations.vehicles.days_prompt_label}</label>
+                <label className="text-sm sm:text-base text-black dark:text-white">{translations.vehicles.days_prompt_label}</label>
                 <DaysCheckBoxes 
                     mondayLabel={translations.vehicles.monday_label}
                     tuesdayLabel={translations.vehicles.tuesday_label}

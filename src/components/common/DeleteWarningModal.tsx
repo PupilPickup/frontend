@@ -13,7 +13,7 @@ const DeleteWarningModal: React.FC<DeleteWarningModalProps> = ( { prompt, abortL
 
     return (
         <div className={`fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 ${className}`}>
-            <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+            <div className="bg-white dark:bg-[#3498DB] text-black dark:text-white dark:text-black p-6 rounded-lg shadow-lg w-full max-w-md">
               <p className="text-base mb-4">{prompt}</p>
                 <div className="flex flex-row justify-between" >
                   <Button
@@ -26,9 +26,10 @@ const DeleteWarningModal: React.FC<DeleteWarningModalProps> = ( { prompt, abortL
                   <Button
                     label={confirmLabel}
                     variant="primary"
-                    className="w-[40%]"
+                    className="w-[40%] dark:bg-[#2C3E50]"
                     type="button"
                     onClick={onConfirm}
+                    
                   />
                 </div>
             </div>

@@ -85,7 +85,7 @@ export default function SignupStep2() {
       </div>
       <div className="w-full sm:max-w-[52rem]">
         <div className="flex justify-center">
-          <img src={WeShare} alt={translations.sign_up.alt_logo_text} />
+          <img src={WeShare} alt={translations.sign_up.alt_logo_text} className="bg-white" />
         </div>
         <header className="flex flex-col text-center mb-6">
           <h1 className="text-3xl font-bold">{translations.sign_up.header2}</h1>

@@ -12,14 +12,14 @@ const FormInput: React.FC<FormInputProps> = ( { label, elementId, changeHandler,
     return (
         <div className="mb-4 flex flex-col w-full">
             <div className="flex flex-col sm:flex-row w-full gap-2 sm:items-center">
-                <label htmlFor={elementId} className="text-sm sm:text-base text-black space-x-2 sm:space-x-1 sm:w-[25%]">{label}</label>
+                <label htmlFor={elementId} className="text-sm sm:text-base text-black dark:text-white space-x-2 sm:space-x-1 sm:w-[25%]">{label}</label>
                 <input
                     type={isPassword!! ? "password" : "text"}
                     name={elementId}
                     id={elementId}
                     value={value}
                     onChange={(e) => changeHandler(e.target.value)}  
-                    className="border rounded-lg shadow-md p-2 sm:w-[72%]"
+                    className="border rounded-lg shadow-md p-2 sm:w-[72%] bg-white text-black dark:bg-[#3498DB] dark:text-white"
                 />
             </div>
             {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
