@@ -15,15 +15,15 @@ const ProfileInput: React.FC<ProfileInputProps> = ( { label, elementId, changeHa
 
     return (
         <div className="mb-4 flex flex-col w-full">
-            <div className={`flex  w-full gap-2 sm:items-center ${isTextarea ? "flex-col" : "flex-col sm:flex-row"}`}>
-                <label htmlFor={elementId} className="text-sm sm:text-base text-black space-x-2 sm:space-x-1 sm:w-[25%]">{label}</label>
+            <div className={`flex  w-full gap-2 sm:items-start ${isTextarea ? "flex-col" : "flex-col sm:flex-row"}`}>
+                <label htmlFor={elementId} className={`font-bold text-sm sm:text-base text-black space-x-2 sm:space-x-1 ${isTextarea ? "sm:w-full" : "sm:w-[25%]"}`}>{label}</label>
                 {isTextarea ? (
                     <textarea
                         name={elementId}
                         id={elementId}
                         value={value}
                         onChange={(e) => changeHandler(e)}
-                        className="border rounded-lg shadow-md p-2 sm:w-[72%] min-h-[100px]"
+                        className="border rounded-lg shadow-md p-2 sm:w-[72%] min-h-[100px] text-left"
                         placeholder={placeholder}
                     />
                 ) : (

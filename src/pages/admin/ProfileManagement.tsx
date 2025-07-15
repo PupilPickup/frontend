@@ -244,7 +244,7 @@ export default function ProfileManagement () {
             body: translations.forgot_password.email_body
         }
       try{
-        await axios.put(`${apiUrl}/admin/users/password-reset`, requestData, {
+        await axios.put(`${apiUrl}/admin/password`, requestData, {
             headers: {
                 Authorization: "Bearer " + token,
                 admin_name: adminName,
@@ -252,13 +252,14 @@ export default function ProfileManagement () {
 
             },
         });
-        console.log("no errors in sending");
+        setServerError("");
+        // console.log("no errors in sending");
         
       }catch(error){
         if (axios.isAxiosError(error) && error.response) {
         //   const errorKey = error.response.data.error as ResetPasswordServerErrors;
         //   let errorMessage: string = translations.forgot_password_server_error[errorKey] || translations.forgot_password_server_error.generic_error;
-          setServerError("TODO");
+          setServerError("An error occurred while resetting the password. Please try again later."); //TODO: use translations
         }
       }
     }
@@ -362,13 +363,14 @@ export default function ProfileManagement () {
         // Call the deleteUser function to delete the account
         setShowDeleteWarning(false);
         deleteUserAsAdmin(token!, user!.username, user!.userId);
-        console.log("Account deleted by admin");
+        
     };
 
     // function for handling changing the user's password
     const handleChangePassword = async(email: string) => {
         setShowPasswordModal(false);
         resetUserPassword(token!, user!.username, user!.userId, profileData.userName, profileData.userId, email);
+    
     }
 
     // Function for handling the user saving their profile changes
@@ -396,7 +398,7 @@ export default function ProfileManagement () {
             updatedRoleId: newStatus
         }
         try {
-            const response = await axios.put(`${apiUrl}/admin/roles/change/${userId}`, requestBody, {
+            const response = await axios.put(`${apiUrl}/admin/roles/change`, requestBody, {
                 headers: {
                     Authorization: "Bearer " + token,
                     admin_name: adminName,
@@ -425,7 +427,7 @@ export default function ProfileManagement () {
     // Function to make a user an admin
     const giveAdminAccess = async (token:string, adminName:string, adminId:string, userName:string) => {
         const requestBody = {
-            username: userName,
+            userName: userName,
             userId: userId,
         }
         try {
@@ -698,11 +700,11 @@ export default function ProfileManagement () {
                             error={municipalityDistrictError}
                         />
                     )}
-                    <div className="flex flex-row text-sm sm:text-base text-black m-1 mb-4 p-2 space-x-2 mb-4 ">
+                    <div className={`flex flex-row text-sm sm:text-base text-black mb-4 space-x-2 ${isViewState ? "m-1 p-2 mb-4" : "m-0 p-0"}`}>
                         <p className="font-bold">{translations.profile.admin_status_label}</p>
                         <p>{getAdminStatusMsg(roles)}</p>
                     </div>
-                    <div className="flex flex-row text-sm sm:text-base text-black m-1 mb-4 p-2 space-x-2 mb-4 ">
+                    <div className={`flex flex-row text-sm sm:text-base text-black mb-4 space-x-2 ${isViewState ? "m-1 p-2 mb-4" : "m-0 p-0"}`}>
                         <p className="font-bold">{translations.profile.parent_status_label}</p>
                         <p>{getParentStatusMsg(roles)}</p>
                     </div>
@@ -711,6 +713,7 @@ export default function ProfileManagement () {
                             <CardLabel
                                 label={translations.profile.admin_parent_note_label}
                                 data={profileData.adminParentNote}
+                                className="flex-col"
                             />
                         </div>
                     ) : (
@@ -723,7 +726,7 @@ export default function ProfileManagement () {
                             isTextarea={true}
                         />
                     )}
-                    <div className="flex flex-row text-sm sm:text-base text-black m-1 mb-4 p-2 space-x-2 mb-4 ">
+                    <div className={`flex flex-row text-sm sm:text-base text-black mb-4 space-x-2 ${isViewState ? "m-1 p-2 mb-4" : "m-0 p-0"}`}>
                         <p className="font-bold">{translations.profile.driver_status_label}</p>
                         <p>{getDriverStatusMsg(roles)}</p>
                     </div>
@@ -731,7 +734,8 @@ export default function ProfileManagement () {
                         <div className="mb-4">
                             <CardLabel
                                 label={translations.profile.admin_driver_note_label}
-                                data={profileData.adminParentNote}
+                                data={profileData.adminDriverNote}
+                                className="flex-col"
                             />
                         </div>
                     ) : (
@@ -801,7 +805,7 @@ export default function ProfileManagement () {
                             />
                         </div>
                     ):(
-                        <div className="flex flex-col w-full max-w-md justify-between space-x-6">
+                        <div className="flex flex-col w-full max-w-md justify-between sm:justify-start gap-y-2 sm:gap-y-4">
                             <Button
                                 onClick={handleSaveProfileChanges}
                                 variant="primary"

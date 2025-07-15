@@ -22,11 +22,11 @@ const AdminPasswordReset: React.FC<AdminPasswordResetModalProps> = ( { prompt, a
     const [resetEmailError, setResetEmailError] = useState<string>("");
 
     function handleConfirm(){
-      if(!isEmailValid(email)) {
+      if(!isEmailValid(resetEmail)) {
         setResetEmailError(emailError);
       }else{
         setResetEmailError("");
-        onConfirm(email);
+        onConfirm(resetEmail);
       }
     }
 
@@ -38,7 +38,7 @@ const AdminPasswordReset: React.FC<AdminPasswordResetModalProps> = ( { prompt, a
                   label={emailLabel}
                   elementId="resetEmail"
                   value={resetEmail}
-                  changeHandler={setResetEmail}
+                  changeHandler={(e) => setResetEmail(e.target.value)}
                   error={resetEmailError}
                 />
                 <div className="flex flex-row justify-between" >
