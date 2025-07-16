@@ -25,7 +25,7 @@ export default function ChildrenManagement() {
 
     const navigate = useNavigate();
     const token: string | null = sessionStorage.getItem("token");
-    const { user, logout, isLoggedIn, typeOfParent } = useUser();
+    const { user, logout, isLoggedIn, typeOfParent, updateUserRoles } = useUser();
     const apiUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
     // const adminRole:number  = Number(process.env.ROLE_ADMIN) || 1;
     // const parentRole:number  = Number(process.env.ROLE_PARENT) || 2;
@@ -130,7 +130,36 @@ export default function ChildrenManagement() {
 
     const handleConfirmRegisterPrompt = async() => {
         setShowRegisterPrompt(false);
-        setShowPendingWarning(true);
+        registerParent(token!, user!.username, user!.userId);
+    }
+
+    async function registerParent(token:string, userName:string, userId:string) {
+        console.log("Registering as parent with userName:", userName, "userId:", userId);
+        try {
+            const response = await axios.post(`${apiUrl}/profile/parent`, {}, {
+                headers: {
+                    Authorization: "Bearer " + token,
+                    user_name: userName,
+                    user_id: userId,
+                },
+            });
+            console.log("Parent registration response:", response.data);
+            // Update the user roles to include parent role 
+            if(response.data && response.data.roles){
+                // Update the user roles in the context
+                console.log("User roles updated:", response.data.roles);
+                updateUserRoles(response.data.roles);
+            }
+            setServerError("");
+            setShowPendingWarning(true);
+
+        } catch (error) {
+            if (axios.isAxiosError(error) && error.response) {
+                const errorKey = error.response.data.error as ChildrenServerErrors;
+                let errorMessage: string = translations.children_server_errors[errorKey] ?? translations.children_server_errors.generic_error;
+                setServerError(errorMessage);
+            }
+        }
     }
 
     if(isLoading){

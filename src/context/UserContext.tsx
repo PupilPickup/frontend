@@ -10,6 +10,7 @@ interface UserContextType {
   isAdmin: () => boolean;
   typeOfParent: () => number;
   typeOfDriver: () => number;
+  updateUserRoles: (roles: number[]) => void;
 }
 
 // Create the context with an undefined default value
@@ -80,12 +81,20 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }
 
+  function updateUserRoles(roles: number[]): void {
+    if (user) {
+      setUser({ ...user, roles });
+    } else {
+      console.warn("Cannot update roles, user is not logged in.");
+    }
+  }
+
   React.useEffect(() => {
     console.log("User state updated:", user);
   }, [user, isLoggedIn]);
 
   return (
-    <UserContext.Provider value={{ user, isLoggedIn, isAdmin, login, logout, typeOfParent, typeOfDriver }}>
+    <UserContext.Provider value={{ user, isLoggedIn, isAdmin, login, logout, typeOfParent, typeOfDriver, updateUserRoles }}>
       {children}
     </UserContext.Provider>
   );

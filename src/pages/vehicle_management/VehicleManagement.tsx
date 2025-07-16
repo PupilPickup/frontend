@@ -25,7 +25,7 @@ export default function VehicleManagement() {
 
     const navigate = useNavigate();  
     const token: string | null = sessionStorage.getItem("token");
-    const { user, logout, isLoggedIn, typeOfDriver } = useUser();
+    const { user, logout, isLoggedIn, typeOfDriver, updateUserRoles } = useUser();
     const apiUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
     // const adminRole:number  = Number(process.env.ROLE_ADMIN) || 1;
     // const driverRole: number = Number(process.env.ROLE_DRIVER) || 3;
@@ -128,9 +128,36 @@ export default function VehicleManagement() {
         navigate("/dashboard");
     }
 
-    const handleConfirmRegisterPrompt = async() => {
+        const handleConfirmRegisterPrompt = async() => {
         setShowRegisterPrompt(false);
-        setShowPendingWarning(true);
+        registerDriver(token!, user!.username, user!.userId);
+    }
+
+    async function registerDriver(token:string, userName:string, userId:string) {
+        try {
+            const response = await axios.post(`${apiUrl}/profile/driver`, {}, {
+                headers: {
+                    Authorization: "Bearer " + token,
+                    user_name: userName,
+                    user_id: userId,
+                },
+            });
+            // Update the user roles to include parent role 
+            if(response.data && response.data.roles){
+                // Update the user roles in the context
+                updateUserRoles(response.data.roles);
+            }
+            setServerError("");
+            setShowPendingWarning(true);
+            
+        } catch (error) {
+            if (axios.isAxiosError(error) && error.response) {
+                const errorKey = error.response.data.error as VehicleServerErrors;
+                let errorMessage: string = translations.vehicles_server_error[errorKey] ?? translations.vehicles_server_error.generic_error;
+                setServerError(errorMessage);
+            }
+            setIsLoading(false);
+        }
     }
 
     if(isLoading){
