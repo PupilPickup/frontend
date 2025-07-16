@@ -31,17 +31,23 @@ const UserTable: React.FC<UserTableProps> = ({ userList }) => {
             {userList.length > 0 ? (
                 <div className="flex flex-col justify-center items-center overflow-x-auto w-full min-w-full rounded shadow border border-black dark:border-white">
                     <div className="flex flex-row w-full max-w-6xl mx-auto p-2 pt-0 min-w-[600px] border-b border-black dark:border-white">
-                        <div className="w-[20%] px-4 py-2 ">
+                        <div className="w-[14%] px-4 py-2 ">
                             <p className="text-center font-bold">{translations.users.username}</p>
                         </div>
                         <div  className="w-[30%] px-4 py-2 ">
                             <p className="text-center font-bold">{translations.users.email}</p>
                         </div>
-                        <div  className="w-[30%] px-4 py-2 ">
+                        <div  className="w-[20%] px-4 py-2 ">
                             <p className="text-center font-bold">{translations.users.name}</p>
                         </div>
-                        <div  className="w-[20%] px-4 py-2 ">
+                        <div  className="w-[12%] px-4 py-2 ">
                             <p className="text-center font-bold">{translations.users.contact_number}</p>
+                        </div>
+                        <div  className="w-[12%] px-4 py-2 ">
+                            <p className="text-center font-bold">{translations.users.parent_status}</p>
+                        </div>
+                        <div  className="w-[12%] px-4 py-2 ">
+                            <p className="text-center font-bold">{translations.users.driver_status}</p>
                         </div>
                     </div>
                     <div className="w-full max-w-6xl mx-auto p-2 pt-0 min-w-[600px]">
@@ -50,6 +56,8 @@ const UserTable: React.FC<UserTableProps> = ({ userList }) => {
                                 key={user.userId}
                                 user={user}
                                 onClick={() => handleUserClick(user.userId)}
+                                translations={translations}
+                                
                             />
                         ))}
                     </div>
