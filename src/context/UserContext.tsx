@@ -10,6 +10,7 @@ interface UserContextType {
   isAdmin: () => boolean;
   typeOfParent: () => number;
   typeOfDriver: () => number;
+  updateUserRoles: (roles: number[]) => void;
 }
 
 // Create the context with an undefined default value
@@ -23,6 +24,9 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const pendingParentRole: number = Number(process.env.ROLE_PENDING_PARENT) || 4;
   const driverRole: number = Number(process.env.ROLE_DRIVER) || 3;
   const pendingDriverRole: number = Number(process.env.ROLE_PENDING_DRIVER) || 5;
+  const noRole: number = Number(process.env.ROLE_ROLELESS_USER) || 6;
+  const rejectedParentRole: number = Number(process.env.ROLE_REJECTED_PARENT) || 7;
+  const rejectedDriverRole: number = Number(process.env.ROLE_REJECTED_DRIVER) || 8;
 
   const [user, setUser] = useState<UserData | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
@@ -54,10 +58,12 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return parentRole; // Parent
     }else if (user?.roles.includes(pendingParentRole)) {
       return pendingParentRole; // Pending Parent
+    }else if (user?.roles.includes(rejectedParentRole)) {
+      return rejectedParentRole; // Rejected Parent
     }else if( user?.roles.includes(adminRole)) {
       return adminRole; // Admin so automatically allowed as Parent
     }else{
-      return -1; // Not a Parent
+      return noRole; // Not a Parent
     }
   }
 
@@ -66,10 +72,20 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return driverRole; // Driver
     }else if (user?.roles.includes(pendingDriverRole)) {
       return pendingDriverRole; // Pending Driver
-    }else if( user?.roles.includes(1)) {
+    }else if( user?.roles.includes(adminRole)) {
       return adminRole; // Admin so automatically allowed as Driver
+    }else if (user?.roles.includes(rejectedDriverRole)) {
+      return rejectedDriverRole; // Rejected Driver
     }else{
-      return -1; // Not a Driver
+      return noRole; // Not a Driver
+    }
+  }
+
+  function updateUserRoles(roles: number[]): void {
+    if (user) {
+      setUser({ ...user, roles });
+    } else {
+      console.warn("Cannot update roles, user is not logged in.");
     }
   }
 
@@ -78,7 +94,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [user, isLoggedIn]);
 
   return (
-    <UserContext.Provider value={{ user, isLoggedIn, isAdmin, login, logout, typeOfParent, typeOfDriver }}>
+    <UserContext.Provider value={{ user, isLoggedIn, isAdmin, login, logout, typeOfParent, typeOfDriver, updateUserRoles }}>
       {children}
     </UserContext.Provider>
   );

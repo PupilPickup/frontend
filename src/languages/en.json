@@ -256,7 +256,12 @@
         "invalid_last_name_error": "Last name must be at least 2 characters long",
         "invalid_start_time_error": "School arrival time must be in the format HH:MM",
         "invalid_end_time_error": "School departure time must be in the format HH:MM",
-        "invalid_time_order": "School arrival time must be before school departure time"
+        "invalid_time_order": "School arrival time must be before school departure time",
+        "register_prompt":"You have not yet registered to be approved as a parent. Please click the button to register your interest in being a parent.", 
+        "cancel_register_button":"Cancel Registration",
+        "confirm_register_button":"Register as Parent",
+        "pending_parent_limitations": "You are currently registered as a pending parent. Your children will not appear in any searches until you are approved.",
+        "rejected_parent_notice": "You are currently registered as a rejected parent. Your children will not appear in any searches. If you would like to have your children appear in searches, please contact an administrator."
     },
 
     "vehicles":{
@@ -297,7 +302,12 @@
         "invalid_start_time_error": "Driver start time must be in the format HH:MM",
         "invalid_end_time_error": "Driver end time must be in the format HH:MM",
         "available_exceeds_capacity_error": "Available seats cannot exceed seat capacity",
-        "start_after_end_error": "The start time cannot be earlier than the end time"
+        "start_after_end_error": "The start time cannot be earlier than the end time",
+        "register_prompt":"You have not yet registered to be approved as a driver. Please click the button to register your interest in being a driver.", 
+        "cancel_register_button":"Cancel Registration",
+        "confirm_register_button":"Register as Driver",
+        "pending_driver_limitations": "You are currently registered as a pending driver. Your vehicles will not appear in any searches until you are approved.",
+        "rejected_driver_notice": "You are currently registered as a rejected driver. Your vehicles will not appear in any searches. If you would like to have your vehicles appear in searches, please contact an administrator."
     },
     "children_server_errors":{
         "empty_fields": "No fields can be left empty.",
@@ -422,6 +432,8 @@
         "users_prompt": "Filter users by their role. Click on a user to view their profile.",
         "filter": "Filter By:",
         "pending_parents": "Pending Parents",
-        "pending_drivers": "Pending Drivers"
+        "pending_drivers": "Pending Drivers",
+        "parent_status": "Parent Status",
+        "driver_status": "Driver Status"
     }
 }
