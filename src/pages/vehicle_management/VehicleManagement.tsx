@@ -8,6 +8,7 @@ import axios from "axios";
 import Button from "../../components/common/Button";
 import HelpTip from "../../components/common/HelpTip";
 import { useUser } from "../../context/UserContext";
+import PendingPromptModal from "../../components/common/PendingPromptModal";
 
 // Define the possible error keys
 type VehicleServerErrors = 'empty_fields' | 'seat_capacity_invalid' | 'available_seats_invalid' | 'seat_mismatch_error' | 'license_plate_invalid' | 'driver_start_time_invalid' | 'driver_end_time_invalid' | 'server_error_get' | 'server_error_post' | 'server_error_put' | 'server_error_delete' | 'generic_error';
@@ -16,14 +17,21 @@ export default function VehicleManagement() {
     const [isLoading, setIsLoading] = useState(true);
     const [vehiclesList, setVehiclesList] = useState([]);
     const [serverError, setServerError] = useState<string>("");
+    const [showRegisterPrompt, setShowRegisterPrompt] = useState<boolean>(false);
+    const [showPendingWarning, setShowPendingWarning] = useState<boolean>(false);
 
     const { language } = useLanguage();
     const translations = language === 'ne' ? neTranslations : enTranslations;
 
     const navigate = useNavigate();  
     const token: string | null = sessionStorage.getItem("token");
-    const { user, logout, isLoggedIn } = useUser();
+    const { user, logout, isLoggedIn, typeOfDriver } = useUser();
     const apiUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
+    // const adminRole:number  = Number(process.env.ROLE_ADMIN) || 1;
+    // const driverRole: number = Number(process.env.ROLE_DRIVER) || 3;
+    const pendingDriverRole: number = Number(process.env.ROLE_PENDING_DRIVER) || 5;
+    const noRole: number = Number(process.env.ROLE_ROLELESS_USER) || 6;
+    const rejectedDriverRole: number = Number(process.env.ROLE_REJECTED_DRIVER) || 8;
 
     useEffect(() => {
         if(!token || user === null || user === undefined || !isLoggedIn){
@@ -56,10 +64,17 @@ export default function VehicleManagement() {
                 setIsLoading(false);
             }
         }
+        if(typeOfDriver() === noRole){
+            setShowRegisterPrompt(true);
+        }
+
+        if(typeOfDriver() === pendingDriverRole){
+            setShowPendingWarning(true);
+        }
 
         populateVehicles(token!, user!.username, user!.userId);
         setIsLoading(false);
-    }, [token, user, logout, navigate, isLoggedIn, apiUrl, translations.vehicles_server_error]);
+    }, [token, user, logout, navigate, isLoggedIn, apiUrl, typeOfDriver, noRole, pendingDriverRole, translations.vehicles_server_error]);
 
     async function deleteVehicleData(token:string, userName:string, userId:string, vehicleId:string) {
         try {
@@ -108,12 +123,31 @@ export default function VehicleManagement() {
         return sections[0] + ":" + sections[1];
     }
 
+    function handleAbortRegisterPrompt() {
+        setShowRegisterPrompt(false);
+        navigate("/dashboard");
+    }
+
+    const handleConfirmRegisterPrompt = async() => {
+        setShowRegisterPrompt(false);
+        setShowPendingWarning(true);
+    }
+
     if(isLoading){
         return <div className="flex justify-center items-center min-h-[90vh]">{translations.universal.loading}</div>
     }
 
     if(!token){
         return <div className="flex justify-center items-center min-h-[90vh]">{translations.universal.redirecting}</div>
+    }
+
+    if(typeOfDriver() === rejectedDriverRole){
+        return (
+            <div className="flex flex-col items-center min-h-[90vh] w-full my-4 px-4">
+                <h1 className="text-3xl font-bold mb-4">{translations.vehicles.vehicles_header}</h1>
+                <div className="w-full bg-red-500 text-white mb-4 p-4 rounded text-center">{translations.vehicles.rejected_driver_notice}</div>
+            </div>
+        );
     }
 
     return (
@@ -123,6 +157,7 @@ export default function VehicleManagement() {
             </div>
             <h1 className="text-3xl font-bold mb-4">{translations.vehicles.vehicles_header}</h1>
             <h2>{translations.vehicles.vehicles_prompt}</h2>
+            {showPendingWarning && <div className="w-full bg-[#F4D03F] text-black mb-4 p-2 rounded text-center">{translations.vehicles.pending_driver_limitations}</div>}
             {serverError && <div className="text-red-500 mb-4">{serverError}</div>}
             {vehiclesList.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 justify-center items-stretch">
@@ -149,6 +184,15 @@ export default function VehicleManagement() {
                 variant="primary" 
                 onClick={handleAddClick} 
             />
+            {showRegisterPrompt && 
+                <PendingPromptModal 
+                    prompt={translations.vehicles.register_prompt} 
+                    abortLabel={translations.vehicles.cancel_register_button} 
+                    confirmLabel={translations.vehicles.confirm_register_button} 
+                    onAbort={handleAbortRegisterPrompt}
+                    onConfirm={handleConfirmRegisterPrompt} 
+                />
+            }
         </div>
     );
 }
