@@ -150,19 +150,8 @@ export default function UserManagement () {
                         {translations.carpool.hide_no_capacity_drivers}
                     </label>
                 </div>
-                {/* <div className="flex flex-row mb-2 px-1">
-                    <input
-                        type="checkbox"
-                        id="unavailableDriverInput"
-                        checked={hideUnavailableDrivers}
-                        onChange={filterUnavailableDrivers}
-                    />
-                    <label htmlFor="unavailableDriverInput" className="ml-1">
-                        {translations.carpool.unavailable_drivers}
-                    </label>
-                </div> */}
             </div>
-            <DriverTable driverList={displayDriverList} />
+            <DriverTable driverList={displayDriverList} userLatitude={user!.latitude} userLongitude={user!.longitude} />
         </div>
     );
 }

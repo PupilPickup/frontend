@@ -133,7 +133,9 @@ export default function LoginPage() {
         userId: response.data.user_id,
         username: response.data.user_name,
         email: response.data.email,
-        roles: roles
+        roles: roles,
+        latitude: response.data.latitude,
+        longitude: response.data.longitude,
       }
       login(userData);
       // navigate("/dashboard");

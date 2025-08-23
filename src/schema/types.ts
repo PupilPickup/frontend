@@ -6,6 +6,8 @@ export interface UserData {
   userId: string;
   email: string;
   roles: number[];
+  latitude: number;
+  longitude: number;
 }
 
 // Define the structure of the user data to be used throughout the app
@@ -19,6 +21,8 @@ export interface FullProfileData {
   streetAddress: string;
   wardNumber: number;
   municipalityDistrict: string;
+  latitude: number;
+  longitude: number;
   roles: number[];
   accountCreatedAt: Date;
 }
@@ -31,6 +35,8 @@ export interface PartialProfileData {
   contactNumber: string;
   firstName: string;
   lastName: string;
+  latitude: number;
+  longitude: number;
   roles: number[];
 }
 
