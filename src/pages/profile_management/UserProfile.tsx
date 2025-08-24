@@ -3,7 +3,7 @@ import neTranslations from "../../languages/ne.json";
 import { useLanguage } from "../../context/LanguageContext";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { isFieldEmpty, isNameValid, isEmailValid, isPhoneValid, isMunicipalityOrDistrictValid, isStreetAddressValid, isWardValid } from "../../utils/profileValidation";
+import { isFieldEmpty, isNameValid, isEmailValid, isPhoneValid,  isStreetAddressValid } from "../../utils/profileValidation";
 import axios from "axios";
 import Button from "../../components/common/Button";
 import CardLabel from "../../components/common/CardLabel";
@@ -11,9 +11,11 @@ import ProfileInput from "../../components/common/ProfileInput";
 import DeleteWarningModal from "../../components/common/DeleteWarningModal";
 import HelpTip from "../../components/common/HelpTip";
 import { useUser } from "../../context/UserContext";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
 
 // Define the possible error keys
-type ProfileServerErrors = 'empty_fields' | 'username_not_existent' | 'invalid_credentials' | 'server_error_get' |'server_error_put' |'server_error_delete' | 'generic_error' | 'firstname_length' | 'lastname_length' | 'email_length' | 'phone_length' | 'street_address_length' | 'ward_number_invalid' | 'municipality_district_length' | 'username_unknown' | 'email_exists';
+type ProfileServerErrors = 'empty_fields' | 'username_not_existent' | 'invalid_credentials' | 'server_error_get' |'server_error_put' |'server_error_delete' | 'generic_error' | 'firstname_length' | 'lastname_length' | 'email_length' | 'phone_length' | 'street_address_length' | 'username_unknown' | 'email_exists';
 
 export default function UserProfile () {
     const [isLoading, setIsLoading] = useState(true);
@@ -26,8 +28,8 @@ export default function UserProfile () {
         email: "",
         phoneNumber: "",
         streetAddress: "",
-        wardNumber: "",
-        municipalityDistrict: "",
+        latitude: 0,
+        longitude: 0,
     });
     const [editingProfileData, setEditingProfileData] = useState({
         userName: "",
@@ -37,8 +39,8 @@ export default function UserProfile () {
         email: "",
         phoneNumber: "",
         streetAddress: "",
-        wardNumber: "",
-        municipalityDistrict: "",
+        latitude: 0,
+        longitude: 0,
     });
     const [serverError, setServerError] = useState<string>("");
     const [firstNameError, setFirstNameError] = useState<string>("");
@@ -46,8 +48,6 @@ export default function UserProfile () {
     const [emailError, setEmailError] = useState<string>("");
     const [phoneNumberError, setPhoneNumberError] = useState<string>("");
     const [streetAddressError, setStreetAddressError] = useState<string>("");
-    const [wardNumberError, setWardNumberError] = useState<string>("");
-    const [municipalityDistrictError, setMunicipalityDistrictError] = useState<string>("");
     const [showDeleteWarning, setShowDeleteWarning] = useState<boolean>(false);
 
 
@@ -59,6 +59,7 @@ export default function UserProfile () {
     const navigate = useNavigate();
     const token: string | null = sessionStorage.getItem("token");
     const { user, isLoggedIn, logout } = useUser();
+    
     
     /**
      * updateUser is an asynchronous function that takes a validated User data and PUTs it to the server to update the user's profile in the database.
@@ -84,8 +85,8 @@ export default function UserProfile () {
                     email: response.data.email,
                     phoneNumber: response.data.contactNumber,
                     streetAddress: response.data.streetAddress,
-                    wardNumber: response.data.wardNumber,
-                    municipalityDistrict: response.data.municipalityDistrict,
+                    latitude:  response.data.latitude,
+                    longitude:  response.data.longitude,
                 });
                 // TODO success message?
                 // Return to view state
@@ -155,26 +156,6 @@ export default function UserProfile () {
         }else{
             setStreetAddressError("");
         }
-        // Ward Number
-        if(isFieldEmpty(profileData.wardNumber)) {
-            setWardNumberError(translations.profile.require_ward_error);
-            hasErrors = true;
-        }else if(!isWardValid(profileData.wardNumber)) {
-            setWardNumberError(translations.profile.invalid_ward_error);
-            hasErrors = true;
-        }else{
-            setWardNumberError("");
-        }
-        // Municipality or District
-        if(isFieldEmpty(profileData.municipalityDistrict)) {
-            setMunicipalityDistrictError(translations.profile.require_municipality_error);
-            hasErrors = true;
-        }else if(!isMunicipalityOrDistrictValid(profileData.municipalityDistrict)) {
-            setMunicipalityDistrictError(translations.profile.invalid_municipality_error);
-            hasErrors = true;
-        }else{
-            setMunicipalityDistrictError("");
-        }
 
         // Check if there are any errors
         if(hasErrors) {
@@ -238,8 +219,8 @@ export default function UserProfile () {
                     email: userDetails.email,
                     phoneNumber: userDetails.contactNumber,
                     streetAddress: userDetails.streetAddress,
-                    wardNumber: userDetails.wardNumber,
-                    municipalityDistrict: userDetails.municipalityDistrict,
+                    latitude:  userDetails.latitude,
+                    longitude:  userDetails.longitude,
                 });
                 setServerError("");
                 setIsLoading(false);
@@ -319,9 +300,33 @@ export default function UserProfile () {
         setEmailError("");
         setPhoneNumberError("");
         setStreetAddressError("");
-        setWardNumberError("");
-        setMunicipalityDistrictError("");
         setServerError("");
+    }
+
+    const handleSearch = async () => {
+        const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(editingProfileData.streetAddress)}`;
+
+        const res = await fetch(url, {
+        headers: { "User-Agent": "CarpoolApp/1.0 (pupilpickup@gmail.com)" }, // required by Nominatim
+        });
+        const data = await res.json();
+
+        if (data && data.length > 0) {
+        const lat = parseFloat(data[0].lat);
+        const lon = parseFloat(data[0].lon);
+        setEditingProfileData({ ...editingProfileData, latitude: lat, longitude: lon });
+        setStreetAddressError("");
+        } else {
+        setStreetAddressError(translations.sign_up.address_not_found_error);
+        }
+    }
+
+    function MapUpdater({ position }: { position: [number, number] }) {
+        const map = useMap();
+        useEffect(() => {
+            map.setView(position, map.getZoom());
+        }, [position, map]);
+        return null;
     }
 
     if(isLoading){
@@ -418,47 +423,37 @@ export default function UserProfile () {
                         />
                     </div>
                 ) : (
-                    <ProfileInput
-                        label={translations.profile.street_address_label}
-                        elementId="streetAddress"
-                        value={editingProfileData.streetAddress}
-                        changeHandler={handleChange}
-                        error={streetAddressError}
-                    />
-                )}
-                {isViewState ? (
-                    <div className="mb-4">
-                        <CardLabel
-                            label={translations.profile.ward_label}
-                            data={profileData.wardNumber}
+                    <div>
+                        <ProfileInput
+                            label={translations.profile.street_address_label}
+                            elementId="streetAddress"
+                            value={editingProfileData.streetAddress}
+                            changeHandler={handleChange}
+                            error={streetAddressError}
                         />
-                    </div>
-                ) : (
-                    <ProfileInput
-                        label={translations.profile.ward_label}
-                        elementId="wardNumber"
-                        value={editingProfileData.wardNumber? editingProfileData.wardNumber : ""}
-                        changeHandler={handleChange}
-                        error={wardNumberError}
-                        isNumber={true}
-                    />
-                )}
-                
-                {isViewState ? (
-                    <div className="mb-4">
-                        <CardLabel
-                            label={translations.profile.municipality_label}
-                            data={profileData.municipalityDistrict}
+                        <Button 
+                            label={translations.sign_up.search_button} 
+                            variant="secondary" className="w-full p-2 rounded-md" 
+                            onClick={handleSearch} 
                         />
+                        <div className="w-full my-4">
+                            <MapContainer
+                                center={[editingProfileData.latitude, editingProfileData.longitude]}
+                                zoom={14}
+                                style={{ height: "500px", width: "100%", marginBottom: "1rem", marginTop: "1rem", paddingBottom: "1rem", paddingTop: "1rem" }}
+                            >
+                                <MapUpdater position={[editingProfileData.latitude, editingProfileData.longitude]} />
+                                <TileLayer
+                                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                />
+                                <Marker position={[editingProfileData.latitude, editingProfileData.longitude]}>
+                                <Popup>Result: {editingProfileData.streetAddress}</Popup>
+                                </Marker>
+                            </MapContainer>
+                        </div>
                     </div>
-                ) : (
-                    <ProfileInput
-                        label={translations.profile.municipality_label}
-                        elementId="municipalityDistrict"
-                        value={editingProfileData.municipalityDistrict}
-                        changeHandler={handleChange}
-                        error={municipalityDistrictError}
-                    />
+                    
                 )}
             </div>
 

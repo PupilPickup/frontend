@@ -8,7 +8,7 @@ import { useLanguage } from "../../../context/LanguageContext";
 import { useEffect, useState } from "react";
 import { isFieldEmpty, isStreetAddressValid } from "../../../schema/signupSchema";
 import ProfileInput from "../../../components/common/ProfileInput";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import HelpTip from "../../../components/common/HelpTip";
 
@@ -17,7 +17,7 @@ export default function SignupStep2() {
   const navigate = useNavigate();
   const { signupData, setSignupData } = useSignup();
   const [addressError, setAddressError] = useState("");
-  const [position, setPosition] = useState<[number, number]>([43.6532, -79.3832]); // default Toronto
+  const [position, setPosition] = useState<[number, number]>([27.7172, 85.3240]); // Default to Kathmandu, Nepal
 
   const { language } = useLanguage();
   const translations = language === 'ne' ? neTranslations : enTranslations;
@@ -48,6 +48,14 @@ export default function SignupStep2() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSignupData({ ...signupData, [e.target.name]: e.target.value });
   };
+
+  function MapUpdater({ position }: { position: [number, number] }) {
+    const map = useMap();
+    useEffect(() => {
+      map.setView(position, map.getZoom());
+    }, [position, map]);
+    return null;
+  }
 
   const handleNextStep = () => {
 
@@ -94,19 +102,22 @@ export default function SignupStep2() {
             variant="secondary" className="w-full p-2 rounded-md" 
             onClick={handleSearch} 
           />
-          <MapContainer
-            center={position}
-            zoom={14}
-            style={{ height: "500px", width: "100%" }}
-          >
-            <TileLayer
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
-            <Marker position={position}>
-              <Popup>Result: {signupData.streetAddress}</Popup>
-            </Marker>
-          </MapContainer>
+          <div className="w-full my-4">
+            <MapContainer
+              center={position}
+              zoom={14}
+              style={{ height: "500px", width: "100%" }}
+            >
+              <MapUpdater position={position} />
+              <TileLayer
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              />
+              <Marker position={position}>
+                <Popup>Result: {signupData.streetAddress}</Popup>
+              </Marker>
+            </MapContainer>
+          </div>
           <Button 
             label={translations.sign_up.next_button} 
             variant="primary" 

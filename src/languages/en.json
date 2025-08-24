@@ -213,7 +213,8 @@
         "delete_confirmation_message": "Are you sure you want to delete your account? This action cannot be undone.",
         "delete_success_message": "Account deleted successfully!",
         "reset_password_message": "Are you sure you want to reset this user's password? An email will be sent to the email provided below with the user's new password, so please be sure this is the user's preffered email.",
-        
+        "password_reset_failed": "An error occurred while resetting the password. Please try again later.",
+
         "require_first_name_error": "Please enter your first name",
         "require_last_name_error": "Please enter your last name",
         "require_phone_number_error": "Please enter your phone number",
@@ -233,7 +234,7 @@
         "current_password_incorrect_error": "Current password is incorrect",
         "require_confirm_new_password_error": "Please confirm your new password",
         "password_mismatch_error": "New passwords do not match",
-        "invalid_password_error": "New password must be at least 8 characters, contain a number, an uppercase, and a special character."
+        "invalid_password_error": "New password must be at least 8 characters, contain a number, an uppercase, and a special character."        
     }, 
 
     "children":{
