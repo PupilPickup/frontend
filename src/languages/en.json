@@ -142,7 +142,8 @@
         "vehicles": "My Vehicles",
         "logout": "Logout",
         "manage": "Manage",
-        "carpool": "School Information",
+        "school": "School Information",
+        "carpool": "Carpool Search",
         "users": "User Management"
     }, 
 
