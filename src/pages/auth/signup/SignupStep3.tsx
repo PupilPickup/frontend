@@ -32,7 +32,7 @@ export default function SignupStep3 () {
 
   const apiUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
 
-  const { firstName, lastName, phoneNumber, streetAddress, wardNumber, municipalityDistrict } = signupData;
+  const { firstName, lastName, phoneNumber, streetAddress, latitude, longitude } = signupData;
 
   const [confirmPassword, setConfirmPassword] = useState("");
   const [usernameError, setUsernameError] = useState("");
@@ -118,8 +118,8 @@ export default function SignupStep3 () {
       email,
       phoneNumber,
       streetAddress,
-      wardNumber,
-      municipalityDistrict,
+      latitude,
+      longitude,
       username,
       password,
     };

@@ -6,8 +6,10 @@ import enTranslations from "../../../languages/en.json";
 import neTranslations from "../../../languages/ne.json";
 import { useLanguage } from "../../../context/LanguageContext";
 import { useEffect, useState } from "react";
-import { isFieldEmpty, isMunicipalityOrDistrictValid, isStreetAddressValid, isWardValid } from "../../../schema/signupSchema";
+import { isFieldEmpty, isStreetAddressValid } from "../../../schema/signupSchema";
 import ProfileInput from "../../../components/common/ProfileInput";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
 import HelpTip from "../../../components/common/HelpTip";
 
 
@@ -15,8 +17,7 @@ export default function SignupStep2() {
   const navigate = useNavigate();
   const { signupData, setSignupData } = useSignup();
   const [addressError, setAddressError] = useState("");
-  const [wardError, setWardError] = useState("");
-  const [municipalityError, setMunicipalityError] = useState("");
+  const [position, setPosition] = useState<[number, number]>([27.7172, 85.3240]); // Default to Kathmandu, Nepal
 
   const { language } = useLanguage();
   const translations = language === 'ne' ? neTranslations : enTranslations;
@@ -24,16 +25,39 @@ export default function SignupStep2() {
   // Reset the error messages when the language changes
   useEffect(() => {
     setAddressError("");
-    setWardError("");
-    setMunicipalityError("");
   },[language]);
+
+  const handleSearch = async () => {
+    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(signupData.streetAddress)}`;
+
+    const res = await fetch(url, {
+      headers: { "User-Agent": "CarpoolApp/1.0 (pupilpickup@gmail.com)" }, // required by Nominatim
+    });
+    const data = await res.json();
+
+    if (data && data.length > 0) {
+      const lat = parseFloat(data[0].lat);
+      const lon = parseFloat(data[0].lon);
+      setPosition([lat, lon]);
+      setAddressError("");
+    } else {
+      setAddressError(translations.sign_up.address_not_found_error);
+    }
+  }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSignupData({ ...signupData, [e.target.name]: e.target.value });
   };
 
-  const handleNextStep = (e: React.FormEvent) => {
-    e.preventDefault();
+  function MapUpdater({ position }: { position: [number, number] }) {
+    const map = useMap();
+    useEffect(() => {
+      map.setView(position, map.getZoom());
+    }, [position, map]);
+    return null;
+  }
+
+  const handleNextStep = () => {
 
     let hasError: boolean = false;
     if(isFieldEmpty(signupData.streetAddress)){
@@ -48,32 +72,11 @@ export default function SignupStep2() {
       setAddressError("");
     }
 
-    if(!signupData.wardNumber){
-      hasError = true;
-      setWardError(translations.sign_up.require_ward_error);
-
-    }else if(!isWardValid(signupData.wardNumber)){
-      hasError = true;
-      setWardError(translations.sign_up.invalid_ward_error);
-
-    }else{
-      setWardError("");
-    }
-
-    if(isFieldEmpty(signupData.municipalityDistrict)){
-      hasError = true;
-      setMunicipalityError(translations.sign_up.require_municipality_error);
-
-    }else if(!isMunicipalityOrDistrictValid(signupData.municipalityDistrict)){
-      hasError = true;
-      setMunicipalityError(translations.sign_up.invalid_municipality_error);
-    }else{
-      setMunicipalityError("");
-    }
-
     if(hasError){
       return;
     }
+    signupData.latitude = position[0];
+    signupData.longitude = position[1];
     
     navigate("/signup/3");
   };
@@ -91,47 +94,37 @@ export default function SignupStep2() {
           <h1 className="text-3xl font-bold">{translations.sign_up.header2}</h1>
           <p className="text-sm w-1/2 mx-auto">{translations.sign_up.prompt2}</p>
         </header>
-
-        <form className="flex flex-col space-y-6 mx-6" onSubmit={handleNextStep}>
-          <fieldset className="space-y-2">
-            <div className="flex flex-col">
-              <ProfileInput
-                label={translations.sign_up.address_label}
-                elementId="streetAddress"
-                changeHandler={handleChange}
-                value={signupData.streetAddress}
-                error={addressError}
+        <div className="flex flex-col space-y-6 mx-6">
+          
+          <ProfileInput label={translations.sign_up.address_label} elementId="streetAddress" value={signupData.streetAddress} changeHandler={handleChange} error={addressError} placeholder={translations.sign_up.address_placeholder} />
+          <Button 
+            label={translations.sign_up.search_button} 
+            variant="secondary" className="w-full p-2 rounded-md" 
+            onClick={handleSearch} 
+          />
+          <div className="w-full my-4">
+            <MapContainer
+              center={position}
+              zoom={14}
+              style={{ height: "500px", width: "100%" }}
+            >
+              <MapUpdater position={position} />
+              <TileLayer
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
-            </div>
-
-            <div className="flex flex-col">
-              <ProfileInput
-                label={translations.sign_up.ward_label}
-                elementId="wardNumber"
-                changeHandler={handleChange}
-                value={signupData.wardNumber? signupData.wardNumber : ""}
-                error={wardError}
-                isNumber={true}
-              />
-            </div>
-
-            <div className="flex flex-col">
-              <ProfileInput
-                label={translations.sign_up.municipality_label}
-                elementId="municipalityDistrict"
-                changeHandler={handleChange}
-                value={signupData.municipalityDistrict}
-                error={municipalityError}
-              />
-            </div>
-          </fieldset>
+              <Marker position={position}>
+                <Popup>Result: {signupData.streetAddress}</Popup>
+              </Marker>
+            </MapContainer>
+          </div>
           <Button 
             label={translations.sign_up.next_button} 
             variant="primary" 
             className="w-full p-2 rounded-md" 
-            type="submit" 
+            onClick={handleNextStep}
           />
-        </form>
+        </div>
       </div>
     </div>
   );

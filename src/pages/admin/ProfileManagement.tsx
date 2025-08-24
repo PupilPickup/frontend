@@ -3,7 +3,7 @@ import neTranslations from "../../languages/ne.json";
 import { useLanguage } from "../../context/LanguageContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { isFieldEmpty, isNameValid, isEmailValid, isPhoneValid, isMunicipalityOrDistrictValid, isStreetAddressValid, isWardValid } from "../../utils/profileValidation";
+import { isFieldEmpty, isNameValid, isEmailValid, isPhoneValid, isStreetAddressValid } from "../../utils/profileValidation";
 import axios from "axios";
 import Button from "../../components/common/Button";
 import CardLabel from "../../components/common/CardLabel";
@@ -12,9 +12,12 @@ import DeleteWarningModal from "../../components/common/DeleteWarningModal";
 import HelpTip from "../../components/common/HelpTip";
 import { useUser } from "../../context/UserContext";
 import AdminPasswordReset from "../../components/common/AdminPasswordResetModal";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+
 
 // Define the possible error keys
-type ProfileServerErrors = 'empty_fields' | 'username_not_existent' | 'invalid_credentials' | 'server_error_get' |'server_error_put' |'server_error_delete' | 'generic_error' | 'firstname_length' | 'lastname_length' | 'email_length' | 'phone_length' | 'street_address_length' | 'ward_number_invalid' | 'municipality_district_length' | 'username_unknown' | 'email_exists';
+type ProfileServerErrors = 'empty_fields' | 'username_not_existent' | 'invalid_credentials' | 'server_error_get' |'server_error_put' |'server_error_delete' | 'generic_error' | 'firstname_length' | 'lastname_length' | 'email_length' | 'phone_length' | 'street_address_length' | 'username_unknown' | 'email_exists';
 
 export default function ProfileManagement () {
     const [isLoading, setIsLoading] = useState(true);
@@ -28,8 +31,8 @@ export default function ProfileManagement () {
         email: "",
         phoneNumber: "",
         streetAddress: "",
-        wardNumber: "",
-        municipalityDistrict: "",
+        latitude: 0,
+        longitude: 0,
         adminParentNote: "",
         adminDriverNote: "",
     });
@@ -41,8 +44,8 @@ export default function ProfileManagement () {
         email: "",
         phoneNumber: "",
         streetAddress: "",
-        wardNumber: "",
-        municipalityDistrict: "",
+        latitude: 0,
+        longitude: 0,
         adminParentNote: "",
         adminDriverNote: "",
     });
@@ -52,8 +55,6 @@ export default function ProfileManagement () {
     const [emailError, setEmailError] = useState<string>("");
     const [phoneNumberError, setPhoneNumberError] = useState<string>("");
     const [streetAddressError, setStreetAddressError] = useState<string>("");
-    const [wardNumberError, setWardNumberError] = useState<string>("");
-    const [municipalityDistrictError, setMunicipalityDistrictError] = useState<string>("");
     const [parentNoteError, setParentNoteError] = useState<string>("");
     const [driverNoteError, setDriverNoteError] = useState<string>("");
     const [showDeleteWarning, setShowDeleteWarning] = useState<boolean>(false);
@@ -107,8 +108,8 @@ export default function ProfileManagement () {
                     email: response.data.email,
                     phoneNumber: response.data.contactNumber,
                     streetAddress: response.data.streetAddress,
-                    wardNumber: response.data.wardNumber,
-                    municipalityDistrict: response.data.municipalityDistrict,
+                    latitude: response.data.latitude,
+                    longitude: response.data.longitude,
                     adminParentNote: response.data.adminParentNote ?? "",
                     adminDriverNote: response.data.adminDriverNote ?? "",
                 });
@@ -180,26 +181,6 @@ export default function ProfileManagement () {
         }else{
             setStreetAddressError("");
         }
-        // Ward Number
-        if(isFieldEmpty(profileData.wardNumber)) {
-            setWardNumberError(translations.profile.require_ward_error);
-            hasErrors = true;
-        }else if(!isWardValid(profileData.wardNumber)) {
-            setWardNumberError(translations.profile.invalid_ward_error);
-            hasErrors = true;
-        }else{
-            setWardNumberError("");
-        }
-        // Municipality or District
-        if(isFieldEmpty(profileData.municipalityDistrict)) {
-            setMunicipalityDistrictError(translations.profile.require_municipality_error);
-            hasErrors = true;
-        }else if(!isMunicipalityOrDistrictValid(profileData.municipalityDistrict)) {
-            setMunicipalityDistrictError(translations.profile.invalid_municipality_error);
-            hasErrors = true;
-        }else{
-            setMunicipalityDistrictError("");
-        }
 
         // Check if there are any errors
         if(hasErrors) {
@@ -259,7 +240,7 @@ export default function ProfileManagement () {
         if (axios.isAxiosError(error) && error.response) {
         //   const errorKey = error.response.data.error as ResetPasswordServerErrors;
         //   let errorMessage: string = translations.forgot_password_server_error[errorKey] || translations.forgot_password_server_error.generic_error;
-          setServerError("An error occurred while resetting the password. Please try again later."); //TODO: use translations
+          setServerError(translations.profile.password_reset_failed); 
         }
       }
     }
@@ -300,8 +281,8 @@ export default function ProfileManagement () {
                     email: userDetails.email,
                     phoneNumber: userDetails.contactNumber,
                     streetAddress: userDetails.streetAddress,
-                    wardNumber: userDetails.wardNumber,
-                    municipalityDistrict: userDetails.municipalityDistrict,
+                    latitude: userDetails.latitude,
+                    longitude: userDetails.longitude,
                     adminParentNote: userDetails.adminParentNote ?? "",
                     adminDriverNote: userDetails.adminDriverNote ?? "",
                 });
@@ -488,8 +469,6 @@ export default function ProfileManagement () {
         setEmailError("");
         setPhoneNumberError("");
         setStreetAddressError("");
-        setWardNumberError("");
-        setMunicipalityDistrictError("");
         setParentNoteError("");
         setDriverNoteError("");
         setServerError("");
@@ -561,6 +540,32 @@ export default function ProfileManagement () {
         }else{
             return translations.roles_and_statuses.not_applicable;
         }
+    }
+
+    const handleSearch = async () => {
+        const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(editingProfileData.streetAddress)}`;
+
+        const res = await fetch(url, {
+        headers: { "User-Agent": "CarpoolApp/1.0 (pupilpickup@gmail.com)" }, // required by Nominatim
+        });
+        const data = await res.json();
+
+        if (data && data.length > 0) {
+        const lat = parseFloat(data[0].lat);
+        const lon = parseFloat(data[0].lon);
+        setEditingProfileData({ ...editingProfileData, latitude: lat, longitude: lon });
+        setStreetAddressError("");
+        } else {
+        setStreetAddressError(translations.sign_up.address_not_found_error);
+        }
+    }
+
+    function MapUpdater({ position }: { position: [number, number] }) {
+        const map = useMap();
+        useEffect(() => {
+            map.setView(position, map.getZoom());
+        }, [position, map]);
+        return null;
     }
 
     if(isLoading){
@@ -658,48 +663,38 @@ export default function ProfileManagement () {
                             />
                         </div>
                     ) : (
-                        <ProfileInput
-                            label={translations.profile.street_address_label}
-                            elementId="streetAddress"
-                            value={editingProfileData.streetAddress}
-                            changeHandler={handleChange}
-                            error={streetAddressError}
-                        />
-                    )}
-                    {isViewState ? (
-                        <div className="mb-4">
-                            <CardLabel
-                                label={translations.profile.ward_label}
-                                data={profileData.wardNumber}
+                        <div>
+                            <ProfileInput
+                                label={translations.profile.street_address_label}
+                                elementId="streetAddress"
+                                value={editingProfileData.streetAddress}
+                                changeHandler={handleChange}
+                                error={streetAddressError}
                             />
-                        </div>
-                    ) : (
-                        <ProfileInput
-                            label={translations.profile.ward_label}
-                            elementId="wardNumber"
-                            value={editingProfileData.wardNumber? editingProfileData.wardNumber : ""}
-                            changeHandler={handleChange}
-                            error={wardNumberError}
-                            isNumber={true}
-                        />
-                    )}
-                    
-                    {isViewState ? (
-                        <div className="mb-4">
-                            <CardLabel
-                                label={translations.profile.municipality_label}
-                                data={profileData.municipalityDistrict}
+                            <Button 
+                                label={translations.sign_up.search_button} 
+                                variant="secondary" className="w-full p-2 rounded-md" 
+                                onClick={handleSearch} 
                             />
+                            <div className="w-full my-4">
+                                <MapContainer
+                                    center={[editingProfileData.latitude, editingProfileData.longitude]}
+                                    zoom={14}
+                                    style={{ height: "500px", width: "100%", marginBottom: "1rem", marginTop: "1rem", paddingBottom: "1rem", paddingTop: "1rem" }}
+                                >
+                                    <MapUpdater position={[editingProfileData.latitude, editingProfileData.longitude]} />
+                                    <TileLayer
+                                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                    />
+                                    <Marker position={[editingProfileData.latitude, editingProfileData.longitude]}>
+                                    <Popup>Result: {editingProfileData.streetAddress}</Popup>
+                                    </Marker>
+                                </MapContainer>
+                            </div>
                         </div>
-                    ) : (
-                        <ProfileInput
-                            label={translations.profile.municipality_label}
-                            elementId="municipalityDistrict"
-                            value={editingProfileData.municipalityDistrict}
-                            changeHandler={handleChange}
-                            error={municipalityDistrictError}
-                        />
                     )}
+
                     <div className={`flex flex-row text-sm sm:text-base text-black dark:text-white mb-4 space-x-2 ${isViewState ? "m-1 p-2 mb-4" : "m-0 p-0"}`}>
                         <p className="font-bold">{translations.profile.admin_status_label}</p>
                         <p>{getAdminStatusMsg(roles)}</p>

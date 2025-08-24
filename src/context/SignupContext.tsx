@@ -7,8 +7,8 @@ interface SignupData {
   email: string;
   phoneNumber: string;
   streetAddress: string,
-  wardNumber?: number,
-  municipalityDistrict: string,
+  latitude: number;
+  longitude: number;
   username: string;
   password: string;
 }
@@ -31,8 +31,8 @@ export const SignupProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     email: "",
     phoneNumber: "",
     streetAddress: "",
-    wardNumber: undefined,
-    municipalityDistrict: "",
+    latitude: 0,
+    longitude: 0,
     username: "",
     password: "",
   });
@@ -45,8 +45,8 @@ export const SignupProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       email: "",
       phoneNumber: "",
       streetAddress: "",
-      wardNumber: undefined,
-      municipalityDistrict: "",
+      latitude: 0,
+      longitude: 0,
       username: "",
       password: "",
     });

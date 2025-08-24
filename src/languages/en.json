@@ -74,7 +74,10 @@
         "invalid_ward_error": "Ward number must be a number between 1 and 32",
         "invalid_municipality_error": "Municipality/ District must be at least 3 characters long and contain only letters, spaces, and hyphens",
         "invalid_email_error": "Please enter a valid email address",
-        "invalid_username_error": "Username must be at least 6 characters long"
+        "invalid_username_error": "Username must be at least 6 characters long",
+        "search_button": "Search",
+        "address_placeholder": "Enter your address to find it on the map",
+        "address_not_found_error": "Address not found. Please enter a valid address."
     },
 
     "dashboard":{
@@ -142,7 +145,8 @@
         "vehicles": "My Vehicles",
         "logout": "Logout",
         "manage": "Manage",
-        "carpool": "School Information",
+        "school": "School Information",
+        "carpool": "Carpool Search",
         "users": "User Management"
     }, 
 
@@ -209,7 +213,8 @@
         "delete_confirmation_message": "Are you sure you want to delete your account? This action cannot be undone.",
         "delete_success_message": "Account deleted successfully!",
         "reset_password_message": "Are you sure you want to reset this user's password? An email will be sent to the email provided below with the user's new password, so please be sure this is the user's preffered email.",
-        
+        "password_reset_failed": "An error occurred while resetting the password. Please try again later.",
+
         "require_first_name_error": "Please enter your first name",
         "require_last_name_error": "Please enter your last name",
         "require_phone_number_error": "Please enter your phone number",
@@ -229,7 +234,7 @@
         "current_password_incorrect_error": "Current password is incorrect",
         "require_confirm_new_password_error": "Please confirm your new password",
         "password_mismatch_error": "New passwords do not match",
-        "invalid_password_error": "New password must be at least 8 characters, contain a number, an uppercase, and a special character."
+        "invalid_password_error": "New password must be at least 8 characters, contain a number, an uppercase, and a special character."        
     }, 
 
     "children":{
@@ -419,7 +424,8 @@
         "change_password": "A password must be at least 8 characters long, contain a number, an uppercase letter, and a special character. You must enter your current password, new password, and confirm your new password. If the current password is incorrect, the change will fail.",
         "school": "Here you can view and edit your school's carpool display information on the Dashboard. All fields must be filled. An address includes a street address, a ward number, and a municipality or district. A phone number is 10 digits without symbols or spaces. Time is in the format HH:MM in 24-hour format.",
         "user_search": "Use the check boxes to filter the list of users by their role type. Click on a user to view their profile and manage their information.",
-        "admin_profile": "Choose from the buttons for the type of actions you would like to take in managing this user. You can edit their data, add notes, change their role statuses, make them an administrator, change their password and email, and delete the user."
+        "admin_profile": "Choose from the buttons for the type of actions you would like to take in managing this user. You can edit their data, add notes, change their role statuses, make them an administrator, change their password and email, and delete the user.",
+        "carpool_search": "Search for available carpools based on the driver's compatible times and locations. You can filter by hiding unavailable drivers and drivers with no capacity. Please note that the distance is calculated from the driver's listed home address to your listed home address."
     }, 
 
     "users":{
@@ -435,5 +441,30 @@
         "pending_drivers": "Pending Drivers",
         "parent_status": "Parent Status",
         "driver_status": "Driver Status"
+    },
+
+    "carpool":{
+        "carpool_header": "Carpool Search",
+        "carpool_prompt": "Search for available carpools based on the driver's compatible times and locations.",
+        "search_button": "Search",
+        "no_results": "No carpools found matching your criteria.",
+        "filter_by": "Filter by:",
+        "hide_no_capacity_drivers": "Hide Drivers with No Capacity",
+        "start_time_label": "Driver Start Time must be After:",
+        "end_time_label": "Driver End Time must be Before:",
+        "days_available_label": "Days Driver is Available:",
+        "monday_label": "Monday",
+        "tuesday_label": "Tuesday",
+        "wednesday_label": "Wednesday",
+        "thursday_label": "Thursday",
+        "friday_label": "Friday",
+        "saturday_label": "Saturday",
+        "sunday_label": "Sunday",
+        "search_results_header": "Search Results",
+        "search_results_prompt": "Here are the available carpools based on your search criteria.",
+        "driver_name": "Driver Name",
+        "available_seats": "Available Seats",
+        "distance": "Distance from Listed Home",
+        "no_access": "You are not an approved parent and so do not have access to this carpool information."
     }
 }
