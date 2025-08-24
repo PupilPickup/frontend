@@ -1,4 +1,5 @@
 import './App.css';
+import "./leaflet-config";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AuthPage from './pages/auth/Auth';
 import SignUpPage from './pages/auth/Signup';
@@ -22,6 +23,7 @@ import { useUser, UserProvider } from './context/UserContext';
 import ProfileManagement from './pages/admin/ProfileManagement';
 import { DarkModeProvider } from './context/DarkModeContext';
 import DarkModeToggle from './components/common/DarkModeToggle';
+import CarpoolSearch from './pages/carpool/CarpoolSearch';
 
 function App() {
 
@@ -60,6 +62,7 @@ function App() {
           <Route path="/profile/change-password" element={<ChangePassword />} />
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/school-carpool" element={<SchoolManagement />} />
+          <Route path="/carpool-search" element={<CarpoolSearch />} />
           <Route path="/user-management" element={<UserManagement />} />
           <Route path="/user/:id" element={<ProfileManagement />} />
         </Routes>
