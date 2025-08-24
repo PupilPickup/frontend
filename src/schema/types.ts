@@ -43,10 +43,12 @@ export interface PartialProfileData {
 // Define the structure of the driver data to be used throughout the app
 export interface CarpoolListData {
   userId: string;
+  firstName: string;
+  lastName: string;
+  latitude: number;
+  longitude: number;
   vehicleId: string;
-  driverName: string;
-  homeLatitude: number;
-  homeLongitude: number;
+  licensePlate: string;
   seatingCapacity: number
   seatsAvailable: number;
   driverStartTime: string;

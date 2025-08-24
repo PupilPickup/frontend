@@ -45,19 +45,19 @@ export default function UserManagement () {
 
         async function populateDriverList(token:string, userName:string, userId:string, latitude: number, longitude: number) {
             try {
-                const response = await axios.get(`${apiUrl}/carpool/list`, { //TODO replace with your API endpoint
+                const response = await axios.get(`${apiUrl}/carpool/list`, { 
                     headers: {
                         Authorization: "Bearer " + token,
                         user_name: userName,
                         user_id: userId,
                     },
                 });
-                const retrievedDrivers = response.data.drivers;
+                const retrievedDrivers: CarpoolListData[] = response.data.drivers;
                 
                 // Sort drivers by distance
                 retrievedDrivers.sort((a: CarpoolListData, b: CarpoolListData) => {
-                    const distanceA = distance(a.homeLatitude, a.homeLongitude, latitude, longitude);
-                    const distanceB = distance(b.homeLatitude, b.homeLongitude, latitude, longitude);
+                    const distanceA = distance(a.latitude, a.longitude, latitude, longitude);
+                    const distanceB = distance(b.latitude, b.longitude, latitude, longitude);
                     return distanceA - distanceB;
                 });
                 
