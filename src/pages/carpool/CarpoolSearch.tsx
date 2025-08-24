@@ -11,24 +11,25 @@ import { CarpoolListData } from "../../schema/types";
 import DriverTable from "../../components/DriverTable";
 
 export default function UserManagement () {
-    const [isLoading, setIsLoading] = useState(true);
-    const [serverError, setServerError] = useState<string>("");
-    const [notAParentChecked, setNotAParentChecked] = useState<boolean>(false);
-    const [driverList, setDriverList] = useState<CarpoolListData[]>([]);
-    const [displayDriverList, setDisplayDriverList] = useState<CarpoolListData[]>([]);
-    // const [hideUnavailableDrivers, setHideUnavailableDrivers] = useState<boolean>(false);
-    const [hideNoCapacityDrivers, setHideNoCapacityDrivers] = useState<boolean>(false);
-    const [userParentType, setUserParentType] = useState<number>(6);
 
-    const { language } = useLanguage();
-    const translations = language === 'ne' ? neTranslations : enTranslations;
-
-    const navigate = useNavigate();
-    const token: string | null = sessionStorage.getItem("token");
     const apiUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
     const pendingParentId: number = Number(process.env.ROLE_PENDING_PARENT_ID) || 4;
     const rejectedParentId: number = Number(process.env.ROLE_REJECTED_PARENT_ID) || 7;
     const noRoleId: number = Number(process.env.ROLE_ROLELESS_USER_ID) || 6;
+
+    const [isLoading, setIsLoading] = useState(true);
+    const [serverError, setServerError] = useState<string>("");
+    const [driverList, setDriverList] = useState<CarpoolListData[]>([]);
+    const [displayDriverList, setDisplayDriverList] = useState<CarpoolListData[]>([]);
+    // const [hideUnavailableDrivers, setHideUnavailableDrivers] = useState<boolean>(false);
+    const [hideNoCapacityDrivers, setHideNoCapacityDrivers] = useState<boolean>(false);
+    const [userParentType, setUserParentType] = useState<number>(noRoleId);
+
+    const { language } = useLanguage();
+    const translations = language === 'ne' ? neTranslations : enTranslations;
+    const navigate = useNavigate();
+    const token: string | null = sessionStorage.getItem("token");
+
 
     const { user, logout, isLoggedIn, typeOfParent } = useUser();
 
@@ -42,7 +43,7 @@ export default function UserManagement () {
 
         let parentType = typeOfParent();
 
-        async function populateDriverList(token:string, userName:string, userId:string){
+        async function populateDriverList(token:string, userName:string, userId:string, latitude: number, longitude: number) {
             try {
                 const response = await axios.get(`${apiUrl}/carpool/list`, { //TODO replace with your API endpoint
                     headers: {
@@ -51,9 +52,17 @@ export default function UserManagement () {
                         user_id: userId,
                     },
                 });
-                const retrievedDrivers = response.data.users;
+                const retrievedDrivers = response.data.drivers;
+                
+                // Sort drivers by distance
+                retrievedDrivers.sort((a: CarpoolListData, b: CarpoolListData) => {
+                    const distanceA = distance(a.homeLatitude, a.homeLongitude, latitude, longitude);
+                    const distanceB = distance(b.homeLatitude, b.homeLongitude, latitude, longitude);
+                    return distanceA - distanceB;
+                });
+                
                 setDriverList(retrievedDrivers);
-                setDisplayDriverList(retrievedDrivers); // TODO make any display changes here
+                setDisplayDriverList(retrievedDrivers);
                 setIsLoading(false);
                 setServerError("");
 
@@ -69,7 +78,7 @@ export default function UserManagement () {
         }
 
         if(!(parentType === noRoleId || parentType === rejectedParentId || parentType === pendingParentId)){
-            populateDriverList(token!, user!.username, user!.userId);
+            populateDriverList(token!, user!.username, user!.userId, user!.latitude, user!.longitude);
         }
         setUserParentType(parentType);
         setIsLoading(false);
@@ -79,36 +88,34 @@ export default function UserManagement () {
         setDisplayDriverList(driverList);
     }, [driverList]);
 
-
-    // TODO edit this function to filter the driver list based on whether they are available or not
-    function filterNoCapacityDrivers(event: React.ChangeEvent<HTMLInputElement>) {
-        const isChecked = event.target.checked;
-        // if (isChecked) {
-        //     const filteredUsers = userList.filter(user => user.roles.includes(pendingParentId));
-        //     setDisplayUserList(filteredUsers);
-        //     setPendingParentChecked(true);
-        //     setPendingDriverChecked(false); // Uncheck pending driver filter if pending parent is checked
-        // } else {
-        //     setDisplayUserList(userList);
-        //     setPendingParentChecked(false);
-        // }
-        
+    // Function to calculate distance between two coordinates using Haversine formula
+    function distance(lat1: number, lon1: number, lat2: number, lon2: number): number {
+        const toRad = (value: number) => (value * Math.PI) / 180;
+        const R = 6371; // Radius of the Earth in kilometers
+        const dLat = toRad(lat2 - lat1);
+        const dLon = toRad(lon2 - lon1);
+        const a =
+            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return R * c; // Distance in kilometers
     }
 
-    // TODO edit this function to filter the driver list based on whether they have capacity or not
-    // function filterUnavailableDrivers(event: React.ChangeEvent<HTMLInputElement>) {
-        // const isChecked = event.target.checked;
-        // if (isChecked) {
-        //     const filteredUsers = userList.filter(user => user.roles.includes(pendingDriverId));
-        //     setDisplayUserList(filteredUsers);
-        //     setPendingDriverChecked(true);
-        //     setPendingParentChecked(false); // Uncheck pending parent filter if pending driver is checked
-        // } else {
-        //     setDisplayUserList(userList);
-        //     setPendingDriverChecked(false);
-        // }
+
+    // Function to filter out drivers with no capacity
+    function filterNoCapacityDrivers(event: React.ChangeEvent<HTMLInputElement>) {
+        const isChecked = event.target.checked;
+        if (isChecked) {
+            const filteredDrivers = driverList.filter(carpool => carpool.seatsAvailable > 0);
+            setDisplayDriverList(filteredDrivers);
+            setHideNoCapacityDrivers(true);
+        } else {
+            setDisplayDriverList(driverList);
+            setHideNoCapacityDrivers(false);
+        }
         
-    // }
+    }
 
     if(isLoading){
         return <div className="flex justify-center items-center min-h-[90vh]">{translations.universal.loading}</div>
