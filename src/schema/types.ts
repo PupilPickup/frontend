@@ -53,7 +53,7 @@ export interface CarpoolListData {
   seatsAvailable: number;
   driverStartTime: string;
   driverEndTime: string;
-  daysAvailable: string[];
+  daysAvailable: string;
 }
 
 // Define the structure of the driver data to be used throughout the app

@@ -25,14 +25,14 @@ const DriverRow = ( {carpool, onClick, userLatitude, userLongitude}: DriverRowPr
 
     return (
         <div onClick={onClick} className='flex flex-row w-full max-w-6xl pb-1 hover:bg-[#2C3E50] dark:hover:bg-[#3498DB] hover:text-white cursor-pointer'>
-            <div className='w-[60%] px-4 py-1'>
+            <div className='w-[45%] px-4 py-1'>
                 <p className="text-left truncate"> {carpool.firstName} {carpool.lastName}</p>
             </div>
-            <div className='w-[20%] px-4 py-1'>
-                <p className="text-left truncate">{carpool.seatsAvailable}</p>
+            <div className='w-[25%] px-4 py-1'>
+                <p className="text-center truncate">{carpool.seatsAvailable}</p>
             </div>
-            <div className='w-[20%] px-4 py-1'>
-                <p className="text-left truncate ">{distance(carpool.latitude, carpool.longitude, userLatitude, userLongitude)} </p>
+            <div className='w-[30%] px-4 py-1'>
+                <p className="text-center truncate ">{distance(carpool.latitude, carpool.longitude, userLatitude, userLongitude)} </p>
             </div>
         </div>
     )

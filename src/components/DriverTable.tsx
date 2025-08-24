@@ -3,7 +3,7 @@ import enTranslations from "../languages/en.json";
 import neTranslations from "../languages/ne.json";
 import { useLanguage } from "../context/LanguageContext";
 import { CarpoolListData } from '../schema/types';
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import DriverRow from './DriverRow';
 
 type DriverTableProps = {
@@ -16,12 +16,12 @@ const DriverTable: React.FC<DriverTableProps> = ({ driverList, userLatitude, use
     
     const { language } = useLanguage();
     const translations = language === 'ne' ? neTranslations : enTranslations;
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     // Function to handle user row click and navigate to more detailed view of the driver
-    const handleUserClick = (userId: string) => {
-       navigate(`/carpool/driver/${userId}`);
-    };
+    // const handleUserClick = (userId: string) => {
+    //    navigate(`/carpool/driver/${userId}`);
+    // };
 
     useEffect(() => {
         // Reset the scroll position to the top when the user list changes or language changes
@@ -33,20 +33,20 @@ const DriverTable: React.FC<DriverTableProps> = ({ driverList, userLatitude, use
             {driverList.length > 0 ? (
                 <div className="flex flex-col justify-center items-center overflow-x-auto w-full min-w-full rounded shadow border border-black dark:border-white">
                     <div className="flex flex-row w-full max-w-6xl mx-auto p-2 pt-0 min-w-[600px] border-b border-black dark:border-white">
-                        <div className="w-[60%] px-4 py-2 ">
+                        <div className="w-[45%] px-4 py-2 ">
                             <p className="text-center font-bold">{translations.carpool.driver_name}</p>
                         </div>
-                        <div  className="w-[20%] px-4 py-2 ">
+                        <div  className="w-[25%] px-4 py-2 ">
                             <p className="text-center font-bold">{translations.carpool.available_seats}</p>
                         </div>
-                        <div  className="w-[20%] px-4 py-2 ">
+                        <div  className="w-[30%] px-4 py-2 ">
                             <p className="text-center font-bold">{translations.carpool.distance}</p>
                         </div>
                     </div>
                     <div className="w-full max-w-6xl mx-auto p-2 pt-0 min-w-[600px]">
                         {driverList.map((driver: CarpoolListData) => (
                             <DriverRow
-                                key={driver.userId}
+                                key={driver.userId + " " + driver.vehicleId}
                                 carpool={driver}
                                 // onClick={() => handleUserClick(driver.userId)}
                                 userLatitude={userLatitude}

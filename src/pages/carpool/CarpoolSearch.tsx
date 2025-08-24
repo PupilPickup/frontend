@@ -52,8 +52,20 @@ export default function UserManagement () {
                         user_id: userId,
                     },
                 });
-                const retrievedDrivers: CarpoolListData[] = response.data.drivers;
-                
+                const retrievedDrivers: CarpoolListData[] = response.data.drivers.map((driver: any) => ({
+                    userId: driver.user_id,
+                    firstName: driver.first_name,
+                    lastName: driver.last_name,
+                    latitude: driver.latitude,
+                    longitude: driver.longitude,
+                    vehicleId: driver.vehicle_id,
+                    seatsAvailable: driver.seats_available,
+                    seatCapacity: driver.seat_capacity,
+                    driverStartTime: driver.driver_start_time,
+                    driverEndTime: driver.driver_end_time,
+                    daysAvailable: driver.days_available,
+                    
+                }));
                 // Sort drivers by distance
                 retrievedDrivers.sort((a: CarpoolListData, b: CarpoolListData) => {
                     const distanceA = distance(a.latitude, a.longitude, latitude, longitude);
@@ -82,7 +94,7 @@ export default function UserManagement () {
         }
         setUserParentType(parentType);
         setIsLoading(false);
-    }, [token, user, isLoggedIn, logout, navigate, typeOfParent, apiUrl, translations.children_server_errors]);
+    }, [token, user, isLoggedIn, logout, navigate, typeOfParent, apiUrl, translations.children_server_errors, noRoleId, pendingParentId, rejectedParentId]);
 
     useEffect(() => {
         setDisplayDriverList(driverList);
@@ -140,7 +152,7 @@ export default function UserManagement () {
     return (
         <div className="flex flex-col items-center min-h-[90vh] w-full my-4 px-4">
             <div className="flex justify-start w-full">
-                <HelpTip content={translations.help.user_search} altText={translations.universal.help_icon}/>
+                <HelpTip content={translations.help.carpool_search} altText={translations.universal.help_icon}/>
             </div>
             <h1 className="text-3xl font-bold mb-4">{translations.carpool.carpool_header}</h1>
             <h2>{translations.carpool.carpool_prompt}</h2>
