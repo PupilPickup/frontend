@@ -74,7 +74,10 @@
         "invalid_ward_error": "Ward number must be a number between 1 and 32",
         "invalid_municipality_error": "Municipality/ District must be at least 3 characters long and contain only letters, spaces, and hyphens",
         "invalid_email_error": "Please enter a valid email address",
-        "invalid_username_error": "Username must be at least 6 characters long"
+        "invalid_username_error": "Username must be at least 6 characters long",
+        "search_button": "Search",
+        "address_placeholder": "Enter your address to find it on the map",
+        "address_not_found_error": "Address not found. Please enter a valid address."
     },
 
     "dashboard":{

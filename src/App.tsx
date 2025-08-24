@@ -1,4 +1,5 @@
 import './App.css';
+import "./leaflet-config";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AuthPage from './pages/auth/Auth';
 import SignUpPage from './pages/auth/Signup';
