@@ -93,10 +93,12 @@ const VehicleCard: React.FC<VehicleCardProps> = ({
     return (
         <div className="flex flex-col border rounded-lg shadow-md p-4 my-4 bg-white dark:bg-[#3498DB] text-black dark:text-white w-full max-w-[20rem] justify-between">
             <div className="flex flex-col">
-                <CardLabel 
-                    label={translations.vehicles.license_plate_label}
-                    data={licensePlate} 
-                />
+                {isCarpool ? null : 
+                    <CardLabel 
+                        label={translations.vehicles.license_plate_label}
+                        data={licensePlate} 
+                    />
+                }
                 <CardLabel 
                     label={translations.vehicles.seat_capacity_label}
                     data={seatCapacity} 

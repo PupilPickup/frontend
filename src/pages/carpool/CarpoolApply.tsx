@@ -177,7 +177,7 @@ export default function CarpoolApply () {
                 onDelete={(vehicleId: string) => {}}
             />
 
-            <div className="flex flex-row items-center mt-4 space-x-4 w-full sm:w-[50%]">
+            <div className="flex flex-row items-center mt-4 space-x-4 w-full max-w-[20rem]">
                 {/* Make a dropdown of the user's children */}
                 <label htmlFor="childDropdown" className={`font-bold text-sm sm:text-base text-black dark:text-white space-x-2 sm:space-x-1 sm:w-[35%]`}>{translations.carpool.select_child}</label>
                 <select
