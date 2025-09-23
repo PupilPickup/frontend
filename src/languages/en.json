@@ -155,7 +155,11 @@
         "redirecting": "Redirecting...",
         "help_icon": "Help Icon",
         "approve": "Approve",
-        "reject": "Reject"
+        "reject": "Reject",
+        "confirm": "Confirm",
+        "cancel": "Cancel",
+        "ok": "OK",
+        "apply": "Apply"
     },
 
     "roles_and_statuses":{
@@ -425,7 +429,9 @@
         "school": "Here you can view and edit your school's carpool display information on the Dashboard. All fields must be filled. An address includes a street address, a ward number, and a municipality or district. A phone number is 10 digits without symbols or spaces. Time is in the format HH:MM in 24-hour format.",
         "user_search": "Use the check boxes to filter the list of users by their role type. Click on a user to view their profile and manage their information.",
         "admin_profile": "Choose from the buttons for the type of actions you would like to take in managing this user. You can edit their data, add notes, change their role statuses, make them an administrator, change their password and email, and delete the user.",
-        "carpool_search": "Search for available carpools based on the driver's compatible times and locations. You can filter by hiding unavailable drivers and drivers with no capacity. Please note that the distance is calculated from the driver's listed home address to your listed home address."
+        "carpool_search": "Search for available carpools based on the driver's compatible times and locations. You can filter by hiding unavailable drivers and drivers with no capacity. Please note that the distance is calculated from the driver's listed home address to your listed home address.",
+        "carpool_details": "Here are the details for this carpool. You can see the vehicle information such as their available seats and availability schedule."
+        
     }, 
 
     "users":{
@@ -465,6 +471,23 @@
         "driver_name": "Driver Name",
         "available_seats": "Available Seats",
         "distance": "Distance from Listed Home",
-        "no_access": "You are not an approved parent and so do not have access to this carpool information."
+        "no_access": "You are not an approved parent and so do not have access to this carpool information.",
+        "carpool_details": "Carpool Details",
+        "carpool_details_prompt": "Here are the details for this carpool.",
+        "select_child": "Select Child",
+        "successful_application": "Successfully applied to this carpool for your child ",
+        "select_child_error": "Please select a child to apply for this carpool.",
+        "application_failed": "An error occurred while applying to this carpool. Please try again later.",
+        "duplicate_application_error": "You have already applied to this carpool for this child."
+    },
+
+    "carpool_server_error":{
+        "no_carpools_found": "No carpools were found matching your criteria",
+        "server_error_get": "An error occurred while retrieving carpool information. Please try again later.",
+        "server_error_post": "An error occurred while submitting your carpool application. Please try again later.",
+        "server_error_put": "An error occurred while updating carpool information. Please try again later.",
+        "server_error_delete": "An error occurred while deleting carpool information. Please try again later.",
+        "generic_error": "An error occurred. Please try again later.",
+        "carpool_application_already_exists": "You have already applied for this carpool."
     }
 }

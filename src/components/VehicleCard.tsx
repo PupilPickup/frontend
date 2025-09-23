@@ -14,6 +14,7 @@ type VehicleCardProps = {
     driveStartTime: string;
     driverEndTime: string;
     daysAvailable: string | null;
+    isCarpool?: boolean;
     onEdit: (vehicleId: string) => void;
     onDelete: (vehicleId: string) => void;
 };
@@ -30,6 +31,7 @@ const VehicleCard: React.FC<VehicleCardProps> = ({
     driveStartTime,
     driverEndTime,
     daysAvailable,
+    isCarpool = false,
     onEdit,
     onDelete,
 }) => {
@@ -117,19 +119,22 @@ const VehicleCard: React.FC<VehicleCardProps> = ({
                     className="flex-col w-full space-x-0"
                 />
             </div>
-            <div className="mt-4 px-2 flex flex-row w-full justify-between">
-                <Button
-                    onClick={confirmDelete}
-                    variant="secondary"
-                    label={translations.vehicles.delete_vehicle_button}
-                />
-                <Button
-                    onClick={() => onEdit(vehicleId)}
-                    variant="primary"
-                    label={translations.vehicles.edit_vehicle_button}
-                    className="dark:bg-[#2C3E50]"
-                />  
-            </div>
+            {/* <!-- Only show edit and delete buttons if not in carpool view --> */}
+            {isCarpool ? null :
+                <div className="mt-4 px-2 flex flex-row w-full justify-between">
+                    <Button
+                        onClick={confirmDelete}
+                        variant="secondary"
+                        label={translations.vehicles.delete_vehicle_button}
+                    />
+                    <Button
+                        onClick={() => onEdit(vehicleId)}
+                        variant="primary"
+                        label={translations.vehicles.edit_vehicle_button}
+                        className="dark:bg-[#2C3E50]"
+                    />  
+                </div>
+            }   
             {showDeleteWarning && <DeleteWarningModal prompt={translations.vehicles.delete_confirmation_message} abortLabel={translations.vehicles.cancel_button} confirmLabel={translations.vehicles.delete_vehicle_button} onAbort={cancelDelete} onConfirm={handleDelete} />} 
         </div>
     );

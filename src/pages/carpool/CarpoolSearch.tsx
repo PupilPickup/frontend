@@ -12,7 +12,7 @@ import DriverTable from "../../components/DriverTable";
 
 export default function UserManagement () {
 
-    const apiUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
+    const apiUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:8080";
     const pendingParentId: number = Number(process.env.ROLE_PENDING_PARENT_ID) || 4;
     const rejectedParentId: number = Number(process.env.ROLE_REJECTED_PARENT_ID) || 7;
     const noRoleId: number = Number(process.env.ROLE_ROLELESS_USER_ID) || 6;

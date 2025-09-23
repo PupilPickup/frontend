@@ -64,3 +64,20 @@ export interface DriverData {
   latitude: number;
   longitude: number;
 }
+
+export interface VehicleData {
+  driverId: string;
+  vehicleId: string;
+  licensePlate: string;
+  seatCapacity: number;
+  seatsAvailable: number;
+  driverStartTime: string;
+  driverEndTime: string;
+  daysAvailable: string;
+}
+
+export interface MinimalChildData{
+  childId: string;
+  firstName: string;
+  lastName: string;
+}
