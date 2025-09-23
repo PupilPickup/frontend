@@ -147,7 +147,8 @@
         "manage": "Manage",
         "school": "School Information",
         "carpool": "Carpool Search",
-        "users": "User Management"
+        "users": "User Management",
+        "carpoolApplications": "Carpool Applications"
     }, 
 
     "universal":{

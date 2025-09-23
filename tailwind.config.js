@@ -32,6 +32,21 @@ module.exports = {
         marginBottom: "1rem",
         display: "block",
       },
+      keyframes: {
+        fadeIn: {
+          "0%": { opacity: 0 },
+          "100%": { opacity: 1 },
+        },
+        fadeOut: {
+          "0%": { opacity: 1 },
+          "100%": { opacity: 0 },
+        },
+      },
+      animation: {
+        "spin-slow": "spin 2s linear infinite",
+        "fade-in": "fadeIn 0.2s ease-in forwards",
+        "fade-out": "fadeOut 0.2s ease-out forwards",
+      },
     },
   },
   plugins: [
