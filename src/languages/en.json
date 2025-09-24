@@ -146,7 +146,8 @@
         "logout": "Logout",
         "manage": "Manage",
         "school": "School Information",
-        "carpool": "Carpool Search",
+        "carpool_search": "Carpool Search",
+        "carpool_manage": "Carpool Management",
         "users": "User Management"
     }, 
 
@@ -176,7 +177,11 @@
         "admin": "Admin",
         "no_roles": "No assigned roles",
         "confirm_positive": "Yes",
-        "confirm_negative": "No"
+        "confirm_negative": "No",
+        "inactive_status": "Inactive",
+        "active_status": "Active",
+        "completed_status": "Completed",
+        "status_unknown": "Status Unknown"
     },
 
     "profile":{
@@ -487,7 +492,10 @@
         "carpool_applications_tab": "Carpool Applications",
         "carpool_applications_prompt": "View and manage the applications of parents who have applied to your carpool.",
         "management_header": "Carpool Management",
-        "management_prompt": "View your carpool information and manage applications and status."
+        "management_prompt": "View your carpool information and manage applications and status.",
+        "activate_carpool_button": "Activate Carpool",
+        "deactivate_carpool_button": "Deactivate Carpool",
+        "carpool_status_label": "Carpool Status"
     },
 
     "carpool_server_error":{

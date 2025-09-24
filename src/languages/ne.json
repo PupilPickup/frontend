@@ -147,7 +147,8 @@
         "logout": "लगआउट",
         "manage": "व्यवस्थापन गर्नुहोस्",
         "school": "विद्यालय सम्बन्धी जानकारी",
-        "carpool": "कारपूल खोजी",
+        "carpool_search": "कारपूल खोजी",
+        "carpool_manage": "कारपूल व्यवस्थापन",
         "users": "प्रयोगकर्ता व्यवस्थापन"
     }, 
 
@@ -177,7 +178,11 @@
         "admin": "प्रशासक",
         "no_roles": "कुनै भूमिका तोकिएको छैन",
         "confirm_positive": "हो",
-        "confirm_negative": "होइन"
+        "confirm_negative": "होइन",
+        "inactive_status": "निष्क्रिय",
+        "active_status": "सक्रिय",
+        "completed_status": "पूरा भयो",
+        "status_unknown": "स्थिति अज्ञात"
     },
 
 
@@ -490,7 +495,10 @@
         "carpool_applications_tab": "कारपूल आवेदनहरू",
         "carpool_applications_prompt": "तपाईंको कारपूलमा आवेदन दिएका अभिभावकहरूको आवेदनहरू हेर्नुहोस् र व्यवस्थापन गर्नुहोस्।",
         "management_header": "कारपूल व्यवस्थापन",
-        "management_prompt": "तपाईंको कारपूल जानकारी हेर्नुहोस् र आवेदन तथा स्थिति व्यवस्थापन गर्नुहोस्।"
+        "management_prompt": "तपाईंको कारपूल जानकारी हेर्नुहोस् र आवेदन तथा स्थिति व्यवस्थापन गर्नुहोस्।",
+        "activate_carpool_button": "कारपूल सक्रिय गर्नुहोस्",
+        "deactivate_carpool_button": "कारपूल निष्क्रिय गर्नुहोस्",
+        "carpool_status_label": "कारपूल स्थिति"
     },
 
     "carpool_server_error":{

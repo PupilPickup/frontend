@@ -173,6 +173,7 @@ export default function CarpoolApply () {
                 driverEndTime={carpoolInfo?.driverEndTime || ""}
                 daysAvailable={carpoolInfo?.daysAvailable || null}
                 isCarpool={true}
+                showLicensePlate={false}
                 onEdit={(vehicleId: string) => {}}
                 onDelete={(vehicleId: string) => {}}
             />

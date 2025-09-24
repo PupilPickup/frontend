@@ -15,6 +15,7 @@ type VehicleCardProps = {
     driverEndTime: string;
     daysAvailable: string | null;
     isCarpool?: boolean;
+    showLicensePlate?: boolean;
     onEdit: (vehicleId: string) => void;
     onDelete: (vehicleId: string) => void;
 };
@@ -32,6 +33,7 @@ const VehicleCard: React.FC<VehicleCardProps> = ({
     driverEndTime,
     daysAvailable,
     isCarpool = false,
+    showLicensePlate = true,
     onEdit,
     onDelete,
 }) => {
@@ -93,7 +95,7 @@ const VehicleCard: React.FC<VehicleCardProps> = ({
     return (
         <div className="flex flex-col border rounded-lg shadow-md p-4 my-4 bg-white dark:bg-[#3498DB] text-black dark:text-white w-full max-w-[20rem] justify-between">
             <div className="flex flex-col">
-                {isCarpool ? null : 
+                {showLicensePlate ? null : 
                     <CardLabel 
                         label={translations.vehicles.license_plate_label}
                         data={licensePlate} 
