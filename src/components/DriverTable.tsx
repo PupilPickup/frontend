@@ -3,7 +3,7 @@ import enTranslations from "../languages/en.json";
 import neTranslations from "../languages/ne.json";
 import { useLanguage } from "../context/LanguageContext";
 import { CarpoolListData } from '../schema/types';
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import DriverRow from './DriverRow';
 
 type DriverTableProps = {
@@ -16,12 +16,12 @@ const DriverTable: React.FC<DriverTableProps> = ({ driverList, userLatitude, use
     
     const { language } = useLanguage();
     const translations = language === 'ne' ? neTranslations : enTranslations;
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
-    // Function to handle user row click and navigate to more detailed view of the driver
-    // const handleUserClick = (userId: string) => {
-    //    navigate(`/carpool/driver/${userId}`);
-    // };
+    //Function to handle user row click and navigate to more detailed view of the driver
+    const handleUserClick = (userId: string) => {
+       navigate(`/carpool-apply/${userId}`);
+    };
 
     useEffect(() => {
         // Reset the scroll position to the top when the user list changes or language changes
@@ -48,7 +48,7 @@ const DriverTable: React.FC<DriverTableProps> = ({ driverList, userLatitude, use
                             <DriverRow
                                 key={driver.userId + " " + driver.vehicleId}
                                 carpool={driver}
-                                // onClick={() => handleUserClick(driver.userId)}
+                                onClick={() => handleUserClick(driver.vehicleId)}
                                 userLatitude={userLatitude}
                                 userLongitude={userLongitude}
                                 

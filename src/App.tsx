@@ -24,6 +24,8 @@ import ProfileManagement from './pages/admin/ProfileManagement';
 import { DarkModeProvider } from './context/DarkModeContext';
 import DarkModeToggle from './components/common/DarkModeToggle';
 import CarpoolSearch from './pages/carpool/CarpoolSearch';
+import CarpoolApply from './pages/carpool/CarpoolApply';
+import CarpoolManagement from './pages/carpool/CarpoolManagement';
 
 function App() {
 
@@ -62,6 +64,8 @@ function App() {
           <Route path="/profile/change-password" element={<ChangePassword />} />
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/school-carpool" element={<SchoolManagement />} />
+          <Route path="/carpool-apply/:id" element={<CarpoolApply />} />
+          <Route path="/carpool-management" element={<CarpoolManagement />} />
           <Route path="/carpool-search" element={<CarpoolSearch />} />
           <Route path="/user-management" element={<UserManagement />} />
           <Route path="/user/:id" element={<ProfileManagement />} />
