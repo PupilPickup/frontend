@@ -64,3 +64,50 @@ export interface DriverData {
   latitude: number;
   longitude: number;
 }
+
+export interface VehicleData {
+  driverId: string;
+  vehicleId: string;
+  licensePlate: string;
+  seatCapacity: number;
+  seatsAvailable: number;
+  driverStartTime: string;
+  driverEndTime: string;
+  daysAvailable: string;
+}
+
+export interface MinimalChildData{
+  childId: string;
+  firstName: string;
+  lastName: string;
+}
+
+export interface CarpoolData {
+  carpoolId: string;
+  vehicleId: string;
+  childAcceptanceStatus: number,
+  activeStatus: number,
+  licensePlate: string;
+  seatCapacity: number;
+  seatsAvailable: number;
+  driverStartTime: string;
+  driverEndTime: string;
+  daysAvailable: string;
+  driverId: string;
+  driverFirstName: string;
+  driverLastName: string;
+  driverLatitude: number;
+  driverLongitude: number;
+  parentId: string;
+  parentFirstName: string;
+  parentLastName: string;
+  parentEmail: string;
+  parentPhoneNumber: string;
+  parentLatitude: number;
+  parentLongitude: number;
+  childId: string;
+  childFirstName: string;
+  childLastName: string;
+  childDropoffTime: string;
+  childPickupTime: string;
+}

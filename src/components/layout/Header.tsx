@@ -73,8 +73,11 @@ const Header: React.FC<HeaderProps> = ( { changeLanguage, logout, isAdmin } ) =>
             <li>
               <NavHeaderLink btnText={translations.header.vehicles} navTo={"/my-vehicles"}/>
             </li>
-             <li>
-              <NavHeaderLink btnText={translations.header.carpool} navTo={"/carpool-search"}/>
+            <li>
+              <NavHeaderLink btnText={translations.header.carpool_search} navTo={"/carpool-search"}/>
+            </li>
+            <li>
+              <NavHeaderLink btnText={translations.header.carpool_manage} navTo={"/carpool-management"}/>
             </li>
              <li>
               <NavHeaderLink btnText={translations.header.carpoolApplications} navTo={"/carpool-applications"}/>
@@ -126,8 +129,14 @@ const Header: React.FC<HeaderProps> = ( { changeLanguage, logout, isAdmin } ) =>
                       </li>
                       <li onClick={closeDropdown} className="w-full p-4 hover:bg-[#2C3E50] active:bg-[#2C3E50]">
                           <NavHeaderLink 
-                            btnText={translations.header.carpool} 
+                            btnText={translations.header.carpool_search} 
                             navTo={"/carpool-search"} 
+                          />
+                      </li>
+                      <li onClick={closeDropdown} className="w-full p-4 hover:bg-[#2C3E50] active:bg-[#2C3E50]">
+                          <NavHeaderLink 
+                            btnText={translations.header.carpool_manage} 
+                            navTo={"/carpool-management"} 
                           />
                       </li>
                       {isAdmin() && (

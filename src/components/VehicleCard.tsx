@@ -14,6 +14,8 @@ type VehicleCardProps = {
     driveStartTime: string;
     driverEndTime: string;
     daysAvailable: string | null;
+    isCarpool?: boolean;
+    showLicensePlate?: boolean;
     onEdit: (vehicleId: string) => void;
     onDelete: (vehicleId: string) => void;
 };
@@ -30,6 +32,8 @@ const VehicleCard: React.FC<VehicleCardProps> = ({
     driveStartTime,
     driverEndTime,
     daysAvailable,
+    isCarpool = false,
+    showLicensePlate = true,
     onEdit,
     onDelete,
 }) => {
@@ -91,10 +95,12 @@ const VehicleCard: React.FC<VehicleCardProps> = ({
     return (
         <div className="flex flex-col border rounded-lg shadow-md p-4 my-4 bg-white dark:bg-[#3498DB] text-black dark:text-white w-full max-w-[20rem] justify-between">
             <div className="flex flex-col">
-                <CardLabel 
-                    label={translations.vehicles.license_plate_label}
-                    data={licensePlate} 
-                />
+                {showLicensePlate ? null : 
+                    <CardLabel 
+                        label={translations.vehicles.license_plate_label}
+                        data={licensePlate} 
+                    />
+                }
                 <CardLabel 
                     label={translations.vehicles.seat_capacity_label}
                     data={seatCapacity} 
@@ -117,19 +123,22 @@ const VehicleCard: React.FC<VehicleCardProps> = ({
                     className="flex-col w-full space-x-0"
                 />
             </div>
-            <div className="mt-4 px-2 flex flex-row w-full justify-between">
-                <Button
-                    onClick={confirmDelete}
-                    variant="secondary"
-                    label={translations.vehicles.delete_vehicle_button}
-                />
-                <Button
-                    onClick={() => onEdit(vehicleId)}
-                    variant="primary"
-                    label={translations.vehicles.edit_vehicle_button}
-                    className="dark:bg-[#2C3E50]"
-                />  
-            </div>
+            {/* <!-- Only show edit and delete buttons if not in carpool view --> */}
+            {isCarpool ? null :
+                <div className="mt-4 px-2 flex flex-row w-full justify-between">
+                    <Button
+                        onClick={confirmDelete}
+                        variant="secondary"
+                        label={translations.vehicles.delete_vehicle_button}
+                    />
+                    <Button
+                        onClick={() => onEdit(vehicleId)}
+                        variant="primary"
+                        label={translations.vehicles.edit_vehicle_button}
+                        className="dark:bg-[#2C3E50]"
+                    />  
+                </div>
+            }   
             {showDeleteWarning && <DeleteWarningModal prompt={translations.vehicles.delete_confirmation_message} abortLabel={translations.vehicles.cancel_button} confirmLabel={translations.vehicles.delete_vehicle_button} onAbort={cancelDelete} onConfirm={handleDelete} />} 
         </div>
     );
