@@ -80,7 +80,7 @@ const Header: React.FC<HeaderProps> = ( { changeLanguage, logout, isAdmin } ) =>
               <NavHeaderLink btnText={translations.header.carpool_manage} navTo={"/carpool-management"}/>
             </li>
              <li>
-              <NavHeaderLink btnText={translations.header.carpoolApplications} navTo={"/carpool-applications"}/>
+              <NavHeaderLink btnText={translations.header.carpool_applications} navTo={"/carpool-applications"}/>
             </li>
             {isAdmin() && (
               <li>
