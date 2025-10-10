@@ -275,7 +275,9 @@
         "cancel_register_button":"Cancel Registration",
         "confirm_register_button":"Register as Parent",
         "pending_parent_limitations": "You are currently registered as a pending parent. Your children will not appear in any searches until you are approved.",
-        "rejected_parent_notice": "You are currently registered as a rejected parent. Your children will not appear in any searches. If you would like to have your children appear in searches, please contact an administrator."
+        "rejected_parent_notice": "You are currently registered as a rejected parent. Your children will not appear in any searches. If you would like to have your children appear in searches, please contact an administrator.",
+        "record_absence_button": "Record Absence",
+        "absence_prompt": "Please enter the date your child will be absent"
     },
 
     "vehicles":{
