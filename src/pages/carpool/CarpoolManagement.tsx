@@ -58,7 +58,7 @@ export default function CarpoolManagement () {
                     },
                     
                 });
-                console.log(response.data.carpool);
+                // console.log(response.data.carpool);
                 // const retrievedCarpools: CarpoolData[] = response.data.map((carpool: any) => ({
                     
                 // }));
@@ -112,9 +112,9 @@ export default function CarpoolManagement () {
                     // Set just the status
                     setCarpoolStatus(myCarpool.active_status);
 
-                    console.log(testCarpool);
-                    console.log(vehicleInfo);
-                    console.log("Status: " + myCarpool.active_status);
+                    // console.log(testCarpool);
+                    // console.log(vehicleInfo);
+                    // console.log("Status: " + myCarpool.active_status);
                 }
                 // setCarpoolData(retrievedCarpools);
                 setIsLoading(false);
@@ -135,6 +135,36 @@ export default function CarpoolManagement () {
         setIsLoading(false);
     }, [token, user, isLoggedIn, logout, navigate, isAdmin, typeOfDriver, approvedDriverId, apiUrl, translations.children_server_errors]);
 
+    async function updateCarpoolStatus(token:string, userName:string, userId:string, driverId:string, statusId:number) {
+            try {
+                await axios.put(`${apiUrl}/carpool/${driverId}`, {activeStatus: statusId}, {
+                    headers: {
+                        Authorization: "Bearer " + token,
+                        user_name: userName,
+                        user_id: userId,
+                    },
+                    
+                });
+                
+                setCarpoolStatus(statusId);
+                setErrorMessage("");
+            } catch (error) {
+                if (axios.isAxiosError(error) && error.response) {
+                    const errorKey = error.response.data.error as CarpoolServerErrors;
+                    let errorMessage: string = "TODO" + errorKey;
+                    setErrorMessage(errorMessage);
+                    console.error(error);
+                }
+            }
+        }         
+
+
+    function handleCarpoolStatus(newStatus: number) {
+        if(!!token || !!user){
+           
+            updateCarpoolStatus(token!, user!.username, user!.userId, vehicleData!.driverId, newStatus);
+        }
+    }
 
     if(isLoading){
         return <div className="flex justify-center items-center min-h-[90vh]">{translations.universal.loading}</div>
@@ -182,7 +212,7 @@ export default function CarpoolManagement () {
                         driverEndTime={vehicleData?.driverEndTime || ""}
                         daysAvailable={vehicleData?.daysAvailable || null}
                         carpoolStatus={carpoolStatus}
-                        onStatusChange={(newStatus:number) => {setCarpoolStatus(newStatus);}}
+                        onStatusChange={handleCarpoolStatus}
                 />
 
 
