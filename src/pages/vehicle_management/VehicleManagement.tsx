@@ -9,13 +9,12 @@ import Button from "../../components/common/Button";
 import HelpTip from "../../components/common/HelpTip";
 import { useUser } from "../../context/UserContext";
 import PendingPromptModal from "../../components/common/PendingPromptModal";
-
-// Define the possible error keys
-type VehicleServerErrors = 'empty_fields' | 'seat_capacity_invalid' | 'available_seats_invalid' | 'seat_mismatch_error' | 'license_plate_invalid' | 'driver_start_time_invalid' | 'driver_end_time_invalid' | 'server_error_get' | 'server_error_post' | 'server_error_put' | 'server_error_delete' | 'generic_error';
+import { VehicleData } from "../../schema/types";
+import { VehicleServerErrors } from "../../schema/serverErrorTypes";
 
 export default function VehicleManagement() {
     const [isLoading, setIsLoading] = useState(true);
-    const [vehiclesList, setVehiclesList] = useState([]);
+    const [vehicle, setVehicle] = useState<VehicleData | null>(null);
     const [serverError, setServerError] = useState<string>("");
     const [showRegisterPrompt, setShowRegisterPrompt] = useState<boolean>(false);
     const [showPendingWarning, setShowPendingWarning] = useState<boolean>(false);
@@ -50,8 +49,8 @@ export default function VehicleManagement() {
                         user_id: userId,
                     },
                 });
-                const vehiclesRetrieved = response.data;
-                setVehiclesList(vehiclesRetrieved);
+                const vehicleRetrieved = response.data;
+                setVehicle(vehicleRetrieved);
                 setIsLoading(false);
                 setServerError("");
 
@@ -85,10 +84,8 @@ export default function VehicleManagement() {
                     user_id: userId,
                 },
             });
-            // Filter out the deleted vehicle from the vehiclesList
-            setVehiclesList((prevVehiclesList) =>
-                prevVehiclesList.filter((vehicle: any) => vehicle.vehicleId !== vehicleId)
-            );
+            
+            setVehicle(null)
             setServerError("");
 
         }catch (error) {
@@ -186,31 +183,33 @@ export default function VehicleManagement() {
             <h2>{translations.vehicles.vehicles_prompt}</h2>
             {showPendingWarning && <div className="w-full bg-[#F4D03F] text-black mb-4 p-2 rounded text-center">{translations.vehicles.pending_driver_limitations}</div>}
             {serverError && <div className="text-red-500 mb-4">{serverError}</div>}
-            {vehiclesList.length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 justify-center items-stretch">
-                    {vehiclesList.map((vehicle: any) => (
-                        <VehicleCard 
-                            key={vehicle.vehicleId}
-                            vehicleId={vehicle.vehicleId}
-                            licensePlate={vehicle.licensePlate}
-                            seatCapacity={vehicle.seatCapacity}
-                            seatsAvailable={vehicle.seatsAvailable}
-                            driveStartTime={removeSeconds(vehicle.driverStartTime)}
-                            driverEndTime={removeSeconds(vehicle.driverEndTime)}
-                            daysAvailable={vehicle.daysAvailable}
-                            onEdit={editVehicle}
-                            onDelete={deleteVehicle}
-                        />
-                    ))}
+            {vehicle !== null ? (
+                <div className="flex flex-row justify-center items-stretch">    
+                    <VehicleCard 
+                        key={vehicle.vehicleId}
+                        vehicleId={vehicle.vehicleId}
+                        licensePlate={vehicle.licensePlate}
+                        seatCapacity={vehicle.seatCapacity}
+                        seatsAvailable={vehicle.seatsAvailable}
+                        driveStartTime={removeSeconds(vehicle.driverStartTime)}
+                        driverEndTime={removeSeconds(vehicle.driverEndTime)}
+                        daysAvailable={vehicle.daysAvailable}
+                        onEdit={editVehicle}
+                        onDelete={deleteVehicle}
+                    />
                 </div>
             ) : (
-                <div className="text-center mt-4">{translations.vehicles.no_vehicles_message}</div>
+                <div className="flex flex-col items-center mt-8">
+                    <div className="text-center mt-4">{translations.vehicles.no_vehicles_message}</div>
+
+                    <Button 
+                        label={translations.vehicles.add_vehicle_button} 
+                        variant="primary" 
+                        onClick={handleAddClick} 
+                    />
+                </div>
             )}
-            <Button 
-                label={translations.vehicles.add_vehicle_button} 
-                variant="primary" 
-                onClick={handleAddClick} 
-            />
+            
             {showRegisterPrompt && 
                 <PendingPromptModal 
                     prompt={translations.vehicles.register_prompt} 
