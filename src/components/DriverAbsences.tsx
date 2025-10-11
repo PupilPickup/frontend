@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import CalendarSelection from "./common/CalendarSelection";
 import { DateRange } from "react-day-picker";
 import { Absence } from "../schema/types";
 import Button from "./common/Button";
+import { useLanguage } from "../context/LanguageContext";
+import enTranslations from "../languages/en.json";
+import neTranslations from "../languages/ne.json";
 
 interface DriverAbsencesProps {    
     absenceData: Absence[];
@@ -13,6 +16,9 @@ interface DriverAbsencesProps {
 
 const DriverAbsences: React.FC<DriverAbsencesProps> = ({ absenceData, onEdit, onDelete, onAdd}) => {
   
+  const { language } = useLanguage();
+  const translations = language === 'ne' ? neTranslations : enTranslations;
+
   const [error, setError] = useState<string | null>(null);
   const [showCalendar, setShowCalendar] = useState(false);
   const [stateEdit, setStateEdit] = useState(false);
@@ -23,9 +29,14 @@ const DriverAbsences: React.FC<DriverAbsencesProps> = ({ absenceData, onEdit, on
         
         if(stateEdit){
             handleEditAbsenceConfirm(absenceSpan);
-        }else{  
+        }else{
+            if(!absenceSpan.from || !absenceSpan.to){
+                setError(translations.carpool.enter_valid_date_error);
+                return;
+            }  
             onAdd(absenceSpan);
             setShowCalendar(false);
+            setError(null);
         }
     }
 
@@ -43,7 +54,7 @@ const DriverAbsences: React.FC<DriverAbsencesProps> = ({ absenceData, onEdit, on
             setShowCalendar(false);
             setStateEdit(false);
         }else{
-            setError("Please select a valid date range.");//TODO
+            setError(translations.carpool.enter_valid_date_error);
         }
     }
 
@@ -72,13 +83,13 @@ const DriverAbsences: React.FC<DriverAbsencesProps> = ({ absenceData, onEdit, on
                                 </p>
                             </div>
                             <Button
-                                label={"Edit"}
+                                label={translations.universal.edit_button}
                                 variant="primary"
                                 className="mr-2"
                                 onClick={()=>handleEditAbsenceOpen(absence.absenceId, {from: absence.absenceStartDate, to: absence.absenceEndDate})}
                             />
                             <Button
-                                label={"Delete"}
+                                label={translations.universal.delete_button}
                                 variant="secondary"
                                 className="mr-2"
                                 onClick={()=>onDelete(absence.absenceId)}
@@ -88,15 +99,15 @@ const DriverAbsences: React.FC<DriverAbsencesProps> = ({ absenceData, onEdit, on
                 </ul>
             )}
             <Button
-                label={"Add Absence"}
+                label={translations.carpool.add_absence_button}
                 variant="primary"
                 onClick={handleAddAbsenceOpen}
             />
             {showCalendar && (
                 <CalendarSelection
-                    prompt={"Select Absence Dates"}//TODO
-                    abortLabel={"Cancel"}//TODO
-                    confirmLabel={stateEdit ? "Edit Absence" : "Add Absence"}//TODO
+                    prompt={translations.carpool.absence_selection_prompt}
+                    abortLabel={translations.universal.cancel}
+                    confirmLabel={stateEdit ? translations.carpool.edit_absence_button : translations.carpool.add_absence_button}
                     onAbort={() => setShowCalendar(false)}
                     onConfirm={handleAddAbsence}
                     className=""

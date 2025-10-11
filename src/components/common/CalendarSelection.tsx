@@ -41,7 +41,7 @@ const CalendarSelection: React.FC<CalendarSelectionProps> = ( { prompt, abortLab
             }}
         >
             {range?.from && range?.to
-            ? `From ${range.from.toDateString()} to ${range.to.toDateString()}`
+            ? `${range.from.toDateString()} - ${range.to.toDateString()}`
             : ""}
         </p>
         <div className="flex flex-row justify-between my-2" >

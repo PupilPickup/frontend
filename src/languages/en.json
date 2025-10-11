@@ -160,7 +160,9 @@
         "confirm": "Confirm",
         "cancel": "Cancel",
         "ok": "OK",
-        "apply": "Apply"
+        "apply": "Apply",
+        "edit_button": "Edit",
+        "delete_button": "Delete"
     },
 
     "roles_and_statuses":{
@@ -498,7 +500,11 @@
         "activate_carpool_button": "Activate Carpool",
         "deactivate_carpool_button": "Deactivate Carpool",
         "carpool_status_label": "Carpool Status",
-        "my_absences_tab": "My Absences"
+        "my_absences_tab": "My Absences",
+        "absence_selection_prompt": "Select the date (date range) you are absent",
+        "edit_absence_button": "Edit Absence",
+        "add_absence_button": "Add Absence",
+        "enter_valid_date_error": "Please enter a valid date"
     },
 
     "carpool_server_error":{
