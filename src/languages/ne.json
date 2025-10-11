@@ -500,7 +500,8 @@
         "management_prompt": "तपाईंको कारपूल जानकारी हेर्नुहोस् र आवेदन तथा स्थिति व्यवस्थापन गर्नुहोस्।",
         "activate_carpool_button": "कारपूल सक्रिय गर्नुहोस्",
         "deactivate_carpool_button": "कारपूल निष्क्रिय गर्नुहोस्",
-        "carpool_status_label": "कारपूल स्थिति"
+        "carpool_status_label": "कारपूल स्थिति",
+        "my_absences_tab": "मेरो अनुपस्थितिहरू"
     },
 
     "carpool_server_error":{

@@ -497,7 +497,8 @@
         "management_prompt": "View your carpool information and manage applications and status.",
         "activate_carpool_button": "Activate Carpool",
         "deactivate_carpool_button": "Deactivate Carpool",
-        "carpool_status_label": "Carpool Status"
+        "carpool_status_label": "Carpool Status",
+        "my_absences_tab": "My Absences"
     },
 
     "carpool_server_error":{

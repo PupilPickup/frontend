@@ -5,7 +5,7 @@ import { useLanguage } from "../context/LanguageContext";
 import Button from "./common/Button";
 import CardLabel from "./common/CardLabel";
 import DeleteWarningModal from "./common/DeleteWarningModal";
-import CalandarSelection from "./common/CalandarSelection";
+import CalandarSelection from "./common/CalendarSelection";
 import { DateRange } from "react-day-picker";
 
 type ChildCardProps = {

@@ -3,18 +3,19 @@ import { DateRange, DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 import Button from "./Button";
 
-interface CalandarSelectionProps {
+interface CalendarSelectionProps {
     prompt: string;
     abortLabel: string;
     confirmLabel: string;
     onAbort: () => void;
     onConfirm: (absenceDate: DateRange) => void;
     className?: string;
+    givenRange?: DateRange;
 }
 
-const CalandarSelection: React.FC<CalandarSelectionProps> = ( { prompt, abortLabel, confirmLabel, onAbort, onConfirm, className } ) => {
+const CalendarSelection: React.FC<CalendarSelectionProps> = ( { prompt, abortLabel, confirmLabel, onAbort, onConfirm, className, givenRange } ) => {
 
-  const [range, setRange] = useState<DateRange | undefined>();
+  const [range, setRange] = useState<DateRange | undefined>(givenRange);
   
 
   function handleConfirm() {
@@ -64,4 +65,4 @@ const CalandarSelection: React.FC<CalandarSelectionProps> = ( { prompt, abortLab
   );
 }
 
-export default CalandarSelection;
+export default CalendarSelection;
