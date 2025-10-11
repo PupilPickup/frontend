@@ -9,6 +9,7 @@ import Button from "../../components/common/Button";
 import HelpTip from "../../components/common/HelpTip";
 import { useUser } from "../../context/UserContext";
 import PendingPromptModal from "../../components/common/PendingPromptModal";
+import { DateRange } from "react-day-picker";
 
 // Define the possible error keys
 type ChildrenServerErrors = 'empty_fields'| 'firstname_length' | 'lastname_length' | 'school_arrival_time_invalid' | 'school_departure_time_invalid' | 'server_error_get' | 'server_error_post' | 'server_error_put' | 'server_error_delete' | 'generic_error';
@@ -100,6 +101,26 @@ export default function ChildrenManagement() {
         }
     }
 
+    async function submitAbsence(token:string, userName:string, userId:string, childId:string, absenceData:{childId:string, absenceStartDate:Date, absenceEndDate:Date}) {
+        try {
+            await axios.post(`${apiUrl}/absences/child/${childId}`, absenceData, {
+                headers: {
+                    Authorization: "Bearer " + token,
+                    user_name: userName,
+                    user_id: userId,
+                },
+            });
+            setServerError("");
+
+        }catch (error) {
+            if (axios.isAxiosError(error) && error.response) {
+                const errorKey = error.response.data.error as ChildrenServerErrors;
+                let errorMessage: string = translations.children_server_errors[errorKey] ?? translations.children_server_errors.generic_error;
+                setServerError(errorMessage);
+            }
+        }
+    }
+
     function editChild(childId: string) {
         // Handle edit action here
         navigate(`/my-children/edit-child-data/${childId}`);
@@ -131,6 +152,15 @@ export default function ChildrenManagement() {
     const handleConfirmRegisterPrompt = async() => {
         setShowRegisterPrompt(false);
         registerParent(token!, user!.username, user!.userId);
+    }
+
+    async function handleSubmitAbsence(childId:string, absenceSpan: DateRange) {
+        // Handle absence submission logic here
+        if(!!token && !!user){
+            const absenceData = {childId: childId, absenceStartDate: absenceSpan.from!, absenceEndDate: absenceSpan.to!};
+            submitAbsence(token, user.username, user.userId, childId, absenceData!);
+        }
+        // TODO success message
     }
 
     async function registerParent(token:string, userName:string, userId:string) {
@@ -200,6 +230,7 @@ export default function ChildrenManagement() {
                             dropoffTime={removeSeconds(child.schoolDropoffTime)}
                             onEdit={editChild}
                             onDelete={deleteChild}
+                            submitAbsence={handleSubmitAbsence}
                         />
                     ))}
                 </div>

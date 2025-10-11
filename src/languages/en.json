@@ -160,7 +160,9 @@
         "confirm": "Confirm",
         "cancel": "Cancel",
         "ok": "OK",
-        "apply": "Apply"
+        "apply": "Apply",
+        "edit_button": "Edit",
+        "delete_button": "Delete"
     },
 
     "roles_and_statuses":{
@@ -275,7 +277,9 @@
         "cancel_register_button":"Cancel Registration",
         "confirm_register_button":"Register as Parent",
         "pending_parent_limitations": "You are currently registered as a pending parent. Your children will not appear in any searches until you are approved.",
-        "rejected_parent_notice": "You are currently registered as a rejected parent. Your children will not appear in any searches. If you would like to have your children appear in searches, please contact an administrator."
+        "rejected_parent_notice": "You are currently registered as a rejected parent. Your children will not appear in any searches. If you would like to have your children appear in searches, please contact an administrator.",
+        "record_absence_button": "Record Absence",
+        "absence_prompt": "Please enter the date your child will be absent"
     },
 
     "vehicles":{
@@ -495,7 +499,12 @@
         "management_prompt": "View your carpool information and manage applications and status.",
         "activate_carpool_button": "Activate Carpool",
         "deactivate_carpool_button": "Deactivate Carpool",
-        "carpool_status_label": "Carpool Status"
+        "carpool_status_label": "Carpool Status",
+        "my_absences_tab": "My Absences",
+        "absence_selection_prompt": "Select the date (date range) you are absent",
+        "edit_absence_button": "Edit Absence",
+        "add_absence_button": "Add Absence",
+        "enter_valid_date_error": "Please enter a valid date"
     },
 
     "carpool_server_error":{
