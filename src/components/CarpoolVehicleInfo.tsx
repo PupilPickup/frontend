@@ -59,8 +59,10 @@ const CarpoolVehicleInfo: React.FC<CarpoolVehicleProps> = ({
 
     function changeCarpoolStatus(){
         if(carpoolStatus === 0){
+           
             onStatusChange(1);
         }else if(carpoolStatus === 1){
+           
             onStatusChange(0)
         }
     }

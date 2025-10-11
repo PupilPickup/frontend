@@ -6,16 +6,19 @@ import { useEffect, useState } from "react";
 import HelpTip from "../../components/common/HelpTip";
 import { useUser } from "../../context/UserContext";
 import CarpoolVehicleInfo from "../../components/CarpoolVehicleInfo";
-import { CarpoolData, VehicleData } from "../../schema/types";
+import { Absence, CarpoolData, VehicleData } from "../../schema/types";
 import axios from "axios";
 import { CarpoolServerErrors } from "../../schema/serverErrorTypes";
+import { DateRange } from "react-day-picker";
+import DriverAbsences from "../../components/DriverAbsences";
 
 export default function CarpoolManagement () {
     const [isLoading, setIsLoading] = useState(true);
-    const [viewState, setViewState] = useState<'my_carpool' | 'my_passengers' | 'carpool_applications'>('my_carpool');
+    const [viewState, setViewState] = useState<'my_carpool' | 'my_absences' | 'my_passengers' | 'carpool_applications'>('my_carpool');
     const [carpoolStatus, setCarpoolStatus] = useState<number>(1);
     const [carpoolData, setCarpoolData] = useState<CarpoolData[]>([]);
     const [vehicleData, setVehicleData] = useState<VehicleData | null>(null);
+    const [absenceData, setAbsenceData] = useState<Absence[]>([]);
     const [errorMessage, setErrorMessage] = useState<string>("");
 
     const { language } = useLanguage();
@@ -31,6 +34,7 @@ export default function CarpoolManagement () {
     // --- TAB LABELS ---
     const tabs = [
         { key: 'my_carpool', label: translations.carpool.my_carpool_tab },
+        { key: "my_absences", label: translations.carpool.my_absences_tab },
         { key: 'my_passengers', label: translations.carpool.my_passengers_tab },
         { key: 'carpool_applications', label: translations.carpool.carpool_applications_tab }
     ];
@@ -58,10 +62,7 @@ export default function CarpoolManagement () {
                     },
                     
                 });
-                console.log(response.data.carpool);
-                // const retrievedCarpools: CarpoolData[] = response.data.map((carpool: any) => ({
-                    
-                // }));
+                
                 const retrievedCarpools: any[] = response.data.carpool;
                 if(retrievedCarpools.length > 0){
                     const myCarpool = retrievedCarpools[0];
@@ -112,9 +113,6 @@ export default function CarpoolManagement () {
                     // Set just the status
                     setCarpoolStatus(myCarpool.active_status);
 
-                    console.log(testCarpool);
-                    console.log(vehicleInfo);
-                    console.log("Status: " + myCarpool.active_status);
                 }
                 // setCarpoolData(retrievedCarpools);
                 setIsLoading(false);
@@ -127,14 +125,191 @@ export default function CarpoolManagement () {
                     console.error(error);
                 }
             }
-        }         
+        }
+        
+        async function fetchAbsenceData(token:string, userName:string, userId:string) {
+            try {
+                const response = await axios.get(`${apiUrl}/absences/driver/${userId}`, {
+                    headers: {
+                        Authorization: "Bearer " + token,
+                        user_name: userName,
+                        user_id: userId,
+                    },
+                    
+                });
+                
+                const retrievedAbsences: Absence[] = response.data.map((absence: any) => ({
+                    absenceId: absence.absence_id,
+                    absenteeId: userId,
+                    absenceStartDate: new Date(absence.absence_start_date),
+                    absenceEndDate: new Date(absence.absence_end_date),
+                }));
+                setAbsenceData(retrievedAbsences)
+            } catch (error) {
+                if (axios.isAxiosError(error) && error.response) {
+                    const errorKey = error.response.data.error as CarpoolServerErrors;
+                    let errorMessage: string = "TODO" + errorKey;
+                    setErrorMessage(errorMessage);
+                    console.error(error);
+                }
+            }
+        }
 
         fetchCarpoolData(token!, user!.username, user!.userId);
+        fetchAbsenceData(token!, user!.username, user!.userId);
 
         // Set the initial display user list to the full user list except for the current user
         setIsLoading(false);
     }, [token, user, isLoggedIn, logout, navigate, isAdmin, typeOfDriver, approvedDriverId, apiUrl, translations.children_server_errors]);
 
+    async function updateCarpoolStatus(token:string, userName:string, userId:string, driverId:string, statusId:number) {
+        try {
+            await axios.put(`${apiUrl}/carpool/${driverId}`, {activeStatus: statusId}, {
+                headers: {
+                    Authorization: "Bearer " + token,
+                    user_name: userName,
+                    user_id: userId,
+                },
+                
+            });
+            
+            setCarpoolStatus(statusId);
+            setErrorMessage("");
+        } catch (error) {
+            if (axios.isAxiosError(error) && error.response) {
+                const errorKey = error.response.data.error as CarpoolServerErrors;
+                let errorMessage: string = "TODO" + errorKey;
+                setErrorMessage(errorMessage);
+                console.error(error);
+            }
+        }
+    }
+    
+    function handleAbsenceCreation(newSpan:DateRange ) {
+        if(!!token || !!user || !!vehicleData){
+            const absenceInput = {
+                driverId: vehicleData!.driverId,
+                absenceStartDate: newSpan.from!,
+                absenceEndDate: newSpan.to!
+            }
+            submitDriverAbsence(token!, user!.username, user!.userId, vehicleData!.driverId, absenceInput);
+        }
+    }
+
+    function handleAbsenceUpdate( absenceId:number, newSpan:DateRange ) {
+        if(!!token || !!user || !!vehicleData){
+            const absenceInput = {
+                absenceId: absenceId,
+                driverId: vehicleData!.driverId,
+                absenceStartDate: newSpan.from!,
+                absenceEndDate: newSpan.to!
+            }
+            updateDriverAbsence(token!, user!.username, user!.userId, String(absenceId), absenceInput);
+        }
+    }
+
+    function handleAbsenceDeletion( absenceId:number) {
+        if(!!token || !!user){
+            deleteDriverAbsence(token!, user!.username, user!.userId, absenceId);
+        }
+    }
+
+    async function submitDriverAbsence(token:string, userName:string, userId:string, driverId:string, absenceInput:{driverId:string, absenceStartDate:Date, absenceEndDate:Date}) {
+        try {
+            const response = await axios.post(`${apiUrl}/absences/driver/${driverId}`, absenceInput, {
+                headers: {
+                    Authorization: "Bearer " + token,
+                    user_name: userName,
+                    user_id: userId,
+                },
+            });
+            const createdAbsence: Absence = {
+                absenceId: response.data.createdAbsence.absence_id,
+                absenteeId: response.data.createdAbsence.driver_id,
+                absenceStartDate: new Date( response.data.createdAbsence.absence_start_date),
+                absenceEndDate: new Date( response.data.createdAbsence.absence_end_date)
+            }
+            // Add the new absence to the current list
+            // ...existing code...
+            const updatedAbsences: Absence[] = [...absenceData, createdAbsence];
+            setAbsenceData(updatedAbsences);
+// ...existing code...
+            setErrorMessage("");
+
+        }catch (error) {
+            if (axios.isAxiosError(error) && error.response) {
+                const errorKey = error.response.data.error as CarpoolServerErrors;
+                let errorMessage: string = "TODO" + errorKey;
+                setErrorMessage(errorMessage);
+                console.error(error);
+            }
+        }
+    }
+
+    
+    async function updateDriverAbsence(token:string, userName:string, userId:string, absenceId:string,  absenceInput:{driverId:string, absenceStartDate:Date, absenceEndDate:Date}) {
+        try {
+            const response = await axios.put(`${apiUrl}/absences/driver/${absenceId}`, absenceInput, {
+                headers: {
+                    Authorization: "Bearer " + token,
+                    user_name: userName,
+                    user_id: userId,
+                },
+                
+            });
+            const updatedAbsence: Absence = {
+                absenceId: response.data.absenceId,
+                absenteeId: response.data.driverId,
+                absenceStartDate: new Date( response.data.absenceStartDate),
+                absenceEndDate: new Date( response.data.absenceEndDate)
+            }
+            // Update the absence in the current list
+            const updatedAbsences: Absence[] = absenceData.map((absence) =>
+                absence.absenceId === updatedAbsence.absenceId ? updatedAbsence : absence
+            );
+            setAbsenceData(updatedAbsences);
+            
+            setErrorMessage("");
+        } catch (error) {
+            if (axios.isAxiosError(error) && error.response) {
+                const errorKey = error.response.data.error as CarpoolServerErrors;
+                let errorMessage: string = "TODO" + errorKey;
+                setErrorMessage(errorMessage);
+                console.error(error);
+            }
+        }
+    }
+    
+    async function deleteDriverAbsence(token:string, userName:string, userId:string,  absenceId:number) {
+        try {
+            await axios.delete(`${apiUrl}/absences/driver/${absenceId}`, {
+                headers: {
+                    Authorization: "Bearer " + token,
+                    user_name: userName,
+                    user_id: userId,
+                },
+                
+            });
+            
+            const updatedAbsences: Absence[] = absenceData.filter((absence) => absence.absenceId !== absenceId);
+            setAbsenceData(updatedAbsences);
+            setErrorMessage("");
+        } catch (error) {
+            if (axios.isAxiosError(error) && error.response) {
+                const errorKey = error.response.data.error as CarpoolServerErrors;
+                let errorMessage: string = "TODO" + errorKey;
+                setErrorMessage(errorMessage);
+                console.error(error);
+            }
+        }
+    }        
+        
+
+    function handleCarpoolStatus(newStatus: number) {
+        if(!!token || !!user){
+            updateCarpoolStatus(token!, user!.username, user!.userId, vehicleData!.driverId, newStatus);
+        }
+    }
 
     if(isLoading){
         return <div className="flex justify-center items-center min-h-[90vh]">{translations.universal.loading}</div>
@@ -182,10 +357,22 @@ export default function CarpoolManagement () {
                         driverEndTime={vehicleData?.driverEndTime || ""}
                         daysAvailable={vehicleData?.daysAvailable || null}
                         carpoolStatus={carpoolStatus}
-                        onStatusChange={(newStatus:number) => {setCarpoolStatus(newStatus);}}
+                        onStatusChange={handleCarpoolStatus}
                 />
 
 
+                </div>
+            )}
+             {viewState === 'my_absences' && (
+                <div>
+                    <h2 className="text-2xl font-semibold mb-2">{translations.carpool.my_absences_tab}</h2>
+                    {/* My Absences Component */}
+                    <DriverAbsences
+                        absenceData={absenceData}
+                        onAdd={handleAbsenceCreation}
+                        onEdit={handleAbsenceUpdate}
+                        onDelete={handleAbsenceDeletion}
+                    />
                 </div>
             )}
             {viewState === 'my_passengers' && (

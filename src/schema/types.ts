@@ -111,3 +111,11 @@ export interface CarpoolData {
   childDropoffTime: string;
   childPickupTime: string;
 }
+
+export interface Absence {
+  absenceId: number;
+  absenteeId: number;
+  absenceStartDate: Date;
+  absenceEndDate: Date;
+  absenceReason?: string;
+}
