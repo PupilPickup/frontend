@@ -4,6 +4,7 @@ import neTranslations from "../languages/ne.json";
 import { useLanguage } from "../context/LanguageContext";
 import { useEffect } from "react";
 import FormInput from "./common/FormInput";
+import FormSelect from "./common/FormSelect";
 
 type ChildFormProps = {
     firstName: string;
@@ -60,14 +61,16 @@ const ChildForm: React.FC<ChildFormProps> = ({
                 value={lastName}
                 error={lastNameError}
             />
-            <FormInput
+          
+            <FormSelect
                 label={translations.children.school_arrival_time_label}
                 elementId="dropoffTime"
                 changeHandler={setDropoffTime}
                 value={dropoffTime}
                 error={dropoffTimeError}
             />
-            <FormInput
+
+            <FormSelect
                 label={translations.children.school_departure_time_label}
                 elementId="pickupTime"
                 changeHandler={setPickupTime}
