@@ -26,6 +26,7 @@ import DarkModeToggle from './components/common/DarkModeToggle';
 import CarpoolSearch from './pages/carpool/CarpoolSearch';
 import CarpoolApply from './pages/carpool/CarpoolApply';
 import CarpoolManagement from './pages/carpool/CarpoolManagement';
+import { TimeFormatProvider } from './context/TimeFormatContext';
 
 function App() {
 
@@ -80,7 +81,9 @@ export default function LanguageWrappedApp() {
     <LanguageProvider>
       <UserProvider>
         <DarkModeProvider>
-          <App />
+          <TimeFormatProvider>
+            <App />
+          </TimeFormatProvider>
         </DarkModeProvider>
       </UserProvider>
     </LanguageProvider>
