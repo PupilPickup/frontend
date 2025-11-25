@@ -14,6 +14,7 @@ export default function MapRoute() {
     console.log("Current User in MapRoute:", user);
 
     useEffect(()=> {
+        //if no user or token, logout and return to homepage
         if(!token || user === null || user === undefined || !isLoggedIn){
             sessionStorage.removeItem("token");
             logout();
