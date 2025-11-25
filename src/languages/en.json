@@ -148,7 +148,8 @@
         "school": "School Information",
         "carpool_search": "Carpool Search",
         "carpool_manage": "Carpool Management",
-        "users": "User Management"
+        "users": "User Management",
+        "mapRoute": "Routing Map"
     }, 
 
     "universal":{

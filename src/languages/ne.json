@@ -149,7 +149,8 @@
         "school": "विद्यालय सम्बन्धी जानकारी",
         "carpool_search": "कारपूल खोजी",
         "carpool_manage": "कारपूल व्यवस्थापन",
-        "users": "प्रयोगकर्ता व्यवस्थापन"
+        "users": "प्रयोगकर्ता व्यवस्थापन",
+        "mapRoute": "Routeingmap"
     }, 
 
     "universal":{
