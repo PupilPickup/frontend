@@ -5,19 +5,23 @@ import { useLanguage } from "../context/LanguageContext";
 import { useEffect } from "react";
 import FormInput from "./common/FormInput";
 import FormSelect from "./common/FormSelect";
+import FormGradeSelect from "./common/FormGradeSelect";
 import { useTimeFormat } from "../context/TimeFormatContext";
 
 type ChildFormProps = {
     firstName: string;
     lastName: string;
+    grade: string;
     pickupTime: string;
     dropoffTime: string;
     setFirstName: (value: string) => void;
     setLastName: (value: string) => void;
+    setGrade : (value: string) => void;
     setPickupTime: (value: string) => void;
     setDropoffTime: (value: string) => void;
     firstNameError: string;
     lastNameError: string;
+    gradeError: string;
     pickupTimeError: string;
     dropoffTimeError: string;
 };
@@ -25,14 +29,17 @@ type ChildFormProps = {
 const ChildForm: React.FC<ChildFormProps> = ({
     firstName,
     lastName,
+    grade,
     pickupTime,
     dropoffTime,
     setFirstName,
     setLastName,
+    setGrade,
     setPickupTime,
     setDropoffTime,
     firstNameError,
     lastNameError,
+    gradeError,
     pickupTimeError,
     dropoffTimeError,
 
@@ -63,6 +70,14 @@ const ChildForm: React.FC<ChildFormProps> = ({
                 changeHandler={setLastName}
                 value={lastName}
                 error={lastNameError}
+            />
+
+            <FormGradeSelect
+                label={translations.children.grade_label}
+                elementId="grade"
+                changeHandler={setGrade}
+                value={grade}
+                error={gradeError}
             />
 
             <FormSelect

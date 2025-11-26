@@ -23,11 +23,13 @@ export default function EditChildData(){
     const [isLoading, setIsLoading] = useState(true);
     const [firstName, setFirstName] = useState<string>("");
     const [lastName, setLastName] = useState<string>("");
+    const [grade, setGrade] =useState<string>("");
     const [pickupTime, setPickupTime] = useState<string>("");
     const [dropoffTime, setDropoffTime] = useState<string>("");
     const [serverError, setServerError] = useState<string>("");
     const [firstNameError, setFirstNameError] = useState<string>("");
     const [lastNameError, setLastNameError] = useState<string>("");
+    const [gradeError, setGradeError] = useState<string>("");   
     const [pickupTimeError, setPickupTimeError] = useState<string>("");
     const [dropoffTimeError, setDropoffTimeError] = useState<string>("");
 
@@ -53,6 +55,7 @@ export default function EditChildData(){
                 const childData = response.data;
                 setFirstName(childData.first_name);
                 setLastName(childData.last_name);
+                setGrade(childData.grade);
                 setPickupTime(formatTime(childData.school_pickup_time));
                 setDropoffTime(formatTime(childData.school_dropoff_time));
             }catch (error) {
@@ -77,7 +80,8 @@ export default function EditChildData(){
         setIsLoading(false);
         // This effect runs when the component mounts or when the language changes
         // You can add any side effects here if needed
-    }, [language, childId, isLoggedIn, navigate, token, user, logout, apiUrl, translations.children_server_errors, formatTime]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [language, childId, isLoggedIn, navigate, token, user, logout, apiUrl, translations.children_server_errors]);
 
     async function updateChildData(token:string, childId:string, childData: any) {
         try {
@@ -89,6 +93,7 @@ export default function EditChildData(){
             const editedData = response.data;
             setFirstName(editedData.firstName);
             setLastName(editedData.lastName);
+            setGrade(editedData.grade);
             setPickupTime(removeSeconds(childData.schoolPickupTime));
             setDropoffTime(removeSeconds(childData.schoolDropoffTime));
             setServerError("");
@@ -116,6 +121,7 @@ export default function EditChildData(){
                 userId: user!.userId,
                 firstName: firstName,
                 lastName: lastName,
+                grade: grade,
                 schoolPickupTime: convertTo24Hour(pickupTime),
                 schoolDropoffTime: convertTo24Hour(dropoffTime)
             };
@@ -146,6 +152,12 @@ export default function EditChildData(){
         }else{
             setLastNameError("");
         }
+        // Grade validation
+        if(isFieldEmpty(grade)){
+            setGradeError(translations.children.require_grade_error);
+            isValid = false;
+        }else{
+            setGradeError("");}
         // Pickup time validation
         if(isFieldEmpty(pickupTime)){
             setPickupTimeError(translations.children.require_end_time_error);
@@ -205,14 +217,17 @@ export default function EditChildData(){
                 <ChildForm
                     firstName={firstName}
                     lastName={lastName}
+                    grade={grade}
                     pickupTime={pickupTime}
                     dropoffTime={dropoffTime}
                     setFirstName={setFirstName}
                     setLastName={setLastName}
+                    setGrade={setGrade}
                     setPickupTime={setPickupTime}
                     setDropoffTime={setDropoffTime}            
                     firstNameError={firstNameError}
                     lastNameError={lastNameError}
+                    gradeError={gradeError}
                     pickupTimeError={pickupTimeError}
                     dropoffTimeError={dropoffTimeError}
                 />
