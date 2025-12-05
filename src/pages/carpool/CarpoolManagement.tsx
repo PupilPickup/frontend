@@ -12,6 +12,9 @@ import { CarpoolServerErrors } from "../../schema/serverErrorTypes";
 import { DateRange } from "react-day-picker";
 import DriverAbsences from "../../components/DriverAbsences";
 
+// NEW CODE - NOEMI
+import { calculateDistance, formatDistance } from "../../utils/distanceCalculations"; 
+
 export default function CarpoolManagement () {
     const [isLoading, setIsLoading] = useState(true);
     const [viewState, setViewState] = useState<'my_carpool' | 'my_absences' | 'my_passengers' | 'carpool_applications'>('my_carpool');
@@ -20,6 +23,13 @@ export default function CarpoolManagement () {
     const [vehicleData, setVehicleData] = useState<VehicleData | null>(null);
     const [absenceData, setAbsenceData] = useState<Absence[]>([]);
     const [errorMessage, setErrorMessage] = useState<string>("");
+
+
+    // NEW CODE - NOEMI
+    // NEW STATES FOR SCHOOL AND DRIVER
+    const [schoolData, setSchoolData] = useState<any>(null);
+    const [driverCoordinates, setDriverCoordinates] = useState<{lat: number, lon: number} | null>(null);
+   
 
     const { language } = useLanguage();
     const translations = language === 'ne' ? neTranslations : enTranslations;
@@ -52,6 +62,18 @@ export default function CarpoolManagement () {
             return;
         }
 
+        // NEW CODE - NOEMI
+        // SAVES DRIVER'S COORDINATES FROM USER CONTEXT
+        if (user.latitude && user.longitude) {
+            setDriverCoordinates({
+                lat: user.latitude,
+                lon: user.longitude
+            });
+            console.log("Driver coordinates set:", user.latitude, user.longitude);
+        } else {
+            console.warn("Driver coordinates not found in user context!");
+        }
+
         async function fetchCarpoolData(token:string, userName:string, userId:string) {
             try {
                 const response = await axios.get(`${apiUrl}/carpool/${userId}`, {
@@ -66,7 +88,11 @@ export default function CarpoolManagement () {
                 const retrievedCarpools: any[] = response.data.carpool;
                 if(retrievedCarpools.length > 0){
                     const myCarpool = retrievedCarpools[0];
-                    const testCarpool: CarpoolData = {
+                    
+                    // NEW CODE - NOEMI 
+                    // I changed this line so that instead of processing the first element of the array, it would process all carpools
+                    const allCarpools = retrievedCarpools.map(myCarpool => (
+                    {
                         carpoolId: myCarpool.carpool_id,
                         driverId: myCarpool.driver_id,
                         parentId: myCarpool.parent_id,
@@ -84,18 +110,25 @@ export default function CarpoolManagement () {
                         driverLastName: myCarpool.driver_last_name,
                         driverLatitude: myCarpool.driver_latitude,
                         driverLongitude: myCarpool.driver_longitude,
-                        parentLatitude: myCarpool.driver_latitude,
-                        parentLongitude: myCarpool.driver_longitude,
+                        parentLatitude: myCarpool.parent_latitude,
+                        parentLongitude: myCarpool.parent_longitude,
                         parentFirstName: myCarpool.parent_first_name,
                         parentLastName: myCarpool.parent_last_name,
                         parentEmail: myCarpool.parent_email,
                         parentPhoneNumber: myCarpool.parent_phone_number,
-                        childFirstName: myCarpool.child_first_name,
-                        childLastName: myCarpool.child_last_name,
+                        // childFirstName: myCarpool.child_first_name,
+                        childFirstName: myCarpool.first_name,                  //new
+                        // childLastName: myCarpool.child_last_name,           
+                        childLastName: myCarpool.last_name,                    //new
                         childDropoffTime: myCarpool.child_dropoff_time,
                         childPickupTime: myCarpool.child_pickup_time
-                    }
-                    setCarpoolData([testCarpool]);
+                    }));
+                    
+                   
+
+                    // setCarpoolData([testCarpool]);
+                    setCarpoolData(allCarpools);
+                    console.log("CARPOOL RESPONSE:", response.data);
 
                     // Map vehicle-related fields
                     const vehicleInfo: VehicleData = {
@@ -127,6 +160,44 @@ export default function CarpoolManagement () {
             }
         }
         
+        // NEW CODE - NOEMI
+        // FUNCTION: CALLING SCHOOL INFO        
+        async function fetchSchoolData(token: string, schoolId: number) {
+            try {
+                
+                console.log("Fetching school data for ID:", schoolId);
+
+                const response = await axios.get(`${apiUrl}/school/${schoolId}`, {
+                    headers: {
+                        Authorization: "Bearer " + token,
+                        user_name: user!.username,      
+                        user_id: user!.userId,   
+                    },
+                });
+
+                console.log("School response:", response.data);
+
+                const schoolInfo = {
+                    schoolName: response.data.school_name,
+                    contactNumber: response.data.contact_number,
+                    address: response.data.street_address,
+                    wardNumber: response.data.ward_number,
+                    municipalityDistrict: response.data.municipality_district,
+                    schoolLatitude: response.data.latitude,
+                    schoolLongitude: response.data.longitude,
+                };
+
+                setSchoolData(schoolInfo);
+                               
+            } catch (error) {
+                console.error("Error fetching school:", error);
+                if (axios.isAxiosError(error) && error.response) {
+                    console.error("Error fetching school data:", error.response.data);
+                }
+            }
+        }
+
+
         async function fetchAbsenceData(token:string, userName:string, userId:string) {
             try {
                 const response = await axios.get(`${apiUrl}/absences/driver/${userId}`, {
@@ -157,6 +228,9 @@ export default function CarpoolManagement () {
 
         fetchCarpoolData(token!, user!.username, user!.userId);
         fetchAbsenceData(token!, user!.username, user!.userId);
+
+        // NEW CODE - NOEMI
+        fetchSchoolData(token!, 1 ); // HARDCODED SCHOOL ID
 
         // Set the initial display user list to the full user list except for the current user
         setIsLoading(false);
@@ -388,7 +462,120 @@ export default function CarpoolManagement () {
                     <h2 className="text-2xl font-semibold mb-2">{translations.carpool.carpool_applications_tab}</h2>
                     {/* Carpool Applications Component */}
                     {/* Steve's Part Here */}
+
+                    {/* HERE STARTS MY CODE - NOEMI */}                                 
+                    {/* School Information */}
+                    <div className="mb-4 p-4 rounded shadow border border-black dark:border-white bg-white dark:bg-gray-800">
+                        <h3 className="text-lg font-bold mb-2">{schoolData.schoolName}</h3>
+                        <p className="mb-1">
+                            {schoolData?.address}, {schoolData?.wardNumber}, {schoolData?.municipalityDistrict}
+                        </p>
+                        <p>
+                            {schoolData?.contactNumber}
+                        </p>
+                    </div>
+                                                            
+                    {/* Applicants' List */}
+                    {carpoolData.length > 0 ? (
+                        <div className="flex flex-col justify-center items-center overflow-x-auto w-full min-w-full rounded shadow border border-black dark:border-white">
+                            {/* Header */}
+                            <div className="flex flex-row w-full max-w-6xl mx-auto p-2 pt-0 min-w-[600px] border-b border-black dark:border-white">
+                                <div className="w-[15%] px-4 py-2">
+                                    <p className="text-center font-bold">Student Name</p>
+                                </div>
+                                <div className="w-[15%] px-4 py-2">
+                                    <p className="text-center font-bold">Parent</p>
+                                </div>
+                                <div className="w-[15%] px-4 py-2">
+                                    <p className="text-center font-bold">Distance to Pickup</p>
+                                </div>
+                                <div className="w-[15%] px-4 py-2">
+                                    <p className="text-center font-bold">Parent to School</p>
+                                </div>
+                                <div className="w-[15%] px-4 py-2">
+                                    <p className="text-center font-bold">School Distance</p>
+                                </div>
+                                <div className="w-[25%] px-4 py-2">
+                                    <p className="text-center font-bold">Decision</p>
+                                </div>
+                            </div>
+
+                            {/* Body */}
+                            <div className="w-full max-w-6xl mx-auto p-2 pt-0 min-w-[600px]">
+                                {carpoolData.map((child) => {
+                                    if (
+                                        !child.parentLatitude ||
+                                        !child.parentLongitude ||
+                                        !driverCoordinates ||
+                                        !schoolData
+                                    ) {
+                                        return (
+                                            <div key={child.childId} className="flex flex-row w-full p-2 border-b border-black dark:border-white">
+                                                <div className="w-full text-center">
+                                                    Incomplete data for {child.childFirstName || "unknown"}
+                                                </div>
+                                            </div>
+                                        );
+                                    }
+
+                                    // Calculate distances
+                                    const distanceDriverToParent = calculateDistance(
+                                        driverCoordinates.lat,
+                                        driverCoordinates.lon,
+                                        child.parentLatitude,
+                                        child.parentLongitude
+                                    );
+
+                                    const distanceParentToSchool = calculateDistance(
+                                        child.parentLatitude,
+                                        child.parentLongitude,
+                                        schoolData.schoolLatitude,
+                                        schoolData.schoolLongitude
+                                    );
+
+                                    const distanceDriverToSchool = calculateDistance(
+                                        driverCoordinates.lat,
+                                        driverCoordinates.lon,
+                                        schoolData.schoolLatitude,
+                                        schoolData.schoolLongitude
+                                    );
+
+                                    return (
+                                        <div key={child.childId} className="flex flex-row w-full p-2 border-b border-black dark:border-white">
+                                            <div className="w-[15%] px-4 py-2">
+                                                <p className="text-center">{child.childFirstName} {child.childLastName}</p>
+                                            </div>
+                                            <div className="w-[15%] px-4 py-2">
+                                                <p className="text-center">{child.parentFirstName} {child.parentLastName}</p>
+                                            </div>
+                                            <div className="w-[15%] px-4 py-2">
+                                                <p className="text-center">{formatDistance(distanceDriverToParent)}</p>
+                                            </div>
+                                            <div className="w-[15%] px-4 py-2">
+                                                <p className="text-center">{formatDistance(distanceParentToSchool)}</p>
+                                            </div>
+                                            <div className="w-[15%] px-4 py-2">
+                                                <p className="text-center">{formatDistance(distanceDriverToSchool)}</p>
+                                            </div>
+                                            <div className="w-[25%] px-4 py-2">
+                                                <div className="flex flex-row gap-4 justify-center">
+                                                    <button className="dashboard-btn accept-btn">Accept</button>
+                                                    <button className="dashboard-btn accept-btn">Reject</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="text-center mt-4">No applicants found</div>
+                    )}
                 </div>
+                 
+                
+
+                // HERE ENDS MY CODE
             )}
             
             {errorMessage && 
