@@ -5,6 +5,7 @@ import { useLanguage } from "../context/LanguageContext";
 import Button from "./common/Button";
 import CardLabel from "./common/CardLabel";
 import DeleteWarningModal from "./common/DeleteWarningModal";
+import { useFormattedTime } from "../hooks/useFormattedTime";
 
 type VehicleCardProps = {
     vehicleId: string;
@@ -37,6 +38,11 @@ const VehicleCard: React.FC<VehicleCardProps> = ({
     onEdit,
     onDelete,
 }) => {
+
+     const { formatTime } = useFormattedTime();
+     // Formatting times here
+    const formattedStartTime = formatTime(driveStartTime || '');
+    const formattedEndTime = formatTime(driverEndTime || '');
 
     const [showDeleteWarning, setShowDeleteWarning] = useState(false);
     const [daysDisplay, setDaysDisplay] = useState("");
@@ -111,11 +117,11 @@ const VehicleCard: React.FC<VehicleCardProps> = ({
                 />
                 <CardLabel 
                     label={translations.vehicles.driver_start_time_label}
-                    data={driveStartTime} 
+                    data={formattedStartTime} 
                 />
                 <CardLabel 
                     label={translations.vehicles.driver_end_time_label}
-                    data={driverEndTime} 
+                    data={formattedEndTime} 
                 />
                 <CardLabel 
                     label={translations.vehicles.days_label}

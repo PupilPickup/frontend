@@ -7,6 +7,7 @@ import neTranslations from "../../languages/ne.json";
 import { useLanguage } from "../../context/LanguageContext";
 import NavHeaderLink from "../common/NavLink";
 import DarkModeToggle from "../common/DarkModeToggle";
+import TimeFormatToggle from "../common/TimeFormatToggle";
 
 interface HeaderProps {
     changeLanguage: (language: string) => void;
@@ -165,6 +166,9 @@ const Header: React.FC<HeaderProps> = ( { changeLanguage, logout, isAdmin } ) =>
 
           {/* Dark Mode Toggle */}
           <DarkModeToggle />
+
+          {/* Time Format Toggle */}
+           <TimeFormatToggle />
 
           {/* Logout Button */}
           <button

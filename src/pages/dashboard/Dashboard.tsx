@@ -7,12 +7,14 @@ import axios from "axios";
 import CardLabel from "../../components/common/CardLabel";
 import HelpTip from "../../components/common/HelpTip";
 import { useUser } from "../../context/UserContext";
+import { useFormattedTime } from "../../hooks/useFormattedTime";
 
 // Define the possible error keys
 type DashboardServerErrors = "username_unknown" | "school_unknown" | "server_error_get" | "generic_error";
 
 
 export default function Dashboard () {
+	const { formatTime } = useFormattedTime(); 
 	const [isLoading, setIsLoading] = useState(true);
 	const [serverError, setServerError] = useState<string>("");
 	const [carpoolData, setCarpoolData] = useState({
@@ -63,10 +65,10 @@ export default function Dashboard () {
 					streetAddress: schoolDetails.street_address,
 					wardNumber: schoolDetails.ward_number,
 					municipalityDistrict: schoolDetails.municipality_district,
-					carpoolDropoffStartTime: schoolDetails.carpool_dropoff_start_time,
-					carpoolPickupStartTime: schoolDetails.carpool_pickup_start_time,
-					carpoolDropoffEndTime: schoolDetails.carpool_dropoff_end_time,
-					carpoolPickupEndTime: schoolDetails.carpool_pickup_end_time,
+					carpoolDropoffStartTime: formatTime(schoolDetails.carpool_dropoff_start_time),
+					carpoolPickupStartTime: formatTime(schoolDetails.carpool_pickup_start_time),
+					carpoolDropoffEndTime: formatTime(schoolDetails.carpool_dropoff_end_time),
+					carpoolPickupEndTime: formatTime(schoolDetails.carpool_pickup_end_time),
 					carpoolDropoffLocation: schoolDetails.carpool_dropoff_location,
 					carpoolPickupLocation: schoolDetails.carpool_pickup_location,
 				});
@@ -88,7 +90,7 @@ export default function Dashboard () {
 		}
 
 		populateSchoolCarpoolData(token, user!.username, user!.userId);
-	}, [navigate, token, user, logout, isLoggedIn, apiUrl, translations.dashboard]);
+	}, [navigate, token, user, logout, isLoggedIn, apiUrl, translations.dashboard, formatTime]);
 
 
 	function prettyAddress(streetAddress: string, municipalityDistrict: string, wardLabel: string, wardNumber: string): string {

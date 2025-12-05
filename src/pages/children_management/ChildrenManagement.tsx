@@ -11,6 +11,7 @@ import { useUser } from "../../context/UserContext";
 import PendingPromptModal from "../../components/common/PendingPromptModal";
 import { DateRange } from "react-day-picker";
 
+
 // Define the possible error keys
 type ChildrenServerErrors = 'empty_fields'| 'firstname_length' | 'lastname_length' | 'school_arrival_time_invalid' | 'school_departure_time_invalid' | 'server_error_get' | 'server_error_post' | 'server_error_put' | 'server_error_delete' | 'generic_error';
 
@@ -225,6 +226,7 @@ export default function ChildrenManagement() {
                             key={child.childId}
                             firstName={child.firstName}
                             lastName={child.lastName}
+                            grade={child.grade}
                             childId={child.childId}
                             pickupTime={removeSeconds(child.schoolPickupTime)}
                             dropoffTime={removeSeconds(child.schoolDropoffTime)}

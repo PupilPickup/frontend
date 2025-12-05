@@ -7,10 +7,12 @@ import CardLabel from "./common/CardLabel";
 import DeleteWarningModal from "./common/DeleteWarningModal";
 import CalandarSelection from "./common/CalendarSelection";
 import { DateRange } from "react-day-picker";
+import { useFormattedTime } from "../hooks/useFormattedTime";
 
 type ChildCardProps = {
     firstName: string;
     lastName: string;
+    grade: string;
     childId: string;
     pickupTime: string;
     dropoffTime: string;
@@ -22,6 +24,7 @@ type ChildCardProps = {
 const ChildCard: React.FC<ChildCardProps> = ({
     firstName,
     lastName,
+    grade,
     childId,
     pickupTime,
     dropoffTime,
@@ -29,6 +32,11 @@ const ChildCard: React.FC<ChildCardProps> = ({
     onDelete,
     submitAbsence
 }) => {
+
+    const { formatTime } = useFormattedTime();
+     // Formatting times here
+    const formattedPickupTime = formatTime(pickupTime || '');
+    const formattedDropoffTime = formatTime(dropoffTime || '');
 
     const [showDeleteWarning, setShowDeleteWarning] = useState(false);
     const [showCalandar, setShowCalandar] = useState(false);
@@ -69,16 +77,42 @@ const ChildCard: React.FC<ChildCardProps> = ({
         setShowCalandar(false);
     }
 
+    function formatGradeLabel(grade: string): string {
+    const gradeLabels: { [key: string]: string } = {
+        "prek": "Pre-K",
+        "k": "Kindergarten",
+        "1": "1st Grade",
+        "2": "2nd Grade",
+        "3": "3rd Grade",
+        "4": "4th Grade",
+        "5": "5th Grade",
+        "6": "6th Grade",
+        "7": "7th Grade",
+        "8": "8th Grade",
+        "9": "9th Grade",
+        "10": "10th Grade",
+        "11": "11th Grade",
+        "12": "12th Grade"
+    };
+    return gradeLabels[grade] || grade;
+}
+
     return (
         <div className="border rounded-lg shadow-md p-4 my-4 bg-white dark:bg-[#3498DB] text-black dark:text-white w-full max-w-[20rem]">
             <h2 className="text-lg font-bold mb-2 text-center">
                 {firstName} {lastName}
             </h2>
             <CardLabel 
-                label={translations.children.school_arrival_time_label} data={dropoffTime} 
+                label={translations.children.grade_label} 
+                data={formatGradeLabel(grade)}
             />
             <CardLabel 
-                label={translations.children.school_departure_time_label} data={pickupTime} 
+                label={translations.children.school_arrival_time_label} 
+                data={formattedDropoffTime}
+            />
+            <CardLabel 
+                label={translations.children.school_departure_time_label} 
+                data={formattedPickupTime}
             />
             <div className="mt-4 px-2 flex flex-row w-full justify-between">
                 <Button

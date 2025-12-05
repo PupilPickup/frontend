@@ -9,6 +9,8 @@ import axios from "axios";
 import Button from "../../components/common/Button";
 import HelpTip from "../../components/common/HelpTip";
 import { useUser } from "../../context/UserContext";
+import { convertTo24Hour } from "../../utils/timeUtils"; 
+import { useFormattedTime } from "../../hooks/useFormattedTime";
 
 // Define the possible error keys
 type ChildrenServerErrors = 'empty_fields'| 'firstname_length' | 'lastname_length' | 'school_arrival_time_invalid' | 'school_departure_time_invalid' | 'server_error_get' | 'server_error_post' | 'server_error_put' | 'server_error_delete' | 'generic_error';
@@ -21,11 +23,13 @@ export default function EditChildData(){
     const [isLoading, setIsLoading] = useState(true);
     const [firstName, setFirstName] = useState<string>("");
     const [lastName, setLastName] = useState<string>("");
+    const [grade, setGrade] =useState<string>("");
     const [pickupTime, setPickupTime] = useState<string>("");
     const [dropoffTime, setDropoffTime] = useState<string>("");
     const [serverError, setServerError] = useState<string>("");
     const [firstNameError, setFirstNameError] = useState<string>("");
     const [lastNameError, setLastNameError] = useState<string>("");
+    const [gradeError, setGradeError] = useState<string>("");   
     const [pickupTimeError, setPickupTimeError] = useState<string>("");
     const [dropoffTimeError, setDropoffTimeError] = useState<string>("");
 
@@ -33,6 +37,7 @@ export default function EditChildData(){
     const apiUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
     const navigate = useNavigate();
     const { user, isLoggedIn, logout } = useUser()
+    const { formatTime } = useFormattedTime();
 
     // Get the character id
     const { id: childId } = useParams();
@@ -50,8 +55,9 @@ export default function EditChildData(){
                 const childData = response.data;
                 setFirstName(childData.first_name);
                 setLastName(childData.last_name);
-                setPickupTime(removeSeconds(childData.school_pickup_time));
-                setDropoffTime(removeSeconds(childData.school_dropoff_time));
+                setGrade(childData.grade);
+                setPickupTime(formatTime(childData.school_pickup_time));
+                setDropoffTime(formatTime(childData.school_dropoff_time));
             }catch (error) {
                 if (axios.isAxiosError(error) && error.response) {
                     const errorKey = error.response.data.error as ChildrenServerErrors;
@@ -74,6 +80,7 @@ export default function EditChildData(){
         setIsLoading(false);
         // This effect runs when the component mounts or when the language changes
         // You can add any side effects here if needed
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [language, childId, isLoggedIn, navigate, token, user, logout, apiUrl, translations.children_server_errors]);
 
     async function updateChildData(token:string, childId:string, childData: any) {
@@ -86,6 +93,7 @@ export default function EditChildData(){
             const editedData = response.data;
             setFirstName(editedData.firstName);
             setLastName(editedData.lastName);
+            setGrade(editedData.grade);
             setPickupTime(removeSeconds(childData.schoolPickupTime));
             setDropoffTime(removeSeconds(childData.schoolDropoffTime));
             setServerError("");
@@ -113,8 +121,9 @@ export default function EditChildData(){
                 userId: user!.userId,
                 firstName: firstName,
                 lastName: lastName,
-                schoolPickupTime: pickupTime,
-                schoolDropoffTime: dropoffTime
+                grade: grade,
+                schoolPickupTime: convertTo24Hour(pickupTime),
+                schoolDropoffTime: convertTo24Hour(dropoffTime)
             };
 
             updateChildData(token!, childId!, childData);
@@ -143,11 +152,17 @@ export default function EditChildData(){
         }else{
             setLastNameError("");
         }
+        // Grade validation
+        if(isFieldEmpty(grade)){
+            setGradeError(translations.children.require_grade_error);
+            isValid = false;
+        }else{
+            setGradeError("");}
         // Pickup time validation
         if(isFieldEmpty(pickupTime)){
             setPickupTimeError(translations.children.require_end_time_error);
             isValid = false;
-        } else if(!isTimeValid(pickupTime)){
+        } else if(!isTimeValid(convertTo24Hour(pickupTime))){
             setPickupTimeError(translations.children.invalid_end_time_error);
             isValid = false;
         }else{
@@ -157,7 +172,7 @@ export default function EditChildData(){
         if(isFieldEmpty(dropoffTime)){
             setDropoffTimeError(translations.children.require_start_time_error);
             isValid = false;
-        }else if(!isTimeValid(dropoffTime)){
+        }else if(!isTimeValid(convertTo24Hour(dropoffTime))){
             setDropoffTimeError(translations.children.invalid_start_time_error);
             isValid = false;
         }else{
@@ -165,7 +180,7 @@ export default function EditChildData(){
         }
 
         // Check if pickup time is before dropoff time
-        if(isValid && !isPickupAfterDropoff(pickupTime, dropoffTime)){
+        if(isValid && !isPickupAfterDropoff(convertTo24Hour(pickupTime), convertTo24Hour(dropoffTime))){
             setDropoffTimeError(translations.children.invalid_time_order);
             isValid = false;
         }
@@ -202,14 +217,17 @@ export default function EditChildData(){
                 <ChildForm
                     firstName={firstName}
                     lastName={lastName}
+                    grade={grade}
                     pickupTime={pickupTime}
                     dropoffTime={dropoffTime}
                     setFirstName={setFirstName}
                     setLastName={setLastName}
+                    setGrade={setGrade}
                     setPickupTime={setPickupTime}
                     setDropoffTime={setDropoffTime}            
                     firstNameError={firstNameError}
                     lastNameError={lastNameError}
+                    gradeError={gradeError}
                     pickupTimeError={pickupTimeError}
                     dropoffTimeError={dropoffTimeError}
                 />
