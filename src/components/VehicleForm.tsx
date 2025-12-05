@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import DaysCheckBoxes from "./DaysCheckBoxes";
 import FormInput from "./common/FormInput";
 import FormNumberInput from "./common/FormNumberInput";
+import FormSelect from "./common/FormSelect";
 
 type VehicleFormProps = {
     licensePlate: string;
@@ -83,14 +84,14 @@ const VehicleForm: React.FC<VehicleFormProps> = ({
                 value={seatsAvailable}
                 error={seatsAvailableError}
             />
-            <FormInput
+            <FormSelect
                 label={translations.vehicles.driver_start_time_label}
                 elementId="driveStartTime"
                 changeHandler={setDriveStartTime}
                 value={driveStartTime}
                 error={driveStartTimeError}
             />
-            <FormInput
+            <FormSelect
                 label={translations.vehicles.driver_end_time_label}
                 elementId="driverEndTime"
                 changeHandler={setDriverEndTime}
