@@ -6,6 +6,8 @@ import { useEffect } from "react";
 import DaysCheckBoxes from "./DaysCheckBoxes";
 import FormInput from "./common/FormInput";
 import FormNumberInput from "./common/FormNumberInput";
+import FormSelect from "./common/FormSelect";
+import { useTimeFormat } from "../context/TimeFormatContext";
 
 type VehicleFormProps = {
     licensePlate: string;
@@ -50,6 +52,7 @@ const VehicleForm: React.FC<VehicleFormProps> = ({
 
     const { language } = useLanguage();
     const translations = language === 'ne' ? neTranslations : enTranslations;
+    const { timeFormat } = useTimeFormat();
 
     useEffect(() => {
         // This effect runs when the component mounts or when the language changes
@@ -83,19 +86,22 @@ const VehicleForm: React.FC<VehicleFormProps> = ({
                 value={seatsAvailable}
                 error={seatsAvailableError}
             />
-            <FormInput
+
+            <FormSelect
                 label={translations.vehicles.driver_start_time_label}
                 elementId="driveStartTime"
                 changeHandler={setDriveStartTime}
                 value={driveStartTime}
                 error={driveStartTimeError}
+                timeFormat={timeFormat}
             />
-            <FormInput
+            <FormSelect
                 label={translations.vehicles.driver_end_time_label}
                 elementId="driverEndTime"
                 changeHandler={setDriverEndTime}
                 value={driverEndTime}
                 error={driverEndTimeError}
+                timeFormat={timeFormat}
             />
             <div>
                 <label className="text-sm sm:text-base text-black dark:text-white">{translations.vehicles.days_prompt_label}</label>

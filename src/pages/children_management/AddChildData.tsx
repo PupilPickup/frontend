@@ -10,6 +10,7 @@ import axios from "axios";
 import Button from "../../components/common/Button";
 import HelpTip from "../../components/common/HelpTip";
 import { useUser } from "../../context/UserContext";
+import { convertTo24Hour } from "../../utils/timeUtils";
 
 
 // Define the possible error keys
@@ -60,8 +61,8 @@ export default function AddChildData(){
                 userId: user!.userId,
                 firstName: firstName,
                 lastName: lastName,
-                schoolPickupTime: pickupTime,
-                schoolDropoffTime: dropoffTime
+                schoolPickupTime: convertTo24Hour(pickupTime),
+                schoolDropoffTime: convertTo24Hour(dropoffTime) 
             }
             createChildData(token!, childData);
         }
@@ -117,7 +118,7 @@ export default function AddChildData(){
         if(isFieldEmpty(pickupTime)){
             setPickupTimeError(translations.children.require_end_time_error);
             isValid = false;
-        } else if(!isTimeValid(pickupTime)){
+        } else if(!isTimeValid(convertTo24Hour(pickupTime))){
             setPickupTimeError(translations.children.invalid_end_time_error);
             isValid = false;
         }else{
@@ -127,7 +128,7 @@ export default function AddChildData(){
         if(isFieldEmpty(dropoffTime)){
             setDropoffTimeError(translations.children.require_start_time_error);
             isValid = false;
-        }else if(!isTimeValid(dropoffTime)){
+        }else if(!isTimeValid(convertTo24Hour(dropoffTime))){
             setDropoffTimeError(translations.children.invalid_start_time_error);
             isValid = false;
         }else{
@@ -135,7 +136,7 @@ export default function AddChildData(){
         }
 
         // Check if pickup time is before dropoff time
-        if(isValid && !isPickupAfterDropoff(pickupTime, dropoffTime)){
+        if(isValid && !isPickupAfterDropoff(convertTo24Hour(pickupTime), convertTo24Hour(dropoffTime))){
             setDropoffTimeError(translations.children.invalid_time_order);
             isValid = false;
         }

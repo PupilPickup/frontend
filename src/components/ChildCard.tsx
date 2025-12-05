@@ -7,6 +7,7 @@ import CardLabel from "./common/CardLabel";
 import DeleteWarningModal from "./common/DeleteWarningModal";
 import CalandarSelection from "./common/CalendarSelection";
 import { DateRange } from "react-day-picker";
+import { useFormattedTime } from "../hooks/useFormattedTime";
 
 type ChildCardProps = {
     firstName: string;
@@ -29,6 +30,11 @@ const ChildCard: React.FC<ChildCardProps> = ({
     onDelete,
     submitAbsence
 }) => {
+
+    const { formatTime } = useFormattedTime();
+     // Formatting times here
+    const formattedPickupTime = formatTime(pickupTime || '');
+    const formattedDropoffTime = formatTime(dropoffTime || '');
 
     const [showDeleteWarning, setShowDeleteWarning] = useState(false);
     const [showCalandar, setShowCalandar] = useState(false);
@@ -75,10 +81,12 @@ const ChildCard: React.FC<ChildCardProps> = ({
                 {firstName} {lastName}
             </h2>
             <CardLabel 
-                label={translations.children.school_arrival_time_label} data={dropoffTime} 
+                label={translations.children.school_arrival_time_label} 
+                data={formattedDropoffTime}
             />
             <CardLabel 
-                label={translations.children.school_departure_time_label} data={pickupTime} 
+                label={translations.children.school_departure_time_label} 
+                data={formattedPickupTime}
             />
             <div className="mt-4 px-2 flex flex-row w-full justify-between">
                 <Button

@@ -9,6 +9,8 @@ import axios from "axios";
 import Button from "../../components/common/Button";
 import HelpTip from "../../components/common/HelpTip";
 import { useUser } from "../../context/UserContext";
+import { convertTo24Hour } from "../../utils/timeUtils"; 
+import { useFormattedTime } from "../../hooks/useFormattedTime";
 
 // Define the possible error keys
 type ChildrenServerErrors = 'empty_fields'| 'firstname_length' | 'lastname_length' | 'school_arrival_time_invalid' | 'school_departure_time_invalid' | 'server_error_get' | 'server_error_post' | 'server_error_put' | 'server_error_delete' | 'generic_error';
@@ -33,6 +35,7 @@ export default function EditChildData(){
     const apiUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
     const navigate = useNavigate();
     const { user, isLoggedIn, logout } = useUser()
+    const { formatTime } = useFormattedTime();
 
     // Get the character id
     const { id: childId } = useParams();
@@ -50,8 +53,8 @@ export default function EditChildData(){
                 const childData = response.data;
                 setFirstName(childData.first_name);
                 setLastName(childData.last_name);
-                setPickupTime(removeSeconds(childData.school_pickup_time));
-                setDropoffTime(removeSeconds(childData.school_dropoff_time));
+                setPickupTime(formatTime(childData.school_pickup_time));
+                setDropoffTime(formatTime(childData.school_dropoff_time));
             }catch (error) {
                 if (axios.isAxiosError(error) && error.response) {
                     const errorKey = error.response.data.error as ChildrenServerErrors;
@@ -74,7 +77,7 @@ export default function EditChildData(){
         setIsLoading(false);
         // This effect runs when the component mounts or when the language changes
         // You can add any side effects here if needed
-    }, [language, childId, isLoggedIn, navigate, token, user, logout, apiUrl, translations.children_server_errors]);
+    }, [language, childId, isLoggedIn, navigate, token, user, logout, apiUrl, translations.children_server_errors, formatTime]);
 
     async function updateChildData(token:string, childId:string, childData: any) {
         try {
@@ -113,8 +116,8 @@ export default function EditChildData(){
                 userId: user!.userId,
                 firstName: firstName,
                 lastName: lastName,
-                schoolPickupTime: pickupTime,
-                schoolDropoffTime: dropoffTime
+                schoolPickupTime: convertTo24Hour(pickupTime),
+                schoolDropoffTime: convertTo24Hour(dropoffTime)
             };
 
             updateChildData(token!, childId!, childData);
@@ -147,7 +150,7 @@ export default function EditChildData(){
         if(isFieldEmpty(pickupTime)){
             setPickupTimeError(translations.children.require_end_time_error);
             isValid = false;
-        } else if(!isTimeValid(pickupTime)){
+        } else if(!isTimeValid(convertTo24Hour(pickupTime))){
             setPickupTimeError(translations.children.invalid_end_time_error);
             isValid = false;
         }else{
@@ -157,7 +160,7 @@ export default function EditChildData(){
         if(isFieldEmpty(dropoffTime)){
             setDropoffTimeError(translations.children.require_start_time_error);
             isValid = false;
-        }else if(!isTimeValid(dropoffTime)){
+        }else if(!isTimeValid(convertTo24Hour(dropoffTime))){
             setDropoffTimeError(translations.children.invalid_start_time_error);
             isValid = false;
         }else{
@@ -165,7 +168,7 @@ export default function EditChildData(){
         }
 
         // Check if pickup time is before dropoff time
-        if(isValid && !isPickupAfterDropoff(pickupTime, dropoffTime)){
+        if(isValid && !isPickupAfterDropoff(convertTo24Hour(pickupTime), convertTo24Hour(dropoffTime))){
             setDropoffTimeError(translations.children.invalid_time_order);
             isValid = false;
         }

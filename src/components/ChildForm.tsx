@@ -4,6 +4,8 @@ import neTranslations from "../languages/ne.json";
 import { useLanguage } from "../context/LanguageContext";
 import { useEffect } from "react";
 import FormInput from "./common/FormInput";
+import FormSelect from "./common/FormSelect";
+import { useTimeFormat } from "../context/TimeFormatContext";
 
 type ChildFormProps = {
     firstName: string;
@@ -38,7 +40,8 @@ const ChildForm: React.FC<ChildFormProps> = ({
 
     const { language } = useLanguage();
     const translations = language === 'ne' ? neTranslations : enTranslations;
-
+    const { timeFormat } = useTimeFormat();
+    
     useEffect(() => {
         // This effect runs when the component mounts or when the language changes
         // You can add any side effects here if needed
@@ -46,6 +49,7 @@ const ChildForm: React.FC<ChildFormProps> = ({
 
     return (
         <div className="border rounded-lg shadow-md p-4 mb-4 bg-white dark:bg-[#3498DB] text-black dark:text-white">
+                        
             <FormInput
                 label={translations.children.first_name_label}
                 elementId="firstName"
@@ -60,19 +64,23 @@ const ChildForm: React.FC<ChildFormProps> = ({
                 value={lastName}
                 error={lastNameError}
             />
-            <FormInput
+
+            <FormSelect
                 label={translations.children.school_arrival_time_label}
                 elementId="dropoffTime"
                 changeHandler={setDropoffTime}
                 value={dropoffTime}
                 error={dropoffTimeError}
+                timeFormat={timeFormat}
             />
-            <FormInput
+
+            <FormSelect
                 label={translations.children.school_departure_time_label}
                 elementId="pickupTime"
                 changeHandler={setPickupTime}
                 value={pickupTime}
                 error={pickupTimeError}
+                timeFormat={timeFormat}
             />
         </div>
     );
