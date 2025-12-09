@@ -26,6 +26,7 @@ import DarkModeToggle from './components/common/DarkModeToggle';
 import CarpoolSearch from './pages/carpool/CarpoolSearch';
 import CarpoolApply from './pages/carpool/CarpoolApply';
 import CarpoolManagement from './pages/carpool/CarpoolManagement';
+import MapRoute from './pages/map_route/MapRoute';
 
 function App() {
 
@@ -69,6 +70,7 @@ function App() {
           <Route path="/carpool-search" element={<CarpoolSearch />} />
           <Route path="/user-management" element={<UserManagement />} />
           <Route path="/user/:id" element={<ProfileManagement />} />
+          <Route path="/mapRoute" element= { <MapRoute /> } />
         </Routes>
       </Router>
     </main>

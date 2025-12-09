@@ -79,6 +79,9 @@ const Header: React.FC<HeaderProps> = ( { changeLanguage, logout, isAdmin } ) =>
             <li>
               <NavHeaderLink btnText={translations.header.carpool_manage} navTo={"/carpool-management"}/>
             </li>
+            <li>
+              <NavHeaderLink btnText={translations.header.mapRoute} navTo={"/mapRoute"}/>
+            </li>
             {isAdmin() && (
               <li>
                 <NavHeaderLink btnText={translations.header.school} navTo={"/school-carpool"} />
